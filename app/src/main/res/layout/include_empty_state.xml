@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textEmptyState"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card"
+    android:gravity="center"
+    android:padding="16dp"
+    android:text="Chưa có dữ liệu"
+    android:textColor="#65736B"
+    android:textSize="14sp" />

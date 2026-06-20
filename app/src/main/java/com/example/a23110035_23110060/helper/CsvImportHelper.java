@@ -1,0 +1,146 @@
+package com.example.a23110035_23110060.helper;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.util.Log;
+
+import com.example.a23110035_23110060.data.local.FoodEntity;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+public class CsvImportHelper {
+    private static final String TAG = "CsvImportHelper";
+    public static final String CSV_NAME = "nutrition_database.csv";
+
+    private CsvImportHelper() {
+    }
+
+    public static List<FoodEntity> readFoodsFromAssets(Context context) {
+        Map<String, FoodEntity> deduped = new LinkedHashMap<>();
+        try {
+            AssetManager assets = context.getAssets();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(assets.open(CSV_NAME), StandardCharsets.UTF_8));
+            String line;
+            boolean first = true;
+            long now = System.currentTimeMillis();
+            while ((line = reader.readLine()) != null) {
+                if (first) {
+                    first = false;
+                    continue;
+                }
+                List<String> columns = parseCsvLine(line);
+                if (columns.size() < 7) {
+                    continue;
+                }
+                String name = columns.get(0).trim();
+                if (name.isEmpty()) {
+                    continue;
+                }
+                FoodEntity food = new FoodEntity();
+                food.dishName = name;
+                food.calories = parseDouble(columns.get(1));
+                food.protein = parseDouble(columns.get(2));
+                food.fat = parseDouble(columns.get(3));
+                food.carbs = parseDouble(columns.get(4));
+                food.serving = columns.get(5).trim();
+                food.datasetSource = columns.get(6).trim();
+                food.createdAt = now;
+                food.updatedAt = now;
+                deduped.put(name.toLowerCase(Locale.US), food);
+            }
+            reader.close();
+        } catch (Exception e) {
+            Log.e(TAG, "Cannot read nutrition CSV", e);
+        }
+        return new ArrayList<>(deduped.values());
+    }
+
+    public static List<String> readLabels(Context context) {
+        List<String> labels = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(context.getAssets().open("labels.txt"), StandardCharsets.UTF_8));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    labels.add(line.trim());
+                }
+            }
+            reader.close();
+        } catch (Exception ignored) {
+            for (FoodEntity food : readFoodsFromAssets(context)) {
+                labels.add(food.dishName);
+            }
+        }
+        return labels;
+    }
+
+    public static JSONObject readNutritionJson(Context context) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(context.getAssets().open("nutrition_data.json"), StandardCharsets.UTF_8));
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            reader.close();
+            return new JSONObject(builder.toString());
+        } catch (Exception ignored) {
+            JSONObject root = new JSONObject();
+            try {
+                for (FoodEntity food : readFoodsFromAssets(context)) {
+                    JSONObject item = new JSONObject();
+                    item.put("calories", food.calories);
+                    item.put("protein", food.protein);
+                    item.put("fat", food.fat);
+                    item.put("carbs", food.carbs);
+                    item.put("serving", food.serving);
+                    root.put(food.dishName, item);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Cannot build fallback nutrition JSON", e);
+            }
+            return root;
+        }
+    }
+
+    private static List<String> parseCsvLine(String line) {
+        List<String> result = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        boolean inQuotes = false;
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == '"') {
+                if (inQuotes && i + 1 < line.length() && line.charAt(i + 1) == '"') {
+                    current.append('"');
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (c == ',' && !inQuotes) {
+                result.add(current.toString());
+                current.setLength(0);
+            } else {
+                current.append(c);
+            }
+        }
+        result.add(current.toString());
+        return result;
+    }
+
+    private static double parseDouble(String value) {
+        try {
+            return Double.parseDouble(value.trim());
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+}

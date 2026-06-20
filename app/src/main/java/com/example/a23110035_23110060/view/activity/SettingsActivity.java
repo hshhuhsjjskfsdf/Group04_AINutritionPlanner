@@ -1,0 +1,173 @@
+package com.example.a23110035_23110060.view.activity;
+
+import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.a23110035_23110060.R;
+import com.example.a23110035_23110060.controller.ReminderController;
+import com.example.a23110035_23110060.controller.SettingsController;
+import com.example.a23110035_23110060.data.local.GoalEntity;
+import com.example.a23110035_23110060.data.repository.RepositoryCallback;
+import com.example.a23110035_23110060.helper.AlarmHelper;
+import com.example.a23110035_23110060.helper.FirebaseHelper;
+import com.example.a23110035_23110060.helper.ValidationHelper;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Locale;
+
+public class SettingsActivity extends AppCompatActivity {
+    private static final int REQ_NOTIFICATION = 5001;
+    private SettingsController settingsController;
+    private ReminderController reminderController;
+    private TextView textUserEmail;
+    private EditText editGoalCalories;
+    private EditText editGoalProtein;
+    private EditText editGoalCarbs;
+    private EditText editGoalFat;
+    private EditText editBreakfastTime;
+    private EditText editLunchTime;
+    private EditText editDinnerTime;
+    private Switch switchReminder;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
+        settingsController = new SettingsController(this);
+        reminderController = new ReminderController(this);
+        bindViews();
+        loadUser();
+        loadGoal();
+        loadReminderPrefs();
+        setupClicks();
+    }
+
+    private void bindViews() {
+        textUserEmail = findViewById(R.id.textUserEmail);
+        editGoalCalories = findViewById(R.id.editGoalCalories);
+        editGoalProtein = findViewById(R.id.editGoalProtein);
+        editGoalCarbs = findViewById(R.id.editGoalCarbs);
+        editGoalFat = findViewById(R.id.editGoalFat);
+        editBreakfastTime = findViewById(R.id.editBreakfastTime);
+        editLunchTime = findViewById(R.id.editLunchTime);
+        editDinnerTime = findViewById(R.id.editDinnerTime);
+        switchReminder = findViewById(R.id.switchReminder);
+    }
+
+    private void loadUser() {
+        FirebaseUser user = FirebaseHelper.getAuth().getCurrentUser();
+        textUserEmail.setText(user == null || user.getEmail() == null ? "Chưa đăng nhập" : user.getEmail());
+    }
+
+    private void loadGoal() {
+        settingsController.loadGoal(new RepositoryCallback<GoalEntity>() {
+            @Override
+            public void onSuccess(GoalEntity result) {
+                runOnUiThread(() -> {
+                    editGoalCalories.setText(String.format(Locale.US, "%.0f", result.targetCalories));
+                    editGoalProtein.setText(String.format(Locale.US, "%.0f", result.targetProtein));
+                    editGoalCarbs.setText(String.format(Locale.US, "%.0f", result.targetCarbs));
+                    editGoalFat.setText(String.format(Locale.US, "%.0f", result.targetFat));
+                });
+            }
+
+            @Override
+            public void onError(String message) {
+                showToast(message);
+            }
+        });
+    }
+
+    private void loadReminderPrefs() {
+        SharedPreferences prefs = getSharedPreferences(AlarmHelper.PREFS, MODE_PRIVATE);
+        switchReminder.setChecked(prefs.getBoolean(AlarmHelper.KEY_ENABLED, false));
+        editBreakfastTime.setText(prefs.getString(AlarmHelper.KEY_BREAKFAST, "07:00"));
+        editLunchTime.setText(prefs.getString(AlarmHelper.KEY_LUNCH, "12:00"));
+        editDinnerTime.setText(prefs.getString(AlarmHelper.KEY_DINNER, "18:00"));
+    }
+
+    private void setupClicks() {
+        Button saveGoal = findViewById(R.id.buttonSaveGoal);
+        Button saveReminder = findViewById(R.id.buttonSaveReminder);
+        Button logout = findViewById(R.id.buttonLogout);
+        saveGoal.setOnClickListener(v -> saveGoal());
+        saveReminder.setOnClickListener(v -> saveReminders());
+        logout.setOnClickListener(v -> logout());
+    }
+
+    private void saveGoal() {
+        String userId = FirebaseHelper.getCurrentUserId();
+        if (userId == null) {
+            showToast("Vui lòng đăng nhập lại");
+            return;
+        }
+        GoalEntity goal = new GoalEntity();
+        goal.goalId = userId + "_goal";
+        goal.userId = userId;
+        goal.targetCalories = ValidationHelper.parseDoubleOrZero(editGoalCalories.getText().toString());
+        goal.targetProtein = ValidationHelper.parseDoubleOrZero(editGoalProtein.getText().toString());
+        goal.targetCarbs = ValidationHelper.parseDoubleOrZero(editGoalCarbs.getText().toString());
+        goal.targetFat = ValidationHelper.parseDoubleOrZero(editGoalFat.getText().toString());
+        settingsController.saveGoal(goal, new RepositoryCallback<GoalEntity>() {
+            @Override
+            public void onSuccess(GoalEntity result) {
+                runOnUiThread(() -> Toast.makeText(SettingsActivity.this, "Đã lưu mục tiêu dinh dưỡng", Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onError(String message) {
+                showToast(message);
+            }
+        });
+    }
+
+    private void saveReminders() {
+        if (switchReminder.isChecked()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                    && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQ_NOTIFICATION);
+                return;
+            }
+            reminderController.scheduleReminders(
+                    editBreakfastTime.getText().toString().trim(),
+                    editLunchTime.getText().toString().trim(),
+                    editDinnerTime.getText().toString().trim()
+            );
+            showToast("Đã bật nhắc bữa ăn");
+        } else {
+            reminderController.cancelReminders();
+            showToast("Đã tắt nhắc bữa ăn");
+        }
+    }
+
+    private void logout() {
+        settingsController.logout();
+        Intent intent = new Intent(this, AuthActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQ_NOTIFICATION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            saveReminders();
+        }
+    }
+
+    private void showToast(String message) {
+        runOnUiThread(() -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show());
+    }
+}

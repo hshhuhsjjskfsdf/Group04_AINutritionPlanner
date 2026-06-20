@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textMacroTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Macro"
+        android:textColor="#163426"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textMacroValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="0g / 0g"
+        android:textColor="#3E5146" />
+
+    <ProgressBar
+        android:id="@+id/progressMacro"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0" />
+</LinearLayout>

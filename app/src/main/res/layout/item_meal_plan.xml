@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_card"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/textPlanName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên món"
+        android:textColor="#163426"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textPlanMeta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lunch • yyyy-MM-dd"
+        android:textColor="#65736B" />
+
+    <TextView
+        android:id="@+id/textPlanMacros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="0 kcal | P 0g • C 0g • F 0g"
+        android:textColor="#3E5146" />
+
+    <TextView
+        android:id="@+id/textPlanNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Ghi chú"
+        android:textColor="#65736B" />
+
+    <Button
+        android:id="@+id/buttonDeletePlan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Xóa" />
+</LinearLayout>

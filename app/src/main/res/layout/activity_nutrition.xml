@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_page">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dinh dưỡng"
+            android:textColor="#163426"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonTabLog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Meal Log" />
+
+            <Button
+                android:id="@+id/buttonTabPlan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Meal Plan" />
+
+            <Button
+                android:id="@+id/buttonTabSummary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Summary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionMealLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editLogDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="yyyy-MM-dd"
+                android:inputType="date" />
+
+            <Button
+                android:id="@+id/buttonLoadLogs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tải nhật ký" />
+
+            <TextView
+                android:id="@+id/textEmptyLogs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Chưa có bữa ăn trong ngày này"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerMealLogs"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionMealPlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/editPlanDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="yyyy-MM-dd"
+                android:inputType="date" />
+
+            <Spinner
+                android:id="@+id/spinnerPlanMealType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/editPlanFoodName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tên món"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/editPlanCalories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Calories"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editPlanProtein"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Protein"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editPlanCarbs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Carbs"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editPlanFat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fat"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editPlanNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ghi chú"
+                android:inputType="textMultiLine" />
+
+            <Button
+                android:id="@+id/buttonSavePlan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lưu kế hoạch" />
+
+            <Button
+                android:id="@+id/buttonLoadPlans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tải kế hoạch" />
+
+            <TextView
+                android:id="@+id/textEmptyPlans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Chưa có kế hoạch cho ngày này"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerMealPlans"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textSummaryToday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:text="Hôm nay: 0 kcal" />
+
+            <TextView
+                android:id="@+id/textSummaryWeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:text="Tổng tuần: 0 kcal" />
+
+            <TextView
+                android:id="@+id/textSummaryAverage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:text="Trung bình ngày: 0 kcal" />
+
+            <TextView
+                android:id="@+id/textSummaryFrequent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:text="Món thường ăn: Chưa có dữ liệu" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_page">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ghi nhận bữa ăn"
+                android:textColor="#163426"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imagePreview"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:contentDescription="Ảnh món ăn"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonChooseImage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Chọn ảnh" />
+
+                <Button
+                    android:id="@+id/buttonCaptureImage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Chụp ảnh" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonAnalyzeFood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phân tích bằng AI" />
+
+            <TextView
+                android:id="@+id/textRecognitionResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_card"
+                android:padding="12dp"
+                android:text="Kết quả nhận diện sẽ hiển thị ở đây"
+                android:textColor="#163426" />
+
+            <EditText
+                android:id="@+id/editSearchFood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Tìm món từ CSV"
+                android:inputType="text" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerFoods"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/editFoodName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tên món ăn"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/editCalories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Calories"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editProtein"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Protein (g)"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editCarbs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Carbs (g)"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editFat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fat (g)"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editServing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Khẩu phần"
+                android:inputType="text" />
+
+            <Spinner
+                android:id="@+id/spinnerMealType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/buttonSaveMeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Lưu bữa ăn" />
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/loadingView"
+        layout="@layout/include_loading_view" />
+</FrameLayout>

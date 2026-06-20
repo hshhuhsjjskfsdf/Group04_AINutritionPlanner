@@ -1,0 +1,5 @@
+Place the trained TensorFlow Lite image classification model here as:
+
+food_model.tflite
+
+Do not leave an empty .tflite file. If food_model.tflite is missing, the app shows a safe fallback message and manual meal entry still works.
