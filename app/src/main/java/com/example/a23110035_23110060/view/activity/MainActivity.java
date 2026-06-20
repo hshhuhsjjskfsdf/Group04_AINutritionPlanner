@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView textProteinProgress;
     private TextView textCarbsProgress;
     private TextView textFatProgress;
+    private TextView textEmptyToday;
+    private ProgressBar progressCalories;
+    private ProgressBar progressProtein;
+    private ProgressBar progressCarbs;
+    private ProgressBar progressFat;
     private View loadingView;
     private GoalRepository goalRepository;
     private MealRepository mealRepository;
@@ -72,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
         textProteinProgress = findViewById(R.id.textProteinProgress);
         textCarbsProgress = findViewById(R.id.textCarbsProgress);
         textFatProgress = findViewById(R.id.textFatProgress);
+        textEmptyToday = findViewById(R.id.textEmptyToday);
+        progressCalories = findViewById(R.id.progressCalories);
+        progressProtein = findViewById(R.id.progressProtein);
+        progressCarbs = findViewById(R.id.progressCarbs);
+        progressFat = findViewById(R.id.progressFat);
         loadingView = findViewById(R.id.loadingView);
     }
 
@@ -121,10 +132,15 @@ public class MainActivity extends AppCompatActivity {
                             loadingView.setVisibility(View.GONE);
                             textTargetCalories.setText(String.format(Locale.US, "%.0f kcal", goal.targetCalories));
                             textConsumedCalories.setText(String.format(Locale.US, "%.0f kcal", progress.consumedCalories));
-                            textRemainingCalories.setText(String.format(Locale.US, "%.0f kcal", progress.remainingCalories));
+                            textRemainingCalories.setText(String.format(Locale.US, "Còn lại %.0f kcal", progress.remainingCalories));
                             textProteinProgress.setText(String.format(Locale.US, "Protein %.1fg / %.0fg (%d%%)", progress.consumedProtein, goal.targetProtein, progress.proteinPercent));
                             textCarbsProgress.setText(String.format(Locale.US, "Carbs %.1fg / %.0fg (%d%%)", progress.consumedCarbs, goal.targetCarbs, progress.carbsPercent));
                             textFatProgress.setText(String.format(Locale.US, "Fat %.1fg / %.0fg (%d%%)", progress.consumedFat, goal.targetFat, progress.fatPercent));
+                            progressCalories.setProgress(progress.caloriePercent);
+                            progressProtein.setProgress(progress.proteinPercent);
+                            progressCarbs.setProgress(progress.carbsPercent);
+                            progressFat.setProgress(progress.fatPercent);
+                            textEmptyToday.setVisibility(logs == null || logs.isEmpty() ? View.VISIBLE : View.GONE);
                         });
                     }
 

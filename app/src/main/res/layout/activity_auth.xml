@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_app_gradient">
@@ -86,7 +87,7 @@
 
                     <EditText
                         android:id="@+id/editFullName"
-                        style="@style/Widget.AINutrition.Input"
+                        style="@style/AppInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
@@ -95,7 +96,7 @@
 
                     <EditText
                         android:id="@+id/editEmail"
-                        style="@style/Widget.AINutrition.Input"
+                        style="@style/AppInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -104,7 +105,7 @@
 
                     <EditText
                         android:id="@+id/editPassword"
-                        style="@style/Widget.AINutrition.Input"
+                        style="@style/AppInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -124,7 +125,7 @@
 
                     <Button
                         android:id="@+id/buttonLogin"
-                        style="@style/Widget.AINutrition.Button.Primary"
+                        style="@style/AppButtonPrimary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
@@ -138,7 +139,7 @@
 
                         <Button
                             android:id="@+id/buttonRegister"
-                            style="@style/Widget.AINutrition.Button.Secondary"
+                            style="@style/AppButtonSecondary"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -146,7 +147,7 @@
 
                         <Button
                             android:id="@+id/buttonForgot"
-                            style="@style/Widget.AINutrition.Button.Secondary"
+                            style="@style/AppButtonSecondary"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"

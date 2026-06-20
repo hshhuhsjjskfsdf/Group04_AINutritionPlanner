@@ -1,121 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_page">
+    android:background="@drawable/bg_app"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cài đặt"
-            android:textColor="#163426"
+            android:textColor="@color/text_primary"
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textUserEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="email@example.com"
-            android:textColor="#65736B" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Mục tiêu dinh dưỡng"
-            android:textColor="#163426"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/editGoalCalories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Calories mục tiêu"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/editGoalProtein"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Protein mục tiêu"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/editGoalCarbs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Carbs mục tiêu"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/editGoalFat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Fat mục tiêu"
-            android:inputType="numberDecimal" />
-
-        <Button
-            android:id="@+id/buttonSaveGoal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lưu mục tiêu" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Nhắc ghi nhận bữa ăn"
-            android:textColor="#163426"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Switch
-            android:id="@+id/switchReminder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bật nhắc nhở" />
-
-        <EditText
-            android:id="@+id/editBreakfastTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Giờ sáng HH:mm"
-            android:inputType="time" />
-
-        <EditText
-            android:id="@+id/editLunchTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Giờ trưa HH:mm"
-            android:inputType="time" />
-
-        <EditText
-            android:id="@+id/editDinnerTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Giờ tối HH:mm"
-            android:inputType="time" />
-
-        <Button
-            android:id="@+id/buttonSaveReminder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lưu nhắc nhở" />
-
-        <Button
-            android:id="@+id/buttonLogout"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/primary"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="18dp">
+
+                <ImageView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_card_light"
+                    android:contentDescription="Tài khoản"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_leaf" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tài khoản"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textUserEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="email@example.com"
+                        android:textColor="#E8FFF4"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="1dp"
+            app:strokeColor="@color/stroke"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mục tiêu dinh dưỡng"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editGoalCalories"
+                    style="@style/AppInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Calories mục tiêu"
+                    android:inputType="numberDecimal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/editGoalProtein"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Protein"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/editGoalCarbs"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:hint="Carbs"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/editGoalFat"
+                    style="@style/AppInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Fat mục tiêu"
+                    android:inputType="numberDecimal" />
+
+                <Button
+                    android:id="@+id/buttonSaveGoal"
+                    style="@style/AppButtonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Lưu mục tiêu" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="1dp"
+            app:strokeColor="@color/stroke"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nhắc ghi nhận bữa ăn"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/switchReminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Bật nhắc nhở"
+                    android:textColor="@color/text_primary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/editBreakfastTime"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Sáng"
+                        android:inputType="time" />
+
+                    <EditText
+                        android:id="@+id/editLunchTime"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:hint="Trưa"
+                        android:inputType="time" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/editDinnerTime"
+                    style="@style/AppInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Tối HH:mm"
+                    android:inputType="time" />
+
+                <Button
+                    android:id="@+id/buttonSaveReminder"
+                    style="@style/AppButtonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Lưu nhắc nhở" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/buttonLogout"
+            style="@style/AppButtonDanger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
             android:text="Đăng xuất" />
     </LinearLayout>
 </ScrollView>

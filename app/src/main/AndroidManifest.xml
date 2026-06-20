@@ -37,12 +37,12 @@
         <service android:name=".service.FirebaseSyncService" android:exported="false" />
 
         <receiver android:name=".receiver.MealReminderReceiver" android:exported="false" />
-        <receiver android:name=".receiver.NetworkChangeReceiver" android:exported="false">
+        <receiver android:name=".receiver.NetworkChangeReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.BootCompletedReceiver" android:exported="false">
+        <receiver android:name=".receiver.BootCompletedReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

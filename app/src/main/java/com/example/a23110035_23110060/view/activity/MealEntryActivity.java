@@ -15,11 +15,10 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +58,7 @@ public class MealEntryActivity extends AppCompatActivity {
     private EditText editCarbs;
     private EditText editFat;
     private EditText editServing;
-    private Spinner spinnerMealType;
+    private RadioGroup groupMealType;
     private TextView textRecognitionResult;
     private View loadingView;
     private String imagePath;
@@ -78,7 +77,7 @@ public class MealEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meal_entry);
         controller = new MealEntryController(this);
         bindViews();
-        setupSpinner();
+        setupMealTypeChips();
         setupRecycler();
         setupClicks();
         setupSearch();
@@ -113,16 +112,13 @@ public class MealEntryActivity extends AppCompatActivity {
         editCarbs = findViewById(R.id.editCarbs);
         editFat = findViewById(R.id.editFat);
         editServing = findViewById(R.id.editServing);
-        spinnerMealType = findViewById(R.id.spinnerMealType);
+        groupMealType = findViewById(R.id.groupMealType);
         textRecognitionResult = findViewById(R.id.textRecognitionResult);
         loadingView = findViewById(R.id.loadingView);
     }
 
-    private void setupSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                new String[]{"Breakfast", "Lunch", "Dinner", "Snack"});
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMealType.setAdapter(adapter);
+    private void setupMealTypeChips() {
+        groupMealType.check(R.id.radioBreakfast);
     }
 
     private void setupRecycler() {
@@ -257,7 +253,7 @@ public class MealEntryActivity extends AppCompatActivity {
         mealLog.mealLogId = UUID.randomUUID().toString();
         mealLog.userId = userId;
         mealLog.foodName = foodName;
-        mealLog.mealType = spinnerMealType.getSelectedItem().toString();
+        mealLog.mealType = selectedMealType();
         mealLog.calories = ValidationHelper.parseDoubleOrZero(editCalories.getText().toString());
         mealLog.protein = ValidationHelper.parseDoubleOrZero(editProtein.getText().toString());
         mealLog.carbs = ValidationHelper.parseDoubleOrZero(editCarbs.getText().toString());
@@ -287,6 +283,20 @@ public class MealEntryActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private String selectedMealType() {
+        int checkedId = groupMealType.getCheckedRadioButtonId();
+        if (checkedId == R.id.radioLunch) {
+            return "Lunch";
+        }
+        if (checkedId == R.id.radioDinner) {
+            return "Dinner";
+        }
+        if (checkedId == R.id.radioSnack) {
+            return "Snack";
+        }
+        return "Breakfast";
     }
 
     @Override

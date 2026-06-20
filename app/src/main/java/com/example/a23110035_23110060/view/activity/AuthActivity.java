@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class AuthActivity extends AppCompatActivity {
     private EditText editEmail;
     private EditText editPassword;
     private View loadingView;
+    private TextView textAuthError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class AuthActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         loadingView = findViewById(R.id.loadingView);
+        textAuthError = findViewById(R.id.textAuthError);
     }
 
     private void setupClicks() {
@@ -56,6 +59,7 @@ public class AuthActivity extends AppCompatActivity {
             public void onSuccess(Void result) {
                 runOnUiThread(() -> {
                     setLoading(false);
+                    textAuthError.setVisibility(View.GONE);
                     Toast.makeText(AuthActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     goToMain();
                 });
@@ -75,6 +79,7 @@ public class AuthActivity extends AppCompatActivity {
             public void onSuccess(Void result) {
                 runOnUiThread(() -> {
                     setLoading(false);
+                    textAuthError.setVisibility(View.GONE);
                     Toast.makeText(AuthActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                     goToMain();
                 });
@@ -94,6 +99,7 @@ public class AuthActivity extends AppCompatActivity {
             public void onSuccess(Void result) {
                 runOnUiThread(() -> {
                     setLoading(false);
+                    textAuthError.setVisibility(View.GONE);
                     Toast.makeText(AuthActivity.this, "Đã gửi email đặt lại mật khẩu", Toast.LENGTH_LONG).show();
                 });
             }
@@ -108,6 +114,8 @@ public class AuthActivity extends AppCompatActivity {
     private void showError(String message) {
         runOnUiThread(() -> {
             setLoading(false);
+            textAuthError.setText(message);
+            textAuthError.setVisibility(View.VISIBLE);
             Toast.makeText(AuthActivity.this, message, Toast.LENGTH_LONG).show();
         });
     }
@@ -118,6 +126,9 @@ public class AuthActivity extends AppCompatActivity {
 
     private void setLoading(boolean loading) {
         loadingView.setVisibility(loading ? View.VISIBLE : View.GONE);
+        if (loading && textAuthError != null) {
+            textAuthError.setVisibility(View.GONE);
+        }
     }
 
     private void goToMain() {
