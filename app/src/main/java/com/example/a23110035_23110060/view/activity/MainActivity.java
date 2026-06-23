@@ -22,7 +22,10 @@ import com.example.a23110035_23110060.helper.DateHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
 import com.example.a23110035_23110060.helper.NotificationHelper;
 import com.example.a23110035_23110060.model.DailyProgress;
+import com.example.a23110035_23110060.model.SummaryReport;
 import com.example.a23110035_23110060.service.FirebaseSyncService;
+import com.example.a23110035_23110060.controller.NutritionController;
+import com.example.a23110035_23110060.helper.NavigationHelper;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
@@ -41,10 +44,15 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressProtein;
     private ProgressBar progressCarbs;
     private ProgressBar progressFat;
+    private TextView textSummaryToday;
+    private TextView textSummaryWeek;
+    private TextView textSummaryAverage;
+    private TextView textSummaryFrequent;
     private View loadingView;
     private GoalRepository goalRepository;
     private MealRepository mealRepository;
     private FoodRepository foodRepository;
+    private NutritionController nutritionController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         goalRepository = new GoalRepository(this);
         mealRepository = new MealRepository(this);
         foodRepository = new FoodRepository(this);
+        nutritionController = new NutritionController(this);
         bindViews();
         setupButtons();
         seedFoods();
@@ -83,21 +92,25 @@ public class MainActivity extends AppCompatActivity {
         progressProtein = findViewById(R.id.progressProtein);
         progressCarbs = findViewById(R.id.progressCarbs);
         progressFat = findViewById(R.id.progressFat);
+        
+        textSummaryToday = findViewById(R.id.textSummaryToday);
+        textSummaryWeek = findViewById(R.id.textSummaryWeek);
+        textSummaryAverage = findViewById(R.id.textSummaryAverage);
+        textSummaryFrequent = findViewById(R.id.textSummaryFrequent);
+        
         loadingView = findViewById(R.id.loadingView);
     }
 
     private void setupButtons() {
-        Button addMeal = findViewById(R.id.buttonAddMeal);
-        Button nutrition = findViewById(R.id.buttonNutrition);
-        Button settings = findViewById(R.id.buttonSettings);
         Button sync = findViewById(R.id.buttonSyncNow);
-        addMeal.setOnClickListener(v -> startActivity(new Intent(this, MealEntryActivity.class)));
-        nutrition.setOnClickListener(v -> startActivity(new Intent(this, NutritionActivity.class)));
-        settings.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
-        sync.setOnClickListener(v -> {
-            startService(new Intent(this, FirebaseSyncService.class));
-            Toast.makeText(this, "Đang đồng bộ dữ liệu", Toast.LENGTH_SHORT).show();
-        });
+        if (sync != null) {
+            sync.setOnClickListener(v -> {
+                startService(new Intent(this, FirebaseSyncService.class));
+                Toast.makeText(this, "Đang đồng bộ dữ liệu", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        NavigationHelper.setupBottomNavigation(this, R.id.nav_home);
     }
 
     private void seedFoods() {
@@ -141,12 +154,37 @@ public class MainActivity extends AppCompatActivity {
                             progressCarbs.setProgress(progress.carbsPercent);
                             progressFat.setProgress(progress.fatPercent);
                             textEmptyToday.setVisibility(logs == null || logs.isEmpty() ? View.VISIBLE : View.GONE);
+                            
+                            loadSummaryData(user.getUid());
                         });
                     }
 
                     @Override
                     public void onError(String message) {
                         showToast(message);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String message) {
+                showToast(message);
+            }
+        });
+    }
+
+    private void loadSummaryData(String userId) {
+        nutritionController.loadSummary(userId, new RepositoryCallback<SummaryReport>() {
+            @Override
+            public void onSuccess(SummaryReport result) {
+                runOnUiThread(() -> {
+                    if (textSummaryToday != null) {
+                        textSummaryToday.setText(String.format(Locale.US,
+                                "Hôm nay: %.0f kcal | P %.1fg • C %.1fg • F %.1fg",
+                                result.todayCalories, result.todayProtein, result.todayCarbs, result.todayFat));
+                        textSummaryWeek.setText(String.format(Locale.US, "Tổng tuần: %.0f kcal", result.weeklyCalories));
+                        textSummaryAverage.setText(String.format(Locale.US, "Trung bình ngày: %.0f kcal", result.weeklyAverageCalories));
+                        textSummaryFrequent.setText("Món thường ăn: " + result.mostFrequentFood);
                     }
                 });
             }

@@ -19,6 +19,11 @@ public class AuthActivity extends AppCompatActivity {
     private EditText editFullName;
     private EditText editEmail;
     private EditText editPassword;
+    private EditText editSignupEmail;
+    private EditText editSignupPassword;
+    private View signInLayout;
+    private View signUpLayout;
+    private View otpContainer;
     private View loadingView;
     private TextView textAuthError;
 
@@ -36,20 +41,57 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void bindViews() {
+        signInLayout = findViewById(R.id.layout_sign_in);
+        signUpLayout = findViewById(R.id.layout_sign_up);
+        otpContainer = findViewById(R.id.otp_container);
         editFullName = findViewById(R.id.editFullName);
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
+        editSignupEmail = findViewById(R.id.editSignupEmail);
+        editSignupPassword = findViewById(R.id.editSignupPassword);
         loadingView = findViewById(R.id.loadingView);
         textAuthError = findViewById(R.id.textAuthError);
     }
 
     private void setupClicks() {
         Button login = findViewById(R.id.buttonLogin);
-        Button register = findViewById(R.id.buttonRegister);
+        Button register = findViewById(R.id.btn_confirm_signup);
         Button forgot = findViewById(R.id.buttonForgot);
+        Button sendOtp = findViewById(R.id.btn_send_otp);
+        Button googleSignIn = findViewById(R.id.btn_google_signin);
+        View goSignup = findViewById(R.id.tv_go_signup);
+        View goSignin = findViewById(R.id.tv_go_signin);
         login.setOnClickListener(v -> login());
         register.setOnClickListener(v -> register());
         forgot.setOnClickListener(v -> forgotPassword());
+        sendOtp.setOnClickListener(v -> showOtpInputs());
+        googleSignIn.setOnClickListener(v -> Toast.makeText(this, "Google Sign-In cần cấu hình OAuth client", Toast.LENGTH_SHORT).show());
+        goSignup.setOnClickListener(v -> showAuthForm(signUpLayout, signInLayout));
+        goSignin.setOnClickListener(v -> showAuthForm(signInLayout, signUpLayout));
+    }
+
+    private void showAuthForm(View showView, View hideView) {
+        if (showView == null || hideView == null || showView.getVisibility() == View.VISIBLE) {
+            return;
+        }
+        textAuthError.setVisibility(View.GONE);
+        hideView.animate()
+                .alpha(0f)
+                .setDuration(120)
+                .withEndAction(() -> {
+                    hideView.setVisibility(View.GONE);
+                    showView.setAlpha(0f);
+                    showView.setVisibility(View.VISIBLE);
+                    showView.animate().alpha(1f).setDuration(160).start();
+                })
+                .start();
+    }
+
+    private void showOtpInputs() {
+        if (otpContainer != null) {
+            otpContainer.setVisibility(View.VISIBLE);
+        }
+        Toast.makeText(this, "Kiểm tra email để nhập mã OTP", Toast.LENGTH_SHORT).show();
     }
 
     private void login() {
@@ -74,7 +116,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private void register() {
         setLoading(true);
-        controller.register(text(editFullName), text(editEmail), text(editPassword), new RepositoryCallback<Void>() {
+        controller.register(text(editFullName), text(editSignupEmail), text(editSignupPassword), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void result) {
                 runOnUiThread(() -> {

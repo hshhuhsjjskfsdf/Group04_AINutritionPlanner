@@ -25,4 +25,8 @@ public class FirebaseHelper {
         FirebaseUser user = getAuth().getCurrentUser();
         return user == null ? null : user.getUid();
     }
+
+    public static void signOut() {
+        getAuth().signOut();
+    }
 }

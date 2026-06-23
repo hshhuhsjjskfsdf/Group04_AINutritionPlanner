@@ -1,361 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_nutrition"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_app"
-    android:fillViewport="true">
+    android:background="@color/background"
+    tools:context=".view.activity.NutritionActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/appbar_nutrition"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:background="@color/surface"
+        android:padding="16dp"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/text_nutrition_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dinh dưỡng của bạn"
+            android:text="Dinh dưỡng"
             android:textColor="@color/text_primary"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Quản lý nhật ký, kế hoạch và thống kê ăn uống"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        android:paddingBottom="88dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar_nutrition">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_card_light"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/buttonTabLog"
-                style="@style/AppButtonSecondary"
-                android:layout_width="0dp"
-                android:layout_height="44dp"
-                android:layout_weight="1"
-                android:text="Nhật ký" />
-
-            <Button
-                android:id="@+id/buttonTabPlan"
-                style="@style/AppButtonSecondary"
-                android:layout_width="0dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:text="Kế hoạch" />
-
-            <Button
-                android:id="@+id/buttonTabSummary"
-                style="@style/AppButtonSecondary"
-                android:layout_width="0dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:text="Thống kê" />
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/sectionMealLog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
             android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
+            <EditText
+                android:id="@+id/editLogDate"
+                style="@style/AppInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="22dp"
-                app:cardElevation="1dp"
-                app:strokeColor="@color/stroke"
-                app:strokeWidth="1dp">
+                android:hint="yyyy-MM-dd"
+                android:inputType="date" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nhật ký bữa ăn"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/editLogDate"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="yyyy-MM-dd"
-                            android:inputType="date" />
-
-                        <Button
-                            android:id="@+id/buttonLoadLogs"
-                            style="@style/AppButtonPrimary"
-                            android:layout_width="112dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Tải" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLoadLogs"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="12dp"
+                app:cornerRadius="16dp"
+                app:backgroundTint="@color/primary"
+                android:textColor="@color/white"
+                android:text="Tải" />
 
             <TextView
                 android:id="@+id/textEmptyLogs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_empty_state"
-                android:drawableTop="@drawable/ic_empty_bowl"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                android:padding="18dp"
-                android:text="Chưa có bữa ăn trong ngày này"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/text_secondary"
-                android:visibility="gone" />
+                android:text="Chưa có bữa ăn trong ngày này" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerMealLogs"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="360dp"
-                android:layout_marginTop="12dp"
-                android:nestedScrollingEnabled="true" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/sectionMealPlan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
+            <EditText
+                android:id="@+id/editPlanDate"
+                style="@style/AppInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="22dp"
-                app:cardElevation="1dp"
-                app:strokeColor="@color/stroke"
-                app:strokeWidth="1dp">
+                android:hint="yyyy-MM-dd"
+                android:inputType="date" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+            <Spinner
+                android:id="@+id/spinnerPlanMealType"
+                android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:layout_height="48dp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Kế hoạch bữa ăn"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+            <EditText
+                android:id="@+id/editPlanFoodName"
+                style="@style/AppInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Tên món"
+                android:inputType="text" />
 
-                    <EditText
-                        android:id="@+id/editPlanDate"
-                        style="@style/AppInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="yyyy-MM-dd"
-                        android:inputType="date" />
+            <EditText
+                android:id="@+id/editPlanCalories"
+                style="@style/AppInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Calories"
+                android:inputType="numberDecimal" />
 
-                    <Spinner
-                        android:id="@+id/spinnerPlanMealType"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/bg_input"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp" />
+            <EditText
+                android:id="@+id/editPlanProtein"
+                style="@style/AppInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Protein"
+                android:inputType="numberDecimal" />
 
-                    <EditText
-                        android:id="@+id/editPlanFoodName"
-                        style="@style/AppInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="Tên món"
-                        android:inputType="text" />
+            <EditText
+                android:id="@+id/editPlanCarbs"
+                style="@style/AppInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Carbs"
+                android:inputType="numberDecimal" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
+            <EditText
+                android:id="@+id/editPlanFat"
+                style="@style/AppInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Fat"
+                android:inputType="numberDecimal" />
 
-                        <EditText
-                            android:id="@+id/editPlanCalories"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Calories"
-                            android:inputType="numberDecimal" />
+            <EditText
+                android:id="@+id/editPlanNote"
+                style="@style/AppInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Ghi chú"
+                android:inputType="textMultiLine" />
 
-                        <EditText
-                            android:id="@+id/editPlanProtein"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:hint="Protein"
-                            android:inputType="numberDecimal" />
-                    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSavePlan"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="12dp"
+                app:cornerRadius="16dp"
+                app:backgroundTint="@color/primary"
+                android:textColor="@color/white"
+                android:text="Lưu kế hoạch" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/editPlanCarbs"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Carbs"
-                            android:inputType="numberDecimal" />
-
-                        <EditText
-                            android:id="@+id/editPlanFat"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:hint="Fat"
-                            android:inputType="numberDecimal" />
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/editPlanNote"
-                        style="@style/AppInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="Ghi chú"
-                        android:inputType="textMultiLine"
-                        android:minLines="2" />
-
-                    <Button
-                        android:id="@+id/buttonSavePlan"
-                        style="@style/AppButtonPrimary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:text="Lưu kế hoạch" />
-
-                    <Button
-                        android:id="@+id/buttonLoadPlans"
-                        style="@style/AppButtonSecondary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Tải kế hoạch" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLoadPlans"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                app:cornerRadius="16dp"
+                app:backgroundTint="@color/surface_soft"
+                android:textColor="@color/primary_dark"
+                android:text="Tải kế hoạch" />
 
             <TextView
                 android:id="@+id/textEmptyPlans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_empty_state"
-                android:drawableTop="@drawable/ic_empty_bowl"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                android:padding="18dp"
-                android:text="Chưa có kế hoạch cho ngày này"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/text_secondary"
-                android:visibility="gone" />
+                android:text="Chưa có kế hoạch cho ngày này" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerMealPlans"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:layout_marginTop="12dp"
-                android:nestedScrollingEnabled="true" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/sectionSummary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/textSummaryToday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_card"
-                android:padding="18dp"
-                android:text="Hôm nay: 0 kcal"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textSummaryWeek"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_card"
-                android:padding="18dp"
-                android:text="Tổng tuần: 0 kcal"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textSummaryAverage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_card"
-                android:padding="18dp"
-                android:text="Trung bình ngày: 0 kcal"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textSummaryFrequent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_card"
-                android:padding="18dp"
-                android:text="Món thường ăn: Chưa có dữ liệu"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <include layout="@layout/include_bottom_nav" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

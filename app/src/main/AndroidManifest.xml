@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Group04_AINutritionPlanner">
         <activity
+            android:name=".view.activity.ProfileEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.AuthActivity"
             android:exported="true">
             <intent-filter>

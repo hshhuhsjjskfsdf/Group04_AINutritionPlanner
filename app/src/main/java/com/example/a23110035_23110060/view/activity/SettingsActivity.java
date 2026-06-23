@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -21,6 +22,7 @@ import com.example.a23110035_23110060.data.local.GoalEntity;
 import com.example.a23110035_23110060.data.repository.RepositoryCallback;
 import com.example.a23110035_23110060.helper.AlarmHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
+import com.example.a23110035_23110060.helper.NavigationHelper;
 import com.example.a23110035_23110060.helper.ValidationHelper;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -30,7 +32,6 @@ public class SettingsActivity extends AppCompatActivity {
     private static final int REQ_NOTIFICATION = 5001;
     private SettingsController settingsController;
     private ReminderController reminderController;
-    private TextView textUserEmail;
     private EditText editGoalCalories;
     private EditText editGoalProtein;
     private EditText editGoalCarbs;
@@ -47,14 +48,15 @@ public class SettingsActivity extends AppCompatActivity {
         settingsController = new SettingsController(this);
         reminderController = new ReminderController(this);
         bindViews();
-        loadUser();
+
         loadGoal();
         loadReminderPrefs();
         setupClicks();
+        NavigationHelper.setupBottomNavigation(this, R.id.nav_profile);
     }
 
     private void bindViews() {
-        textUserEmail = findViewById(R.id.textUserEmail);
+
         editGoalCalories = findViewById(R.id.editGoalCalories);
         editGoalProtein = findViewById(R.id.editGoalProtein);
         editGoalCarbs = findViewById(R.id.editGoalCarbs);
@@ -65,10 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
         switchReminder = findViewById(R.id.switchReminder);
     }
 
-    private void loadUser() {
-        FirebaseUser user = FirebaseHelper.getAuth().getCurrentUser();
-        textUserEmail.setText(user == null || user.getEmail() == null ? "Chưa đăng nhập" : user.getEmail());
-    }
+
 
     private void loadGoal() {
         settingsController.loadGoal(new RepositoryCallback<GoalEntity>() {
@@ -100,10 +99,13 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupClicks() {
         Button saveGoal = findViewById(R.id.buttonSaveGoal);
         Button saveReminder = findViewById(R.id.buttonSaveReminder);
-        Button logout = findViewById(R.id.buttonLogout);
         saveGoal.setOnClickListener(v -> saveGoal());
         saveReminder.setOnClickListener(v -> saveReminders());
-        logout.setOnClickListener(v -> logout());
+        
+        View profileAvatar = findViewById(R.id.icon_profile_avatar);
+        if (profileAvatar != null) {
+            profileAvatar.setOnClickListener(v -> startActivity(new Intent(this, ProfileEditActivity.class)));
+        }
     }
 
     private void saveGoal() {
@@ -149,14 +151,6 @@ public class SettingsActivity extends AppCompatActivity {
             reminderController.cancelReminders();
             showToast("Đã tắt nhắc bữa ăn");
         }
-    }
-
-    private void logout() {
-        settingsController.logout();
-        Intent intent = new Intent(this, AuthActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 
     @Override

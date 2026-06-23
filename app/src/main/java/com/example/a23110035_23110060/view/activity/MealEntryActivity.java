@@ -137,6 +137,31 @@ public class MealEntryActivity extends AppCompatActivity {
         capture.setOnClickListener(v -> captureImage());
         analyze.setOnClickListener(v -> analyzeImage());
         save.setOnClickListener(v -> saveMeal());
+
+        View shutter = findViewById(R.id.btn_shutter);
+        View gallery = findViewById(R.id.btn_open_gallery);
+        View manual = findViewById(R.id.btn_manual_entry);
+        View flash = findViewById(R.id.btn_flash_toggle);
+        View switchCamera = findViewById(R.id.btn_switch_camera);
+        View closeCamera = findViewById(R.id.btn_close_camera);
+        if (closeCamera != null) {
+            closeCamera.setOnClickListener(v -> finish());
+        }
+        if (shutter != null) {
+            shutter.setOnClickListener(v -> captureImage());
+        }
+        if (gallery != null) {
+            gallery.setOnClickListener(v -> chooseImage());
+        }
+        if (manual != null) {
+            manual.setOnClickListener(v -> Toast.makeText(this, "Nhập thủ công bằng form dinh dưỡng", Toast.LENGTH_SHORT).show());
+        }
+        if (flash != null) {
+            flash.setOnClickListener(v -> Toast.makeText(this, "Flash sẵn sàng khi kích hoạt CameraX", Toast.LENGTH_SHORT).show());
+        }
+        if (switchCamera != null) {
+            switchCamera.setOnClickListener(v -> Toast.makeText(this, "Lật camera sẵn sàng khi kích hoạt CameraX", Toast.LENGTH_SHORT).show());
+        }
     }
 
     private void setupSearch() {

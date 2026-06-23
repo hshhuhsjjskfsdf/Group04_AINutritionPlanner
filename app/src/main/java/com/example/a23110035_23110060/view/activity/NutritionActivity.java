@@ -22,21 +22,26 @@ import com.example.a23110035_23110060.data.repository.RepositoryCallback;
 import com.example.a23110035_23110060.helper.DateHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
 import com.example.a23110035_23110060.helper.ValidationHelper;
-import com.example.a23110035_23110060.model.SummaryReport;
+
+import com.example.a23110035_23110060.helper.NavigationHelper;
 import com.example.a23110035_23110060.view.adapter.MealLogAdapter;
 import com.example.a23110035_23110060.view.adapter.MealPlanAdapter;
+
 
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
 public class NutritionActivity extends AppCompatActivity {
+    public static final String EXTRA_START_TAB = "extra_start_tab";
+    public static final String TAB_DIARY = "diary";
+    public static final String TAB_PLAN = "plan";
+
     private NutritionController controller;
     private MealLogAdapter logAdapter;
     private MealPlanAdapter planAdapter;
     private LinearLayout sectionLog;
     private LinearLayout sectionPlan;
-    private LinearLayout sectionSummary;
     private EditText editLogDate;
     private EditText editPlanDate;
     private EditText editPlanFoodName;
@@ -48,11 +53,15 @@ public class NutritionActivity extends AppCompatActivity {
     private Spinner spinnerPlanMealType;
     private TextView textEmptyLogs;
     private TextView textEmptyPlans;
-    private TextView textSummaryToday;
-    private TextView textSummaryWeek;
-    private TextView textSummaryAverage;
-    private TextView textSummaryFrequent;
+    private TextView textNutritionTitle;
     private String userId;
+
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        showInitialTab();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +74,16 @@ public class NutritionActivity extends AppCompatActivity {
         }
         controller = new NutritionController(this);
         bindViews();
-        setupTabs();
         setupLists();
         setupPlanForm();
-        showTab(sectionLog);
+        showInitialTab();
         loadLogs();
         loadPlans();
-        loadSummary();
     }
 
     private void bindViews() {
         sectionLog = findViewById(R.id.sectionMealLog);
         sectionPlan = findViewById(R.id.sectionMealPlan);
-        sectionSummary = findViewById(R.id.sectionSummary);
         editLogDate = findViewById(R.id.editLogDate);
         editPlanDate = findViewById(R.id.editPlanDate);
         editPlanFoodName = findViewById(R.id.editPlanFoodName);
@@ -89,23 +95,26 @@ public class NutritionActivity extends AppCompatActivity {
         spinnerPlanMealType = findViewById(R.id.spinnerPlanMealType);
         textEmptyLogs = findViewById(R.id.textEmptyLogs);
         textEmptyPlans = findViewById(R.id.textEmptyPlans);
-        textSummaryToday = findViewById(R.id.textSummaryToday);
-        textSummaryWeek = findViewById(R.id.textSummaryWeek);
-        textSummaryAverage = findViewById(R.id.textSummaryAverage);
-        textSummaryFrequent = findViewById(R.id.textSummaryFrequent);
+        textNutritionTitle = findViewById(R.id.text_nutrition_title);
+        
         editLogDate.setText(DateHelper.today());
         editPlanDate.setText(DateHelper.today());
-    }
-
-    private void setupTabs() {
-        findViewById(R.id.buttonTabLog).setOnClickListener(v -> showTab(sectionLog));
-        findViewById(R.id.buttonTabPlan).setOnClickListener(v -> showTab(sectionPlan));
-        findViewById(R.id.buttonTabSummary).setOnClickListener(v -> {
-            showTab(sectionSummary);
-            loadSummary();
-        });
+        
         findViewById(R.id.buttonLoadLogs).setOnClickListener(v -> loadLogs());
         findViewById(R.id.buttonLoadPlans).setOnClickListener(v -> loadPlans());
+    }
+
+    private void showInitialTab() {
+        String startTab = getIntent().getStringExtra(EXTRA_START_TAB);
+        if (TAB_PLAN.equals(startTab)) {
+            textNutritionTitle.setText("Kế hoạch");
+            showTab(sectionPlan);
+            NavigationHelper.setupBottomNavigation(this, R.id.nav_plan);
+            return;
+        }
+        textNutritionTitle.setText("Nhật ký");
+        showTab(sectionLog);
+        NavigationHelper.setupBottomNavigation(this, R.id.nav_diary);
     }
 
     private void setupLists() {
@@ -117,7 +126,6 @@ public class NutritionActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     Toast.makeText(NutritionActivity.this, "Đã xóa bữa ăn", Toast.LENGTH_SHORT).show();
                     loadLogs();
-                    loadSummary();
                 });
             }
 
@@ -159,7 +167,6 @@ public class NutritionActivity extends AppCompatActivity {
     private void showTab(View selected) {
         sectionLog.setVisibility(selected == sectionLog ? View.VISIBLE : View.GONE);
         sectionPlan.setVisibility(selected == sectionPlan ? View.VISIBLE : View.GONE);
-        sectionSummary.setVisibility(selected == sectionSummary ? View.VISIBLE : View.GONE);
     }
 
     private void loadLogs() {
@@ -239,26 +246,7 @@ public class NutritionActivity extends AppCompatActivity {
         });
     }
 
-    private void loadSummary() {
-        controller.loadSummary(userId, new RepositoryCallback<SummaryReport>() {
-            @Override
-            public void onSuccess(SummaryReport result) {
-                runOnUiThread(() -> {
-                    textSummaryToday.setText(String.format(Locale.US,
-                            "Hôm nay: %.0f kcal | P %.1fg • C %.1fg • F %.1fg",
-                            result.todayCalories, result.todayProtein, result.todayCarbs, result.todayFat));
-                    textSummaryWeek.setText(String.format(Locale.US, "Tổng tuần: %.0f kcal", result.weeklyCalories));
-                    textSummaryAverage.setText(String.format(Locale.US, "Trung bình ngày: %.0f kcal", result.weeklyAverageCalories));
-                    textSummaryFrequent.setText("Món thường ăn: " + result.mostFrequentFood);
-                });
-            }
 
-            @Override
-            public void onError(String message) {
-                showToast(message);
-            }
-        });
-    }
 
     private void showToast(String message) {
         runOnUiThread(() -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());
