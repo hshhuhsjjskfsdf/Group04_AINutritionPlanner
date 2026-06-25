@@ -1,132 +1,919 @@
 {
-  "apple_pie": {"calories":237,"protein":2.4,"fat":11.0,"carbs":34.0,"serving":"1 slice (100g)"},
-  "baby_back_ribs": {"calories":292,"protein":26.0,"fat":20.0,"carbs":0.0,"serving":"100g"},
-  "baklava": {"calories":307,"protein":4.0,"fat":13.0,"carbs":46.0,"serving":"1 piece (100g)"},
-  "banh_beo": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_bot_loc": {"calories":250,"protein":22.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_can": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_canh": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_chung": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_cuon": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_duc": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_gio": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_khot": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_mi": {"calories":400,"protein":18.0,"fat":12.0,"carbs":55.0,"serving":"1 serving (200g)"},
-  "banh_pia": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_tet": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_trang_nuong": {"calories":250,"protein":12.0,"fat":6.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "banh_xeo": {"calories":320,"protein":12.0,"fat":18.0,"carbs":30.0,"serving":"1 serving (200g)"},
-  "beef_carpaccio": {"calories":139,"protein":24.0,"fat":4.0,"carbs":1.0,"serving":"100g"},
-  "beef_tartare": {"calories":155,"protein":21.0,"fat":7.0,"carbs":1.0,"serving":"100g"},
-  "beet_salad": {"calories":58,"protein":2.0,"fat":0.2,"carbs":13.0,"serving":"1 cup (100g)"},
-  "beignets": {"calories":304,"protein":4.0,"fat":18.0,"carbs":32.0,"serving":"100g"},
-  "bibimbap": {"calories":145,"protein":8.0,"fat":3.0,"carbs":22.0,"serving":"1 bowl (250g)"},
-  "bread_pudding": {"calories":180,"protein":4.0,"fat":5.0,"carbs":30.0,"serving":"100g"},
-  "breakfast_burrito": {"calories":205,"protein":11.0,"fat":8.0,"carbs":24.0,"serving":"1 burrito (150g)"},
-  "bruschetta": {"calories":85,"protein":3.0,"fat":2.0,"carbs":14.0,"serving":"1 slice (50g)"},
-  "bun_bo_hue": {"calories":350,"protein":22.0,"fat":8.0,"carbs":45.0,"serving":"1 serving (200g)"},
-  "bun_dau_mam_tom": {"calories":350,"protein":12.0,"fat":8.0,"carbs":45.0,"serving":"1 serving (200g)"},
-  "bun_mam": {"calories":350,"protein":12.0,"fat":8.0,"carbs":45.0,"serving":"1 serving (200g)"},
-  "bun_rieu": {"calories":350,"protein":12.0,"fat":8.0,"carbs":45.0,"serving":"1 serving (200g)"},
-  "bun_thit_nuong": {"calories":350,"protein":12.0,"fat":8.0,"carbs":45.0,"serving":"1 serving (200g)"},
-  "ca_kho_to": {"calories":250,"protein":12.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"},
-  "caesar_salad": {"calories":158,"protein":6.0,"fat":13.0,"carbs":6.0,"serving":"1 serving (100g)"},
-  "canh_chua": {"calories":250,"protein":12.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"},
-  "cannoli": {"calories":298,"protein":6.0,"fat":19.0,"carbs":27.0,"serving":"1 piece (100g)"},
-  "cao_lau": {"calories":250,"protein":12.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"},
-  "caprese_salad": {"calories":128,"protein":8.0,"fat":9.0,"carbs":4.0,"serving":"1 serving (100g)"},
-  "carrot_cake": {"calories":315,"protein":4.0,"fat":15.0,"carbs":43.0,"serving":"1 slice (100g)"},
-  "ceviche": {"calories":139,"protein":25.0,"fat":2.0,"carbs":5.0,"serving":"100g"},
-  "chao_long": {"calories":250,"protein":12.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"},
-  "cheese_plate": {"calories":113,"protein":7.0,"fat":9.0,"carbs":1.0,"serving":"100g"},
-  "cheesecake": {"calories":321,"protein":5.5,"fat":23.0,"carbs":25.0,"serving":"1 slice (100g)"},
-  "chicken_curry": {"calories":165,"protein":18.0,"fat":8.0,"carbs":6.0,"serving":"1 cup (200g)"},
-  "chicken_quesadilla": {"calories":529,"protein":27.0,"fat":31.0,"carbs":35.0,"serving":"1 quesadilla (200g)"},
-  "chicken_wings": {"calories":203,"protein":30.0,"fat":8.0,"carbs":0.0,"serving":"100g"},
-  "chocolate_cake": {"calories":371,"protein":5.0,"fat":16.0,"carbs":56.0,"serving":"1 slice (100g)"},
-  "chocolate_mousse": {"calories":168,"protein":3.0,"fat":11.0,"carbs":16.0,"serving":"100g"},
-  "churros": {"calories":312,"protein":4.0,"fat":18.0,"carbs":35.0,"serving":"100g"},
-  "clam_chowder": {"calories":122,"protein":7.0,"fat":7.0,"carbs":9.0,"serving":"1 cup (250ml)"},
-  "club_sandwich": {"calories":590,"protein":31.0,"fat":31.0,"carbs":44.0,"serving":"1 sandwich (300g)"},
-  "com_tam": {"calories":550,"protein":22.0,"fat":18.0,"carbs":65.0,"serving":"1 serving (200g)"},
-  "crab_cakes": {"calories":160,"protein":11.0,"fat":10.0,"carbs":5.0,"serving":"1 cake (80g)"},
-  "creme_brulee": {"calories":292,"protein":4.0,"fat":23.0,"carbs":17.0,"serving":"100g"},
-  "croque_madame": {"calories":324,"protein":18.0,"fat":23.0,"carbs":13.0,"serving":"1 serving (200g)"},
-  "cup_cakes": {"calories":305,"protein":3.0,"fat":12.0,"carbs":48.0,"serving":"1 cupcake (100g)"},
-  "deviled_eggs": {"calories":124,"protein":6.0,"fat":10.0,"carbs":1.0,"serving":"2 halves (50g)"},
-  "donuts": {"calories":452,"protein":5.0,"fat":25.0,"carbs":51.0,"serving":"1 donut (100g)"},
-  "dumplings": {"calories":40,"protein":2.0,"fat":2.0,"carbs":4.0,"serving":"1 dumpling (25g)"},
-  "edamame": {"calories":121,"protein":11.0,"fat":5.0,"carbs":8.0,"serving":"1 cup (100g)"},
-  "eggs_benedict": {"calories":512,"protein":20.0,"fat":43.0,"carbs":11.0,"serving":"1 serving (200g)"},
-  "escargots": {"calories":173,"protein":24.0,"fat":2.0,"carbs":13.0,"serving":"6 pieces (100g)"},
-  "falafel": {"calories":333,"protein":13.0,"fat":18.0,"carbs":32.0,"serving":"100g"},
-  "filet_mignon": {"calories":227,"protein":22.0,"fat":15.0,"carbs":0.0,"serving":"100g"},
-  "fish_and_chips": {"calories":232,"protein":15.0,"fat":11.0,"carbs":18.0,"serving":"100g"},
-  "foie_gras": {"calories":462,"protein":11.7,"fat":43.8,"carbs":4.7,"serving":"100g"},
-  "french_fries": {"calories":365,"protein":4.0,"fat":17.0,"carbs":48.0,"serving":"100g"},
-  "french_onion_soup": {"calories":57,"protein":3.8,"fat":1.7,"carbs":8.0,"serving":"1 cup (250ml)"},
-  "french_toast": {"calories":166,"protein":5.0,"fat":7.0,"carbs":20.0,"serving":"1 slice (65g)"},
-  "fried_calamari": {"calories":175,"protein":15.0,"fat":7.0,"carbs":15.0,"serving":"100g"},
-  "fried_rice": {"calories":163,"protein":4.0,"fat":5.0,"carbs":25.0,"serving":"1 cup (150g)"},
-  "frozen_yogurt": {"calories":127,"protein":3.0,"fat":4.0,"carbs":22.0,"serving":"100g"},
-  "garlic_bread": {"calories":150,"protein":4.0,"fat":6.0,"carbs":21.0,"serving":"1 slice (50g)"},
-  "gnocchi": {"calories":131,"protein":4.0,"fat":1.0,"carbs":27.0,"serving":"100g"},
-  "goi_cuon": {"calories":80,"protein":6.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"},
-  "greek_salad": {"calories":107,"protein":3.0,"fat":8.0,"carbs":6.0,"serving":"1 serving (100g)"},
-  "grilled_cheese_sandwich": {"calories":291,"protein":12.0,"fat":18.0,"carbs":21.0,"serving":"1 sandwich (100g)"},
-  "grilled_salmon": {"calories":231,"protein":25.0,"fat":14.0,"carbs":0.0,"serving":"100g"},
-  "guacamole": {"calories":160,"protein":2.0,"fat":15.0,"carbs":9.0,"serving":"100g"},
-  "gyoza": {"calories":40,"protein":2.0,"fat":2.0,"carbs":4.0,"serving":"1 dumpling (25g)"},
-  "hamburger": {"calories":295,"protein":17.0,"fat":14.0,"carbs":25.0,"serving":"1 burger (150g)"},
-  "hot_and_sour_soup": {"calories":91,"protein":6.0,"fat":4.0,"carbs":8.0,"serving":"1 cup (250ml)"},
-  "hot_dog": {"calories":151,"protein":5.0,"fat":13.0,"carbs":2.0,"serving":"1 hot dog (45g)"},
-  "hu_tieu": {"calories":250,"protein":12.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"},
-  "huevos_rancheros": {"calories":233,"protein":13.0,"fat":16.0,"carbs":11.0,"serving":"1 serving (200g)"},
-  "hummus": {"calories":166,"protein":8.0,"fat":10.0,"carbs":14.0,"serving":"100g"},
-  "ice_cream": {"calories":207,"protein":4.0,"fat":11.0,"carbs":24.0,"serving":"100g"},
-  "lasagna": {"calories":135,"protein":8.0,"fat":6.0,"carbs":13.0,"serving":"100g"},
-  "lobster_bisque": {"calories":104,"protein":4.0,"fat":6.0,"carbs":9.0,"serving":"1 cup (250ml)"},
-  "lobster_roll_sandwich": {"calories":436,"protein":18.0,"fat":25.0,"carbs":37.0,"serving":"1 roll (200g)"},
-  "macaroni_and_cheese": {"calories":164,"protein":7.0,"fat":8.0,"carbs":16.0,"serving":"100g"},
-  "macarons": {"calories":390,"protein":9.0,"fat":16.0,"carbs":55.0,"serving":"100g"},
-  "mi_quang": {"calories":250,"protein":12.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"},
-  "miso_soup": {"calories":40,"protein":3.0,"fat":1.0,"carbs":5.0,"serving":"1 cup (250ml)"},
-  "mussels": {"calories":172,"protein":24.0,"fat":4.0,"carbs":7.0,"serving":"100g"},
-  "nachos": {"calories":346,"protein":9.0,"fat":19.0,"carbs":36.0,"serving":"100g"},
-  "nem_chua": {"calories":160,"protein":12.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"},
-  "omelette": {"calories":154,"protein":11.0,"fat":12.0,"carbs":1.0,"serving":"100g"},
-  "onion_rings": {"calories":411,"protein":6.0,"fat":21.0,"carbs":51.0,"serving":"100g"},
-  "oysters": {"calories":68,"protein":7.0,"fat":3.0,"carbs":4.0,"serving":"6 oysters (100g)"},
-  "pad_thai": {"calories":181,"protein":9.0,"fat":8.0,"carbs":21.0,"serving":"1 cup (150g)"},
-  "paella": {"calories":172,"protein":11.0,"fat":5.0,"carbs":22.0,"serving":"1 cup (200g)"},
-  "pancakes": {"calories":227,"protein":6.0,"fat":9.0,"carbs":32.0,"serving":"100g"},
-  "panna_cotta": {"calories":185,"protein":4.0,"fat":12.0,"carbs":16.0,"serving":"100g"},
-  "peking_duck": {"calories":337,"protein":19.0,"fat":28.0,"carbs":0.0,"serving":"100g"},
-  "pho": {"calories":150,"protein":10.0,"fat":3.0,"carbs":20.0,"serving":"1 bowl (400ml)"},
-  "pizza": {"calories":266,"protein":11.0,"fat":10.0,"carbs":33.0,"serving":"1 slice (100g)"},
-  "pork_chop": {"calories":231,"protein":23.0,"fat":14.0,"carbs":0.0,"serving":"100g"},
-  "poutine": {"calories":740,"protein":13.0,"fat":36.0,"carbs":93.0,"serving":"1 serving (300g)"},
-  "prime_rib": {"calories":291,"protein":25.0,"fat":20.0,"carbs":0.0,"serving":"100g"},
-  "pulled_pork_sandwich": {"calories":365,"protein":22.0,"fat":16.0,"carbs":32.0,"serving":"1 sandwich (200g)"},
-  "ramen": {"calories":436,"protein":19.0,"fat":20.0,"carbs":44.0,"serving":"1 bowl (400g)"},
-  "ravioli": {"calories":175,"protein":7.0,"fat":8.0,"carbs":20.0,"serving":"100g"},
-  "red_velvet_cake": {"calories":478,"protein":5.0,"fat":19.0,"carbs":77.0,"serving":"1 slice (150g)"},
-  "risotto": {"calories":142,"protein":3.0,"fat":4.0,"carbs":22.0,"serving":"100g"},
-  "samosa": {"calories":308,"protein":6.0,"fat":17.0,"carbs":33.0,"serving":"1 piece (100g)"},
-  "sashimi": {"calories":127,"protein":20.0,"fat":4.0,"carbs":0.0,"serving":"100g"},
-  "scallops": {"calories":137,"protein":24.0,"fat":1.0,"carbs":7.0,"serving":"100g"},
-  "seaweed_salad": {"calories":45,"protein":2.0,"fat":0.6,"carbs":9.0,"serving":"100g"},
-  "shrimp_and_grits": {"calories":258,"protein":18.0,"fat":15.0,"carbs":13.0,"serving":"1 cup (200g)"},
-  "spaghetti_bolognese": {"calories":151,"protein":8.0,"fat":5.0,"carbs":19.0,"serving":"100g"},
-  "spaghetti_carbonara": {"calories":194,"protein":8.0,"fat":10.0,"carbs":19.0,"serving":"100g"},
-  "spring_rolls": {"calories":140,"protein":3.0,"fat":7.0,"carbs":18.0,"serving":"1 roll (50g)"},
-  "steak": {"calories":271,"protein":26.0,"fat":18.0,"carbs":0.0,"serving":"100g"},
-  "strawberry_shortcake": {"calories":344,"protein":4.0,"fat":17.0,"carbs":44.0,"serving":"1 slice (150g)"},
-  "sushi": {"calories":143,"protein":6.0,"fat":1.0,"carbs":28.0,"serving":"1 piece (30g)"},
-  "tacos": {"calories":226,"protein":9.0,"fat":13.0,"carbs":18.0,"serving":"1 taco (100g)"},
-  "takoyaki": {"calories":40,"protein":1.5,"fat":2.0,"carbs":4.0,"serving":"1 ball (25g)"},
-  "tiramisu": {"calories":240,"protein":4.0,"fat":13.0,"carbs":28.0,"serving":"100g"},
-  "tuna_tartare": {"calories":144,"protein":23.0,"fat":5.0,"carbs":0.0,"serving":"100g"},
-  "waffles": {"calories":291,"protein":6.0,"fat":15.0,"carbs":35.0,"serving":"1 waffle (100g)"},
-  "xoi_xeo": {"calories":250,"protein":12.0,"fat":6.0,"carbs":25.0,"serving":"1 serving (200g)"}
+  "apple_pie": {
+    "calories": 237,
+    "protein": 2.4,
+    "fat": 11.0,
+    "carbs": 34.0,
+    "serving": "1 slice (100g)"
+  },
+  "baby_back_ribs": {
+    "calories": 292,
+    "protein": 26.0,
+    "fat": 20.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "baklava": {
+    "calories": 307,
+    "protein": 4.0,
+    "fat": 13.0,
+    "carbs": 46.0,
+    "serving": "1 piece (100g)"
+  },
+  "banh_beo": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_bot_loc": {
+    "calories": 250,
+    "protein": 22.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_can": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_canh": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_chung": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_cuon": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_duc": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_gio": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_khot": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_mi": {
+    "calories": 400,
+    "protein": 18.0,
+    "fat": 12.0,
+    "carbs": 55.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_pia": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_tet": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_trang_nuong": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "banh_xeo": {
+    "calories": 320,
+    "protein": 12.0,
+    "fat": 18.0,
+    "carbs": 30.0,
+    "serving": "1 serving (200g)"
+  },
+  "beef_carpaccio": {
+    "calories": 139,
+    "protein": 24.0,
+    "fat": 4.0,
+    "carbs": 1.0,
+    "serving": "100g"
+  },
+  "beef_tartare": {
+    "calories": 155,
+    "protein": 21.0,
+    "fat": 7.0,
+    "carbs": 1.0,
+    "serving": "100g"
+  },
+  "beet_salad": {
+    "calories": 58,
+    "protein": 2.0,
+    "fat": 0.2,
+    "carbs": 13.0,
+    "serving": "1 cup (100g)"
+  },
+  "beignets": {
+    "calories": 304,
+    "protein": 4.0,
+    "fat": 18.0,
+    "carbs": 32.0,
+    "serving": "100g"
+  },
+  "bibimbap": {
+    "calories": 145,
+    "protein": 8.0,
+    "fat": 3.0,
+    "carbs": 22.0,
+    "serving": "1 bowl (250g)"
+  },
+  "bread_pudding": {
+    "calories": 180,
+    "protein": 4.0,
+    "fat": 5.0,
+    "carbs": 30.0,
+    "serving": "100g"
+  },
+  "breakfast_burrito": {
+    "calories": 205,
+    "protein": 11.0,
+    "fat": 8.0,
+    "carbs": 24.0,
+    "serving": "1 burrito (150g)"
+  },
+  "bruschetta": {
+    "calories": 85,
+    "protein": 3.0,
+    "fat": 2.0,
+    "carbs": 14.0,
+    "serving": "1 slice (50g)"
+  },
+  "bun_bo_hue": {
+    "calories": 350,
+    "protein": 22.0,
+    "fat": 8.0,
+    "carbs": 45.0,
+    "serving": "1 serving (200g)"
+  },
+  "bun_dau_mam_tom": {
+    "calories": 350,
+    "protein": 12.0,
+    "fat": 8.0,
+    "carbs": 45.0,
+    "serving": "1 serving (200g)"
+  },
+  "bun_mam": {
+    "calories": 350,
+    "protein": 12.0,
+    "fat": 8.0,
+    "carbs": 45.0,
+    "serving": "1 serving (200g)"
+  },
+  "bun_rieu": {
+    "calories": 350,
+    "protein": 12.0,
+    "fat": 8.0,
+    "carbs": 45.0,
+    "serving": "1 serving (200g)"
+  },
+  "bun_thit_nuong": {
+    "calories": 350,
+    "protein": 12.0,
+    "fat": 8.0,
+    "carbs": 45.0,
+    "serving": "1 serving (200g)"
+  },
+  "ca_kho_to": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  },
+  "caesar_salad": {
+    "calories": 158,
+    "protein": 6.0,
+    "fat": 13.0,
+    "carbs": 6.0,
+    "serving": "1 serving (100g)"
+  },
+  "canh_chua": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  },
+  "cannoli": {
+    "calories": 298,
+    "protein": 6.0,
+    "fat": 19.0,
+    "carbs": 27.0,
+    "serving": "1 piece (100g)"
+  },
+  "cao_lau": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  },
+  "caprese_salad": {
+    "calories": 128,
+    "protein": 8.0,
+    "fat": 9.0,
+    "carbs": 4.0,
+    "serving": "1 serving (100g)"
+  },
+  "carrot_cake": {
+    "calories": 315,
+    "protein": 4.0,
+    "fat": 15.0,
+    "carbs": 43.0,
+    "serving": "1 slice (100g)"
+  },
+  "ceviche": {
+    "calories": 139,
+    "protein": 25.0,
+    "fat": 2.0,
+    "carbs": 5.0,
+    "serving": "100g"
+  },
+  "chao_long": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  },
+  "cheese_plate": {
+    "calories": 113,
+    "protein": 7.0,
+    "fat": 9.0,
+    "carbs": 1.0,
+    "serving": "100g"
+  },
+  "cheesecake": {
+    "calories": 321,
+    "protein": 5.5,
+    "fat": 23.0,
+    "carbs": 25.0,
+    "serving": "1 slice (100g)"
+  },
+  "chicken_curry": {
+    "calories": 165,
+    "protein": 18.0,
+    "fat": 8.0,
+    "carbs": 6.0,
+    "serving": "1 cup (200g)"
+  },
+  "chicken_quesadilla": {
+    "calories": 529,
+    "protein": 27.0,
+    "fat": 31.0,
+    "carbs": 35.0,
+    "serving": "1 quesadilla (200g)"
+  },
+  "chicken_wings": {
+    "calories": 203,
+    "protein": 30.0,
+    "fat": 8.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "chocolate_cake": {
+    "calories": 371,
+    "protein": 5.0,
+    "fat": 16.0,
+    "carbs": 56.0,
+    "serving": "1 slice (100g)"
+  },
+  "chocolate_mousse": {
+    "calories": 168,
+    "protein": 3.0,
+    "fat": 11.0,
+    "carbs": 16.0,
+    "serving": "100g"
+  },
+  "churros": {
+    "calories": 312,
+    "protein": 4.0,
+    "fat": 18.0,
+    "carbs": 35.0,
+    "serving": "100g"
+  },
+  "clam_chowder": {
+    "calories": 122,
+    "protein": 7.0,
+    "fat": 7.0,
+    "carbs": 9.0,
+    "serving": "1 cup (250ml)"
+  },
+  "club_sandwich": {
+    "calories": 590,
+    "protein": 31.0,
+    "fat": 31.0,
+    "carbs": 44.0,
+    "serving": "1 sandwich (300g)"
+  },
+  "com_tam": {
+    "calories": 550,
+    "protein": 22.0,
+    "fat": 18.0,
+    "carbs": 65.0,
+    "serving": "1 serving (200g)"
+  },
+  "crab_cakes": {
+    "calories": 160,
+    "protein": 11.0,
+    "fat": 10.0,
+    "carbs": 5.0,
+    "serving": "1 cake (80g)"
+  },
+  "creme_brulee": {
+    "calories": 292,
+    "protein": 4.0,
+    "fat": 23.0,
+    "carbs": 17.0,
+    "serving": "100g"
+  },
+  "croque_madame": {
+    "calories": 324,
+    "protein": 18.0,
+    "fat": 23.0,
+    "carbs": 13.0,
+    "serving": "1 serving (200g)"
+  },
+  "cup_cakes": {
+    "calories": 305,
+    "protein": 3.0,
+    "fat": 12.0,
+    "carbs": 48.0,
+    "serving": "1 cupcake (100g)"
+  },
+  "deviled_eggs": {
+    "calories": 124,
+    "protein": 6.0,
+    "fat": 10.0,
+    "carbs": 1.0,
+    "serving": "2 halves (50g)"
+  },
+  "donuts": {
+    "calories": 452,
+    "protein": 5.0,
+    "fat": 25.0,
+    "carbs": 51.0,
+    "serving": "1 donut (100g)"
+  },
+  "dumplings": {
+    "calories": 40,
+    "protein": 2.0,
+    "fat": 2.0,
+    "carbs": 4.0,
+    "serving": "1 dumpling (25g)"
+  },
+  "edamame": {
+    "calories": 121,
+    "protein": 11.0,
+    "fat": 5.0,
+    "carbs": 8.0,
+    "serving": "1 cup (100g)"
+  },
+  "eggs_benedict": {
+    "calories": 512,
+    "protein": 20.0,
+    "fat": 43.0,
+    "carbs": 11.0,
+    "serving": "1 serving (200g)"
+  },
+  "escargots": {
+    "calories": 173,
+    "protein": 24.0,
+    "fat": 2.0,
+    "carbs": 13.0,
+    "serving": "6 pieces (100g)"
+  },
+  "falafel": {
+    "calories": 333,
+    "protein": 13.0,
+    "fat": 18.0,
+    "carbs": 32.0,
+    "serving": "100g"
+  },
+  "filet_mignon": {
+    "calories": 227,
+    "protein": 22.0,
+    "fat": 15.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "fish_and_chips": {
+    "calories": 232,
+    "protein": 15.0,
+    "fat": 11.0,
+    "carbs": 18.0,
+    "serving": "100g"
+  },
+  "foie_gras": {
+    "calories": 462,
+    "protein": 11.7,
+    "fat": 43.8,
+    "carbs": 4.7,
+    "serving": "100g"
+  },
+  "french_fries": {
+    "calories": 365,
+    "protein": 4.0,
+    "fat": 17.0,
+    "carbs": 48.0,
+    "serving": "100g"
+  },
+  "french_onion_soup": {
+    "calories": 57,
+    "protein": 3.8,
+    "fat": 1.7,
+    "carbs": 8.0,
+    "serving": "1 cup (250ml)"
+  },
+  "french_toast": {
+    "calories": 166,
+    "protein": 5.0,
+    "fat": 7.0,
+    "carbs": 20.0,
+    "serving": "1 slice (65g)"
+  },
+  "fried_calamari": {
+    "calories": 175,
+    "protein": 15.0,
+    "fat": 7.0,
+    "carbs": 15.0,
+    "serving": "100g"
+  },
+  "fried_rice": {
+    "calories": 163,
+    "protein": 4.0,
+    "fat": 5.0,
+    "carbs": 25.0,
+    "serving": "1 cup (150g)"
+  },
+  "frozen_yogurt": {
+    "calories": 127,
+    "protein": 3.0,
+    "fat": 4.0,
+    "carbs": 22.0,
+    "serving": "100g"
+  },
+  "garlic_bread": {
+    "calories": 150,
+    "protein": 4.0,
+    "fat": 6.0,
+    "carbs": 21.0,
+    "serving": "1 slice (50g)"
+  },
+  "gnocchi": {
+    "calories": 131,
+    "protein": 4.0,
+    "fat": 1.0,
+    "carbs": 27.0,
+    "serving": "100g"
+  },
+  "goi_cuon": {
+    "calories": 80,
+    "protein": 6.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  },
+  "greek_salad": {
+    "calories": 107,
+    "protein": 3.0,
+    "fat": 8.0,
+    "carbs": 6.0,
+    "serving": "1 serving (100g)"
+  },
+  "grilled_cheese_sandwich": {
+    "calories": 291,
+    "protein": 12.0,
+    "fat": 18.0,
+    "carbs": 21.0,
+    "serving": "1 sandwich (100g)"
+  },
+  "grilled_salmon": {
+    "calories": 231,
+    "protein": 25.0,
+    "fat": 14.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "guacamole": {
+    "calories": 160,
+    "protein": 2.0,
+    "fat": 15.0,
+    "carbs": 9.0,
+    "serving": "100g"
+  },
+  "gyoza": {
+    "calories": 40,
+    "protein": 2.0,
+    "fat": 2.0,
+    "carbs": 4.0,
+    "serving": "1 dumpling (25g)"
+  },
+  "hamburger": {
+    "calories": 295,
+    "protein": 17.0,
+    "fat": 14.0,
+    "carbs": 25.0,
+    "serving": "1 burger (150g)"
+  },
+  "hot_and_sour_soup": {
+    "calories": 91,
+    "protein": 6.0,
+    "fat": 4.0,
+    "carbs": 8.0,
+    "serving": "1 cup (250ml)"
+  },
+  "hot_dog": {
+    "calories": 151,
+    "protein": 5.0,
+    "fat": 13.0,
+    "carbs": 2.0,
+    "serving": "1 hot dog (45g)"
+  },
+  "hu_tieu": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  },
+  "huevos_rancheros": {
+    "calories": 233,
+    "protein": 13.0,
+    "fat": 16.0,
+    "carbs": 11.0,
+    "serving": "1 serving (200g)"
+  },
+  "hummus": {
+    "calories": 166,
+    "protein": 8.0,
+    "fat": 10.0,
+    "carbs": 14.0,
+    "serving": "100g"
+  },
+  "ice_cream": {
+    "calories": 207,
+    "protein": 4.0,
+    "fat": 11.0,
+    "carbs": 24.0,
+    "serving": "100g"
+  },
+  "lasagna": {
+    "calories": 135,
+    "protein": 8.0,
+    "fat": 6.0,
+    "carbs": 13.0,
+    "serving": "100g"
+  },
+  "lobster_bisque": {
+    "calories": 104,
+    "protein": 4.0,
+    "fat": 6.0,
+    "carbs": 9.0,
+    "serving": "1 cup (250ml)"
+  },
+  "lobster_roll_sandwich": {
+    "calories": 436,
+    "protein": 18.0,
+    "fat": 25.0,
+    "carbs": 37.0,
+    "serving": "1 roll (200g)"
+  },
+  "macaroni_and_cheese": {
+    "calories": 164,
+    "protein": 7.0,
+    "fat": 8.0,
+    "carbs": 16.0,
+    "serving": "100g"
+  },
+  "macarons": {
+    "calories": 390,
+    "protein": 9.0,
+    "fat": 16.0,
+    "carbs": 55.0,
+    "serving": "100g"
+  },
+  "mi_quang": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  },
+  "miso_soup": {
+    "calories": 40,
+    "protein": 3.0,
+    "fat": 1.0,
+    "carbs": 5.0,
+    "serving": "1 cup (250ml)"
+  },
+  "mussels": {
+    "calories": 172,
+    "protein": 24.0,
+    "fat": 4.0,
+    "carbs": 7.0,
+    "serving": "100g"
+  },
+  "nachos": {
+    "calories": 346,
+    "protein": 9.0,
+    "fat": 19.0,
+    "carbs": 36.0,
+    "serving": "100g"
+  },
+  "nem_chua": {
+    "calories": 160,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  },
+  "omelette": {
+    "calories": 154,
+    "protein": 11.0,
+    "fat": 12.0,
+    "carbs": 1.0,
+    "serving": "100g"
+  },
+  "onion_rings": {
+    "calories": 411,
+    "protein": 6.0,
+    "fat": 21.0,
+    "carbs": 51.0,
+    "serving": "100g"
+  },
+  "oysters": {
+    "calories": 68,
+    "protein": 7.0,
+    "fat": 3.0,
+    "carbs": 4.0,
+    "serving": "6 oysters (100g)"
+  },
+  "pad_thai": {
+    "calories": 181,
+    "protein": 9.0,
+    "fat": 8.0,
+    "carbs": 21.0,
+    "serving": "1 cup (150g)"
+  },
+  "paella": {
+    "calories": 172,
+    "protein": 11.0,
+    "fat": 5.0,
+    "carbs": 22.0,
+    "serving": "1 cup (200g)"
+  },
+  "pancakes": {
+    "calories": 227,
+    "protein": 6.0,
+    "fat": 9.0,
+    "carbs": 32.0,
+    "serving": "100g"
+  },
+  "panna_cotta": {
+    "calories": 185,
+    "protein": 4.0,
+    "fat": 12.0,
+    "carbs": 16.0,
+    "serving": "100g"
+  },
+  "peking_duck": {
+    "calories": 337,
+    "protein": 19.0,
+    "fat": 28.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "pho": {
+    "calories": 150,
+    "protein": 10.0,
+    "fat": 3.0,
+    "carbs": 20.0,
+    "serving": "1 bowl (400ml)"
+  },
+  "Pho": {
+    "calories": 150,
+    "protein": 10.0,
+    "fat": 3.0,
+    "carbs": 20.0,
+    "serving": "1 bowl (400ml)"
+  },
+  "pizza": {
+    "calories": 266,
+    "protein": 11.0,
+    "fat": 10.0,
+    "carbs": 33.0,
+    "serving": "1 slice (100g)"
+  },
+  "pork_chop": {
+    "calories": 231,
+    "protein": 23.0,
+    "fat": 14.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "poutine": {
+    "calories": 740,
+    "protein": 13.0,
+    "fat": 36.0,
+    "carbs": 93.0,
+    "serving": "1 serving (300g)"
+  },
+  "prime_rib": {
+    "calories": 291,
+    "protein": 25.0,
+    "fat": 20.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "pulled_pork_sandwich": {
+    "calories": 365,
+    "protein": 22.0,
+    "fat": 16.0,
+    "carbs": 32.0,
+    "serving": "1 sandwich (200g)"
+  },
+  "ramen": {
+    "calories": 436,
+    "protein": 19.0,
+    "fat": 20.0,
+    "carbs": 44.0,
+    "serving": "1 bowl (400g)"
+  },
+  "ravioli": {
+    "calories": 175,
+    "protein": 7.0,
+    "fat": 8.0,
+    "carbs": 20.0,
+    "serving": "100g"
+  },
+  "red_velvet_cake": {
+    "calories": 478,
+    "protein": 5.0,
+    "fat": 19.0,
+    "carbs": 77.0,
+    "serving": "1 slice (150g)"
+  },
+  "risotto": {
+    "calories": 142,
+    "protein": 3.0,
+    "fat": 4.0,
+    "carbs": 22.0,
+    "serving": "100g"
+  },
+  "samosa": {
+    "calories": 308,
+    "protein": 6.0,
+    "fat": 17.0,
+    "carbs": 33.0,
+    "serving": "1 piece (100g)"
+  },
+  "sashimi": {
+    "calories": 127,
+    "protein": 20.0,
+    "fat": 4.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "scallops": {
+    "calories": 137,
+    "protein": 24.0,
+    "fat": 1.0,
+    "carbs": 7.0,
+    "serving": "100g"
+  },
+  "seaweed_salad": {
+    "calories": 45,
+    "protein": 2.0,
+    "fat": 0.6,
+    "carbs": 9.0,
+    "serving": "100g"
+  },
+  "shrimp_and_grits": {
+    "calories": 258,
+    "protein": 18.0,
+    "fat": 15.0,
+    "carbs": 13.0,
+    "serving": "1 cup (200g)"
+  },
+  "spaghetti_bolognese": {
+    "calories": 151,
+    "protein": 8.0,
+    "fat": 5.0,
+    "carbs": 19.0,
+    "serving": "100g"
+  },
+  "spaghetti_carbonara": {
+    "calories": 194,
+    "protein": 8.0,
+    "fat": 10.0,
+    "carbs": 19.0,
+    "serving": "100g"
+  },
+  "spring_rolls": {
+    "calories": 140,
+    "protein": 3.0,
+    "fat": 7.0,
+    "carbs": 18.0,
+    "serving": "1 roll (50g)"
+  },
+  "steak": {
+    "calories": 271,
+    "protein": 26.0,
+    "fat": 18.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "strawberry_shortcake": {
+    "calories": 344,
+    "protein": 4.0,
+    "fat": 17.0,
+    "carbs": 44.0,
+    "serving": "1 slice (150g)"
+  },
+  "sushi": {
+    "calories": 143,
+    "protein": 6.0,
+    "fat": 1.0,
+    "carbs": 28.0,
+    "serving": "1 piece (30g)"
+  },
+  "tacos": {
+    "calories": 226,
+    "protein": 9.0,
+    "fat": 13.0,
+    "carbs": 18.0,
+    "serving": "1 taco (100g)"
+  },
+  "takoyaki": {
+    "calories": 40,
+    "protein": 1.5,
+    "fat": 2.0,
+    "carbs": 4.0,
+    "serving": "1 ball (25g)"
+  },
+  "tiramisu": {
+    "calories": 240,
+    "protein": 4.0,
+    "fat": 13.0,
+    "carbs": 28.0,
+    "serving": "100g"
+  },
+  "tuna_tartare": {
+    "calories": 144,
+    "protein": 23.0,
+    "fat": 5.0,
+    "carbs": 0.0,
+    "serving": "100g"
+  },
+  "waffles": {
+    "calories": 291,
+    "protein": 6.0,
+    "fat": 15.0,
+    "carbs": 35.0,
+    "serving": "1 waffle (100g)"
+  },
+  "xoi_xeo": {
+    "calories": 250,
+    "protein": 12.0,
+    "fat": 6.0,
+    "carbs": 25.0,
+    "serving": "1 serving (200g)"
+  }
 }

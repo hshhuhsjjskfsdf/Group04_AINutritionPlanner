@@ -1,6 +1,3 @@
-apple_pie
-baby_back_ribs
-baklava
 banh_beo
 banh_bot_loc
 banh_can
@@ -13,8 +10,27 @@ banh_khot
 banh_mi
 banh_pia
 banh_tet
-banh_trang_nuong
+banh_trang nuong
 banh_xeo
+bun_bo_Hue
+bun_dau_mam_tom
+bun_mam
+bun_rieu
+bun_thit_nuong
+ca_kho_to
+canh_chua
+cao_lau
+chao_long
+com_tam
+goi_cuon
+hu_tieu
+mi_quang
+nem_chua
+pho
+xoi_xeo
+apple_pie
+baby_back_ribs
+baklava
 beef_carpaccio
 beef_tartare
 beet_salad
@@ -23,20 +39,11 @@ bibimbap
 bread_pudding
 breakfast_burrito
 bruschetta
-bun_bo_hue
-bun_dau_mam_tom
-bun_mam
-bun_rieu
-bun_thit_nuong
-ca_kho_to
 caesar_salad
-canh_chua
 cannoli
-cao_lau
 caprese_salad
 carrot_cake
 ceviche
-chao_long
 cheese_plate
 cheesecake
 chicken_curry
@@ -47,7 +54,6 @@ chocolate_mousse
 churros
 clam_chowder
 club_sandwich
-com_tam
 crab_cakes
 creme_brulee
 croque_madame
@@ -70,7 +76,6 @@ fried_rice
 frozen_yogurt
 garlic_bread
 gnocchi
-goi_cuon
 greek_salad
 grilled_cheese_sandwich
 grilled_salmon
@@ -79,7 +84,6 @@ gyoza
 hamburger
 hot_and_sour_soup
 hot_dog
-hu_tieu
 huevos_rancheros
 hummus
 ice_cream
@@ -88,11 +92,9 @@ lobster_bisque
 lobster_roll_sandwich
 macaroni_and_cheese
 macarons
-mi_quang
 miso_soup
 mussels
 nachos
-nem_chua
 omelette
 onion_rings
 oysters
@@ -127,4 +129,3 @@ takoyaki
 tiramisu
 tuna_tartare
 waffles
-xoi_xeo
