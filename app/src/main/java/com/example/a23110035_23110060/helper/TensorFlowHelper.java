@@ -129,7 +129,7 @@ public class TensorFlowHelper {
     }
 
     private void putChannel(ByteBuffer buffer, int value) {
-        buffer.putFloat(value / 255.0f);
+        buffer.putFloat((value - 127.5f) / 127.5f);
     }
 
     private NutritionInfo findNutrition(String label) {
