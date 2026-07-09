@@ -63,7 +63,8 @@ public class TensorFlowHelper {
             }
             List<String> labels = CsvImportHelper.readLabels(context);
             String label = bestIndex < labels.size() ? labels.get(bestIndex) : "unknown";
-            return RecognitionResult.success(label, bestConfidence, findNutrition(label));
+            NutritionInfo nutritionInfo = findNutrition(label);
+            return RecognitionResult.success(nutritionInfo.foodName, bestConfidence, nutritionInfo);
         } catch (Throwable throwable) {
             return RecognitionResult.error("Không thể phân tích ảnh: " + throwable.getMessage());
         } finally {
@@ -133,12 +134,17 @@ public class TensorFlowHelper {
     }
 
     private NutritionInfo findNutrition(String label) {
+        String nutritionKey = CsvImportHelper.normalizeFoodKey(label);
+        String displayName = CsvImportHelper.formatFoodLabel(label);
         try {
             JSONObject root = CsvImportHelper.readNutritionJson(context);
-            JSONObject item = root.optJSONObject(label);
+            JSONObject item = root.optJSONObject(nutritionKey);
+            if (item == null) {
+                item = root.optJSONObject(label);
+            }
             if (item != null) {
                 return new NutritionInfo(
-                        label,
+                        displayName,
                         item.optDouble("calories"),
                         item.optDouble("protein"),
                         item.optDouble("fat"),
@@ -149,10 +155,10 @@ public class TensorFlowHelper {
         } catch (Exception ignored) {
         }
         for (FoodEntity food : CsvImportHelper.readFoodsFromAssets(context)) {
-            if (food.dishName.equals(label)) {
-                return new NutritionInfo(food.dishName, food.calories, food.protein, food.fat, food.carbs, food.serving);
+            if (CsvImportHelper.normalizeFoodKey(food.dishName).equals(nutritionKey)) {
+                return new NutritionInfo(displayName, food.calories, food.protein, food.fat, food.carbs, food.serving);
             }
         }
-        return new NutritionInfo(label, 0, 0, 0, 0, "");
+        return new NutritionInfo(displayName, 0, 0, 0, 0, "");
     }
 }

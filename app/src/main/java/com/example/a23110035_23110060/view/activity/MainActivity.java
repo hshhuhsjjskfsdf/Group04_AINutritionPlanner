@@ -3,7 +3,6 @@ package com.example.a23110035_23110060.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ import com.example.a23110035_23110060.helper.FirebaseHelper;
 import com.example.a23110035_23110060.helper.NotificationHelper;
 import com.example.a23110035_23110060.model.DailyProgress;
 import com.example.a23110035_23110060.model.SummaryReport;
-import com.example.a23110035_23110060.service.FirebaseSyncService;
 import com.example.a23110035_23110060.controller.NutritionController;
 import com.example.a23110035_23110060.helper.NavigationHelper;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (FirebaseHelper.getAuth().getCurrentUser() == null) {
-            startActivity(new Intent(this, AuthActivity.class));
+            startActivity(new Intent(this, SignInActivity.class));
             finish();
             return;
         }
@@ -102,14 +100,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
-        Button sync = findViewById(R.id.buttonSyncNow);
-        if (sync != null) {
-            sync.setOnClickListener(v -> {
-                startService(new Intent(this, FirebaseSyncService.class));
-                Toast.makeText(this, "Đang đồng bộ dữ liệu", Toast.LENGTH_SHORT).show();
-            });
-        }
-
         NavigationHelper.setupBottomNavigation(this, R.id.nav_home);
     }
 
@@ -146,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
                             textTargetCalories.setText(String.format(Locale.US, "%.0f kcal", goal.targetCalories));
                             textConsumedCalories.setText(String.format(Locale.US, "%.0f kcal", progress.consumedCalories));
                             textRemainingCalories.setText(String.format(Locale.US, "Còn lại %.0f kcal", progress.remainingCalories));
-                            textProteinProgress.setText(String.format(Locale.US, "Protein %.1fg / %.0fg (%d%%)", progress.consumedProtein, goal.targetProtein, progress.proteinPercent));
-                            textCarbsProgress.setText(String.format(Locale.US, "Carbs %.1fg / %.0fg (%d%%)", progress.consumedCarbs, goal.targetCarbs, progress.carbsPercent));
-                            textFatProgress.setText(String.format(Locale.US, "Fat %.1fg / %.0fg (%d%%)", progress.consumedFat, goal.targetFat, progress.fatPercent));
+                            textProteinProgress.setText(String.format(Locale.US, "Đạm %.1fg / %.0fg (%d%%)", progress.consumedProtein, goal.targetProtein, progress.proteinPercent));
+                            textCarbsProgress.setText(String.format(Locale.US, "Tinh bột %.1fg / %.0fg (%d%%)", progress.consumedCarbs, goal.targetCarbs, progress.carbsPercent));
+                            textFatProgress.setText(String.format(Locale.US, "Béo %.1fg / %.0fg (%d%%)", progress.consumedFat, goal.targetFat, progress.fatPercent));
                             progressCalories.setProgress(progress.caloriePercent);
                             progressProtein.setProgress(progress.proteinPercent);
                             progressCarbs.setProgress(progress.carbsPercent);

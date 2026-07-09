@@ -23,6 +23,7 @@ import com.example.a23110035_23110060.data.repository.RepositoryCallback;
 import com.example.a23110035_23110060.helper.AlarmHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
 import com.example.a23110035_23110060.helper.NavigationHelper;
+import com.example.a23110035_23110060.helper.NotificationHelper;
 import com.example.a23110035_23110060.helper.ValidationHelper;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -47,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         settingsController = new SettingsController(this);
         reminderController = new ReminderController(this);
+        NotificationHelper.createNotificationChannel(this);
         bindViews();
 
         loadGoal();
@@ -99,12 +101,25 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupClicks() {
         Button saveGoal = findViewById(R.id.buttonSaveGoal);
         Button saveReminder = findViewById(R.id.buttonSaveReminder);
+        View back = findViewById(R.id.buttonBackSettings);
         saveGoal.setOnClickListener(v -> saveGoal());
         saveReminder.setOnClickListener(v -> saveReminders());
+        if (back != null) {
+            back.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                finish();
+            });
+        }
         
         View profileAvatar = findViewById(R.id.icon_profile_avatar);
         if (profileAvatar != null) {
             profileAvatar.setOnClickListener(v -> startActivity(new Intent(this, ProfileEditActivity.class)));
+        }
+        View nutritionProfile = findViewById(R.id.buttonEditNutritionProfile);
+        if (nutritionProfile != null) {
+            nutritionProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileEditActivity.class)));
         }
     }
 
@@ -136,15 +151,22 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void saveReminders() {
         if (switchReminder.isChecked()) {
+            String breakfast = editBreakfastTime.getText().toString().trim();
+            String lunch = editLunchTime.getText().toString().trim();
+            String dinner = editDinnerTime.getText().toString().trim();
+            if (!isValidTime(breakfast) || !isValidTime(lunch) || !isValidTime(dinner)) {
+                showToast("Giờ nhắc nhở phải sử dụng định dạng HH:mm, ví dụ 07:30");
+                return;
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
                     && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQ_NOTIFICATION);
                 return;
             }
             reminderController.scheduleReminders(
-                    editBreakfastTime.getText().toString().trim(),
-                    editLunchTime.getText().toString().trim(),
-                    editDinnerTime.getText().toString().trim()
+                    breakfast,
+                    lunch,
+                    dinner
             );
             showToast("Đã bật nhắc bữa ăn");
         } else {
@@ -158,6 +180,23 @@ public class SettingsActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQ_NOTIFICATION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             saveReminders();
+        } else if (requestCode == REQ_NOTIFICATION) {
+            switchReminder.setChecked(false);
+            showToast("Cần cấp quyền thông báo để sử dụng tính năng nhắc nhở");
+        }
+    }
+
+    private boolean isValidTime(String value) {
+        if (value == null || !value.matches("^\\d{2}:\\d{2}$")) {
+            return false;
+        }
+        try {
+            String[] parts = value.split(":");
+            int hour = Integer.parseInt(parts[0]);
+            int minute = Integer.parseInt(parts[1]);
+            return hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59;
+        } catch (Exception e) {
+            return false;
         }
     }
 

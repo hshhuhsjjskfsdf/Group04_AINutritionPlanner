@@ -24,6 +24,12 @@
             android:exported="false" />
         <activity
             android:name=".view.activity.AuthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

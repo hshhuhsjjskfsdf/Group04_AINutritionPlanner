@@ -19,6 +19,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/buttonBackSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Quay lại"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/text_profile_title"
             android:layout_width="wrap_content"
@@ -28,7 +40,7 @@
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonBackSettings"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -113,7 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:hint="Calories mục tiêu"
+                        android:hint="Mục tiêu Calo (kcal/ngày)"
                         android:inputType="numberDecimal" />
 
                     <LinearLayout
@@ -128,7 +140,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Protein"
+                            android:hint="Đạm (g/ngày)"
                             android:inputType="numberDecimal" />
 
                         <EditText
@@ -138,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
-                            android:hint="Carbs"
+                            android:hint="Tinh bột (g/ngày)"
                             android:inputType="numberDecimal" />
                     </LinearLayout>
 
@@ -148,7 +160,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="Fat mục tiêu"
+                        android:hint="Mục tiêu Chất béo (g/ngày)"
                         android:inputType="numberDecimal" />
 
                     <com.google.android.material.button.MaterialButton
@@ -213,10 +225,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layoutBodyMetricLegacy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/editBreakfastTime"
@@ -244,7 +258,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="Tối HH:mm"
+                        android:hint="Tối (HH:mm)"
                         android:inputType="time" />
 
                     <com.google.android.material.button.MaterialButton
@@ -293,6 +307,7 @@
                             android:src="@drawable/ic_body_metrics" />
 
                         <TextView
+                            android:id="@+id/text_body_metrics_title"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
@@ -315,7 +330,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Chiều cao cm"
+                            android:hint="Chiều cao (cm)"
                             android:inputType="numberDecimal" />
 
                         <EditText
@@ -325,9 +340,29 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
-                            android:hint="Cân nặng kg"
+                            android:hint="Cân nặng (kg)"
                             android:inputType="numberDecimal" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/text_body_metrics_hint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Sử dụng Hồ sơ Dinh dưỡng để tính toán BMR, TDEE và các mục tiêu dinh dưỡng cá nhân hóa."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonEditNutritionProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Chỉnh sửa hồ sơ dinh dưỡng"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/primary"
+                        app:cornerRadius="16dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

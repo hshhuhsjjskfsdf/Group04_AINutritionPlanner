@@ -68,6 +68,15 @@ public class MealRepository {
         });
     }
 
+    public void getLogsBetweenDates(String userId, String startDate, String endDate, RepositoryCallback<List<MealLogEntity>> callback) {
+        executor.execute(() -> {
+            List<MealLogEntity> logs = database.mealLogDao().getLogsBetweenDates(userId, startDate, endDate);
+            if (callback != null) {
+                callback.onSuccess(logs);
+            }
+        });
+    }
+
     public void saveMealPlan(MealPlanEntity mealPlan, RepositoryCallback<MealPlanEntity> callback) {
         executor.execute(() -> {
             long now = System.currentTimeMillis();

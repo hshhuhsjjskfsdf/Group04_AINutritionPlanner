@@ -9,9 +9,7 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
-    tools:context=".view.activity.AuthActivity">
-
-
+    tools:context=".view.activity.SignInActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/auth_header"
@@ -32,10 +30,10 @@
             android:contentDescription="AI Nutrition Planner"
             android:padding="14dp"
             android:src="@drawable/ic_leaf"
+            android:tint="@color/primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:tint="@color/primary" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_auth_title"
@@ -57,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:gravity="center"
-            android:text="Eat smarter. Track faster."
+            android:text="Ăn thông minh. Theo dõi nhanh chóng."
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,14 +81,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/auth_header"
-        tools:text="Email hoặc mật khẩu không hợp lệ."
+        tools:text="Email or password is invalid."
         tools:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/auth_form_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:animateLayoutChanges="true"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:paddingStart="18dp"
@@ -102,10 +99,6 @@
         app:layout_constraintTop_toBottomOf="@id/textAuthError">
 
         <include layout="@layout/layout_sign_in" />
-
-        <include
-            layout="@layout/layout_sign_up_otp"
-            android:visibility="gone" />
     </FrameLayout>
 
     <include

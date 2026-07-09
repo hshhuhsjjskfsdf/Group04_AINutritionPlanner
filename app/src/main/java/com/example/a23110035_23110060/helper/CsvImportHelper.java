@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -81,6 +82,43 @@ public class CsvImportHelper {
             }
         }
         return labels;
+    }
+
+    public static String normalizeFoodKey(String label) {
+        if (label == null) {
+            return "";
+        }
+        String asciiLabel = Normalizer.normalize(label.trim(), Normalizer.Form.NFD)
+                .replaceAll("\\p{M}+", "")
+                .replaceFirst("^\\d+\\s+", "");
+        String normalized = asciiLabel
+                .toLowerCase(Locale.US)
+                .replaceAll("[^a-z0-9]+", "_")
+                .replaceAll("_+", "_")
+                .replaceAll("^_|_$", "");
+        return normalized;
+    }
+
+    public static String formatFoodLabel(String label) {
+        String normalized = normalizeFoodKey(label);
+        if (normalized.isEmpty()) {
+            return "Unknown";
+        }
+        String[] parts = normalized.split("_");
+        StringBuilder builder = new StringBuilder();
+        for (String part : parts) {
+            if (part.isEmpty()) {
+                continue;
+            }
+            if (builder.length() > 0) {
+                builder.append(' ');
+            }
+            builder.append(Character.toUpperCase(part.charAt(0)));
+            if (part.length() > 1) {
+                builder.append(part.substring(1));
+            }
+        }
+        return builder.length() == 0 ? "Unknown" : builder.toString();
     }
 
     public static JSONObject readNutritionJson(Context context) {
