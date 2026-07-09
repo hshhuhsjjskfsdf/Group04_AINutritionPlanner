@@ -21,6 +21,10 @@ public class NutritionController {
         mealRepository.getLogsByDate(userId, date, callback);
     }
 
+    public void loadMealLogsBetweenDates(String userId, String startDate, String endDate, RepositoryCallback<List<MealLogEntity>> callback) {
+        mealRepository.getLogsBetweenDates(userId, startDate, endDate, callback);
+    }
+
     public void deleteMealLog(MealLogEntity mealLog, RepositoryCallback<Void> callback) {
         mealRepository.deleteMealLog(mealLog, callback);
     }
