@@ -65,12 +65,6 @@ public class AuthController {
         auth.signInWithEmailAndPassword(email.trim(), password)
                 .addOnSuccessListener(authResult -> {
                     FirebaseUser user = authResult.getUser();
-                    if (user != null && !user.isEmailVerified()) {
-                        user.sendEmailVerification();
-                        auth.signOut();
-                        callback.onError("Email chưa được xác thực. Một email xác thực mới đã được gửi.");
-                        return;
-                    }
                     callback.onSuccess(null);
                 })
                 .addOnFailureListener(e -> callback.onError("Đăng nhập thất bại: " + e.getMessage()));
@@ -190,25 +184,20 @@ public class AuthController {
                             .setDisplayName(fullName.trim())
                             .build();
                     firebaseUser.updateProfile(profileUpdates)
-                            .addOnCompleteListener(profileTask -> firebaseUser.sendEmailVerification()
-                                    .addOnSuccessListener(unused -> saveUserProfile(firebaseUser, new RepositoryCallback<Void>() {
-                                        @Override
-                                        public void onSuccess(Void result) {
-                                            markOtpUsed(email);
-                                            auth.signOut();
-                                            callback.onSuccess(null);
-                                        }
+                            .addOnCompleteListener(profileTask -> saveUserProfile(firebaseUser, new RepositoryCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void result) {
+                                    markOtpUsed(email);
+                                    auth.signOut();
+                                    callback.onSuccess(null);
+                                }
 
-                                        @Override
-                                        public void onError(String message) {
-                                            auth.signOut();
-                                            callback.onError(message);
-                                        }
-                                    }))
-                                    .addOnFailureListener(e -> {
-                                        auth.signOut();
-                                        callback.onError("Cannot send verification email: " + e.getMessage());
-                                    }));
+                                @Override
+                                public void onError(String message) {
+                                    auth.signOut();
+                                    callback.onError(message);
+                                }
+                            }));
                 })
                 .addOnFailureListener(e -> callback.onError("Registration failed: " + e.getMessage()));
     }
