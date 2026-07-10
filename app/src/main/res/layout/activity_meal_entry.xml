@@ -20,6 +20,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/captured_image_preview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:contentDescription="Ảnh đã chụp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/camera_top_gradient"
         android:layout_width="0dp"
@@ -160,6 +172,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageButton
+        android:id="@+id/btn_retake_photo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="62dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/bg_camera_action"
+        android:contentDescription="Chụp lại"
+        android:elevation="24dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_close"
+        android:tint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/camera_result_sheet"
         android:layout_width="0dp"
@@ -167,28 +195,28 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="164dp"
-        app:cardBackgroundColor="#80000000"
-        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="#CC000000"
+        app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/camera_floating_actions"
         app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="#26FFFFFF"
+        app:strokeColor="#4DFFFFFF"
         app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="14dp">
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/text_camera_result_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bữa ăn mới"
+                android:text="Phân tích bữa ăn"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -196,163 +224,367 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Kết quả calo và macro sẽ xuất hiện tại đây."
+                android:text="Nhấn Chụp để bắt đầu, sau đó bấm Phân tích."
                 android:textColor="#D9FFFFFF"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonAnalyzeSelectedFood"
+            <!-- Bảng Macro kết quả (Mặc định ẩn) -->
+            <LinearLayout
+                android:id="@+id/layout_macro_results"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="12dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="Analyze image"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/primary"
-                app:cornerRadius="14dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Calo"
+                        android:textColor="#99FFFFFF"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/text_result_calories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/primary_light"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Protein"
+                        android:textColor="#99FFFFFF"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/text_result_protein"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0g"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Carbs"
+                        android:textColor="#99FFFFFF"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/text_result_carbs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0g"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fat"
+                        android:textColor="#99FFFFFF"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/text_result_fat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0g"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+                
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonAnalyzeSelectedFood"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:text="Phân tích AI"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/primary"
+                    app:cornerRadius="16dp" />
+                    
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSaveCameraMeal"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="Lưu bữa ăn"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/primary_dark"
+                    app:cornerRadius="16dp"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <ScrollView
-        android:id="@+id/legacy_meal_entry_bindings"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
+    <!-- Form Nhập thủ công & Kết quả Tìm kiếm CSV ẩn đi ban đầu -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/panel_manual_entry"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/surface"
         android:visibility="gone"
+        android:elevation="30dp"
+        android:paddingTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btn_close_manual"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="12dp"
+            android:src="@drawable/ic_close"
+            android:tint="@color/text_primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Nhập thủ công"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/btn_close_manual"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_close_manual" />
 
-            <ImageView
-                android:id="@+id/imagePreview"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:contentDescription="Ảnh món ăn được chọn"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_camera" />
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_close_manual">
 
-            <Button
-                android:id="@+id/buttonChooseImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chọn ảnh" />
-
-            <Button
-                android:id="@+id/buttonCaptureImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chụp ảnh" />
-
-            <Button
-                android:id="@+id/buttonAnalyzeFood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phân tích AI" />
-
-            <TextView
-                android:id="@+id/textRecognitionResult"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="AI sẵn sàng." />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/editSearchFood"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nhập tên món từ CSV"
-                android:inputType="text" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerFoods"
-                android:layout_width="1dp"
-                android:layout_height="1dp" />
-
-            <EditText
-                android:id="@+id/editFoodName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Tên món ăn"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/editCalories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Calories"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/editProtein"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Protein"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/editCarbs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Carbs"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/editFat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Fat"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/editServing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Khẩu phần"
-                android:inputType="text" />
-
-            <RadioGroup
-                android:id="@+id/groupMealType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioBreakfast"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Sáng" />
+                    android:text="Tìm kiếm món ăn (từ Database)"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp"/>
 
-                <RadioButton
-                    android:id="@+id/radioLunch"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editSearchFood"
+                    style="@style/AppInput"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Trưa" />
+                    android:hint="Nhập tên món ăn để tìm..."
+                    android:drawablePadding="12dp"
+                    android:inputType="text" />
 
-                <RadioButton
-                    android:id="@+id/radioDinner"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerFoods"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_light"
+                    android:clipToPadding="false"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tối" />
+                    android:text="Thông tin Dinh dưỡng"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="12dp"/>
 
-                <RadioButton
-                    android:id="@+id/radioSnack"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editFoodName"
+                    style="@style/AppInput"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Phụ" />
-            </RadioGroup>
+                    android:hint="Tên món ăn"
+                    android:inputType="text" />
 
-            <Button
-                android:id="@+id/buttonSaveMeal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lưu bữa ăn" />
-        </LinearLayout>
-    </ScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    
+                    <EditText
+                        android:id="@+id/editCalories"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Calories"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/editServing"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:hint="Khẩu phần"
+                        android:inputType="text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/editProtein"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Protein (g)"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/editCarbs"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:hint="Carbs (g)"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/editFat"
+                        style="@style/AppInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:hint="Fat (g)"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Loại bữa ăn"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <RadioGroup
+                    android:id="@+id/groupMealType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioBreakfast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="Sáng" />
+
+                    <RadioButton
+                        android:id="@+id/radioLunch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Trưa" />
+
+                    <RadioButton
+                        android:id="@+id/radioDinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tối" />
+
+                    <RadioButton
+                        android:id="@+id/radioSnack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Phụ" />
+                </RadioGroup>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSaveMeal"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="88dp"
+                    android:text="Lưu bữa ăn"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/primary"
+                    app:cornerRadius="16dp"/>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+    <LinearLayout android:id="@+id/legacy_bindings" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone">
+        <ImageView android:id="@+id/imagePreview" android:layout_width="1dp" android:layout_height="1dp" />
+        <Button android:id="@+id/buttonChooseImage" android:layout_width="1dp" android:layout_height="1dp" />
+        <Button android:id="@+id/buttonCaptureImage" android:layout_width="1dp" android:layout_height="1dp" />
+        <Button android:id="@+id/buttonAnalyzeFood" android:layout_width="1dp" android:layout_height="1dp" />
+        <TextView android:id="@+id/textRecognitionResult" android:layout_width="1dp" android:layout_height="1dp" />
+    </LinearLayout>
 
     <include
         android:id="@+id/loadingView"

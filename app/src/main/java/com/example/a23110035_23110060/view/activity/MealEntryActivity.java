@@ -78,6 +78,19 @@ public class MealEntryActivity extends AppCompatActivity {
     private String imagePath;
     private String source = "MANUAL";
 
+    private ImageView capturedImagePreview;
+    private View btnRetake;
+    private View btnShutter;
+    private View layoutMacroResults;
+    private TextView textResultCalories;
+    private TextView textResultProtein;
+    private TextView textResultCarbs;
+    private TextView textResultFat;
+    private Button buttonSaveCameraMeal;
+    private View panelManualEntry;
+    private View btnCloseManual;
+    private Button buttonAnalyzeSelectedFood;
+
     private PreviewView previewView;
     private ImageCapture imageCapture;
     private ExecutorService cameraExecutor;
@@ -156,9 +169,16 @@ public class MealEntryActivity extends AppCompatActivity {
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 loadingView.setVisibility(View.GONE);
                 imagePath = photoFile.getAbsolutePath();
-                // Optionally show preview or just start analysis
-                analyzeImage(); 
-                Toast.makeText(MealEntryActivity.this, "Đã chụp ảnh, đang phân tích...", Toast.LENGTH_SHORT).show();
+                runOnUiThread(() -> {
+                    capturedImagePreview.setImageURI(Uri.fromFile(photoFile));
+                    capturedImagePreview.setVisibility(View.VISIBLE);
+                    btnRetake.setVisibility(View.VISIBLE);
+                    btnShutter.setVisibility(View.GONE);
+                    buttonAnalyzeSelectedFood.setVisibility(View.VISIBLE);
+                    buttonSaveCameraMeal.setVisibility(View.GONE);
+                    layoutMacroResults.setVisibility(View.GONE);
+                    showRecognitionResult("Ảnh đã sẵn sàng", "Bấm 'Phân tích AI' để nhận diện.");
+                });
             }
 
             @Override
@@ -212,7 +232,7 @@ public class MealEntryActivity extends AppCompatActivity {
 
     private void bindViews() {
         previewView = findViewById(R.id.preview_view_camera);
-        imagePreview = findViewById(R.id.imagePreview);
+        imagePreview = findViewById(R.id.imagePreview); // Legacy bindings
         editSearch = findViewById(R.id.editSearchFood);
         editFoodName = findViewById(R.id.editFoodName);
         editCalories = findViewById(R.id.editCalories);
@@ -225,6 +245,19 @@ public class MealEntryActivity extends AppCompatActivity {
         textCameraResultSubtitle = findViewById(R.id.text_camera_result_subtitle);
         textRecognitionResult = findViewById(R.id.textRecognitionResult);
         loadingView = findViewById(R.id.loadingView);
+        
+        capturedImagePreview = findViewById(R.id.captured_image_preview);
+        btnRetake = findViewById(R.id.btn_retake_photo);
+        btnShutter = findViewById(R.id.btn_shutter);
+        layoutMacroResults = findViewById(R.id.layout_macro_results);
+        textResultCalories = findViewById(R.id.text_result_calories);
+        textResultProtein = findViewById(R.id.text_result_protein);
+        textResultCarbs = findViewById(R.id.text_result_carbs);
+        textResultFat = findViewById(R.id.text_result_fat);
+        buttonSaveCameraMeal = findViewById(R.id.buttonSaveCameraMeal);
+        panelManualEntry = findViewById(R.id.panel_manual_entry);
+        btnCloseManual = findViewById(R.id.btn_close_manual);
+        buttonAnalyzeSelectedFood = findViewById(R.id.buttonAnalyzeSelectedFood);
     }
 
     private void setupMealTypeChips() {
@@ -239,20 +272,15 @@ public class MealEntryActivity extends AppCompatActivity {
     }
 
     private void setupClicks() {
-        Button choose = findViewById(R.id.buttonChooseImage);
-        Button capture = findViewById(R.id.buttonCaptureImage);
-        Button analyze = findViewById(R.id.buttonAnalyzeFood);
         Button save = findViewById(R.id.buttonSaveMeal);
-        Button analyzeSelected = findViewById(R.id.buttonAnalyzeSelectedFood);
-        choose.setOnClickListener(v -> chooseImage());
-        capture.setOnClickListener(v -> takePhoto());
-        analyze.setOnClickListener(v -> analyzeImage());
         save.setOnClickListener(v -> saveMeal());
-        if (analyzeSelected != null) {
-            analyzeSelected.setOnClickListener(v -> analyzeImage());
+        if (buttonAnalyzeSelectedFood != null) {
+            buttonAnalyzeSelectedFood.setOnClickListener(v -> analyzeImage());
+        }
+        if (buttonSaveCameraMeal != null) {
+            buttonSaveCameraMeal.setOnClickListener(v -> saveMeal());
         }
 
-        View shutter = findViewById(R.id.btn_shutter);
         View gallery = findViewById(R.id.btn_open_gallery);
         View manual = findViewById(R.id.btn_manual_entry);
         View flash = findViewById(R.id.btn_flash_toggle);
@@ -261,14 +289,20 @@ public class MealEntryActivity extends AppCompatActivity {
         if (closeCamera != null) {
             closeCamera.setOnClickListener(v -> finish());
         }
-        if (shutter != null) {
-            shutter.setOnClickListener(v -> takePhoto());
+        if (btnShutter != null) {
+            btnShutter.setOnClickListener(v -> takePhoto());
+        }
+        if (btnRetake != null) {
+            btnRetake.setOnClickListener(v -> retakePhoto());
         }
         if (gallery != null) {
             gallery.setOnClickListener(v -> chooseImage());
         }
         if (manual != null) {
-            manual.setOnClickListener(v -> Toast.makeText(this, "Nhập thủ công bằng form dinh dưỡng", Toast.LENGTH_SHORT).show());
+            manual.setOnClickListener(v -> panelManualEntry.setVisibility(View.VISIBLE));
+        }
+        if (btnCloseManual != null) {
+            btnCloseManual.setOnClickListener(v -> panelManualEntry.setVisibility(View.GONE));
         }
         if (flash != null) {
             flash.setOnClickListener(v -> toggleFlash());
@@ -276,6 +310,17 @@ public class MealEntryActivity extends AppCompatActivity {
         if (switchCamera != null) {
             switchCamera.setOnClickListener(v -> switchCamera());
         }
+    }
+
+    private void retakePhoto() {
+        imagePath = null;
+        capturedImagePreview.setVisibility(View.GONE);
+        btnRetake.setVisibility(View.GONE);
+        btnShutter.setVisibility(View.VISIBLE);
+        layoutMacroResults.setVisibility(View.GONE);
+        buttonSaveCameraMeal.setVisibility(View.GONE);
+        buttonAnalyzeSelectedFood.setVisibility(View.VISIBLE);
+        showRecognitionResult("Phân tích bữa ăn", "Nhấn Chụp để bắt đầu, sau đó bấm Phân tích.");
     }
 
     private void setupSearch() {
@@ -356,7 +401,20 @@ public class MealEntryActivity extends AppCompatActivity {
         editCarbs.setText(String.format(Locale.US, "%.1f", carbs));
         editFat.setText(String.format(Locale.US, "%.1f", fat));
         editServing.setText(serving);
-        showRecognitionResult("AI: " + displayLabel, formatNutritionSummary(calories, protein, carbs, fat, serving));
+        
+        // Cập nhật giao diện thẻ kết quả Camera
+        if (layoutMacroResults != null) {
+            layoutMacroResults.setVisibility(View.VISIBLE);
+            buttonSaveCameraMeal.setVisibility(View.VISIBLE);
+            buttonAnalyzeSelectedFood.setVisibility(View.GONE);
+            textResultCalories.setText(String.format(Locale.US, "%.0f", calories));
+            textResultProtein.setText(String.format(Locale.US, "%.1fg", protein));
+            textResultCarbs.setText(String.format(Locale.US, "%.1fg", carbs));
+            textResultFat.setText(String.format(Locale.US, "%.1fg", fat));
+        }
+        
+        String servingText = serving == null || serving.trim().isEmpty() ? "" : "Khẩu phần: " + serving.trim();
+        showRecognitionResult("AI: " + displayLabel, servingText);
     }
 
     private void fillFoodFields(FoodEntity food) {
@@ -465,9 +523,16 @@ public class MealEntryActivity extends AppCompatActivity {
         }
         if (requestCode == REQ_PICK_IMAGE && data.getData() != null) {
             Uri uri = data.getData();
-            imagePreview.setImageURI(uri);
             imagePath = ImageHelper.copyUriToCache(this, uri);
-            showRecognitionResult("Image selected", "Tap Analyze image to estimate calories, protein, carbs, and fat.");
+            
+            capturedImagePreview.setImageURI(uri);
+            capturedImagePreview.setVisibility(View.VISIBLE);
+            btnRetake.setVisibility(View.VISIBLE);
+            btnShutter.setVisibility(View.GONE);
+            buttonAnalyzeSelectedFood.setVisibility(View.VISIBLE);
+            buttonSaveCameraMeal.setVisibility(View.GONE);
+            layoutMacroResults.setVisibility(View.GONE);
+            showRecognitionResult("Đã chọn ảnh", "Bấm 'Phân tích AI' để nhận diện.");
         }
     }
 
