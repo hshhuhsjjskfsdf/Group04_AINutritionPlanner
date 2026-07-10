@@ -10,17 +10,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tính mục tiêu gợi ý"
-        android:textColor="@color/text_primary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.App.Title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Dựa trên TDEE của bạn, hãy chọn mục tiêu:"
-        android:textColor="@color/text_secondary"
-        android:textSize="14sp" />
+        android:textAppearance="@style/TextAppearance.App.BodySecondary" />
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggleGoalType"
@@ -82,8 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Protein, Carbs và Fat sẽ được cân đối theo tỉ lệ lành mạnh."
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp" />
+                android:textAppearance="@style/TextAppearance.App.Caption" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -92,8 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="* Thông tin chỉ mang tính tham khảo và không thay thế tư vấn chuyên môn."
-        android:textColor="@color/text_secondary"
-        android:textSize="11sp"
+        android:textAppearance="@style/TextAppearance.App.Caption"
         android:textStyle="italic" />
 
     <LinearLayout
@@ -105,19 +100,17 @@
             android:id="@+id/btnCancel"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Hủy"
-            android:textAllCaps="false" />
+            android:text="Hủy" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnApply"
+            style="@style/AppButtonPrimary"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1.5"
             android:text="Áp dụng mục tiêu"
-            android:textAllCaps="false"
-            app:cornerRadius="12dp"
             android:enabled="false"/>
     </LinearLayout>
 

@@ -15,61 +15,69 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <!-- DATE NAVIGATION -->
+            <!-- Styled Header -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nhật ký dinh dưỡng"
+                        android:textAppearance="@style/TextAppearance.App.Headline"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textTrackingSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Theo dõi những gì bạn nạp"
+                        android:textAppearance="@style/TextAppearance.App.BodySecondary"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:cardBackgroundColor="@color/surface_soft"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/stroke">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/bg_avatar_circle" />
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <!-- DATE SELECTOR (WEEK) -->
+            <include
+                android:id="@+id/layoutDateSelector"
+                layout="@layout/layout_date_selector_week" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/btnPrevDate"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_arrow_back"
-                        app:tint="@color/primary" />
-
-                    <TextView
-                        android:id="@+id/textCurrentDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Thứ Sáu, 10/07/2026"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/btnNextDate"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:rotation="180"
-                        android:src="@drawable/ic_arrow_back"
-                        app:tint="@color/primary" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/btnToday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Hôm nay"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:paddingHorizontal="@dimen/screen_padding">
 
             <!-- SUMMARY CARD -->
             <include
@@ -87,7 +95,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipAll"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.App.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tất cả"
@@ -95,28 +103,28 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipBreakfast"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.App.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sáng" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipLunch"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.App.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Trưa" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipDinner"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.App.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tối" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipSnack"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.App.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Phụ" />
@@ -138,6 +146,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSetupGoal"
+                style="@style/AppButtonPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -145,6 +154,7 @@
                 android:text="Thiết lập mục tiêu ngay"
                 android:visibility="gone" />
 
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

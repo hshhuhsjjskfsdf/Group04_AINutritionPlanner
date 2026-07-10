@@ -215,9 +215,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Phân tích bữa ăn"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.App.Headline"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/text_camera_result_subtitle"
@@ -225,8 +224,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Nhấn Chụp để bắt đầu, sau đó bấm Phân tích."
-                android:textColor="#D9FFFFFF"
-                android:textSize="14sp" />
+                android:textAppearance="@style/TextAppearance.App.Body"
+                android:textColor="#D9FFFFFF" />
 
             <!-- Bảng Macro kết quả (Mặc định ẩn) -->
             <LinearLayout
@@ -334,26 +333,22 @@
                 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonAnalyzeSelectedFood"
+                    style="@style/AppButtonPrimary"
                     android:layout_width="0dp"
-                    android:layout_height="52dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Phân tích AI"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:backgroundTint="@color/primary"
-                    app:cornerRadius="16dp" />
+                    android:textAllCaps="false" />
                     
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonSaveCameraMeal"
+                    style="@style/AppButtonPrimary"
                     android:layout_width="0dp"
-                    android:layout_height="52dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="12dp"
                     android:text="Lưu bữa ăn"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:backgroundTint="@color/primary_dark"
-                    app:cornerRadius="16dp"
                     android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
@@ -385,14 +380,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nhập thủ công"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/btn_close_manual"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nhập thủ công"
+                android:textAppearance="@style/TextAppearance.App.Headline"
+                app:layout_constraintBottom_toBottomOf="@id/btn_close_manual"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_close_manual" />
@@ -400,7 +393,7 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="16dp"
+            android:padding="@dimen/screen_padding"
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -416,8 +409,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tìm kiếm món ăn (từ Database)"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="14sp"
+                    android:textAppearance="@style/TextAppearance.App.BodySecondary"
                     android:layout_marginBottom="8dp"/>
 
                 <EditText
@@ -442,9 +434,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Thông tin Dinh dưỡng"
-                    android:textColor="@color/text_primary"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.App.Title"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="12dp"/>
 
@@ -522,9 +512,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Loại bữa ăn"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.App.Title"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp"/>
 
@@ -566,14 +554,12 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonSaveMeal"
+                    style="@style/AppButtonPrimary"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="88dp"
-                    android:text="Lưu bữa ăn"
-                    android:textColor="@color/white"
-                    app:backgroundTint="@color/primary"
-                    app:cornerRadius="16dp"/>
+                    android:text="Lưu bữa ăn" />
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/surface"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="1dp"
+    app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+    app:cardElevation="@dimen/card_elevation"
     app:strokeColor="@color/stroke"
     app:strokeWidth="1dp">
 
@@ -19,8 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TỔNG QUAN"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
+            android:textAppearance="@style/TextAppearance.App.Caption"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -34,14 +33,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Calories trung bình"
-                android:textColor="@color/text_secondary" />
+                android:textAppearance="@style/TextAppearance.App.BodySecondary" />
 
             <TextView
                 android:id="@+id/textAvgCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1.820 kcal"
-                android:textColor="@color/text_primary"
+                android:textAppearance="@style/TextAppearance.App.Body"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -56,14 +55,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Đạt mục tiêu"
-                android:textColor="@color/text_secondary" />
+                android:textAppearance="@style/TextAppearance.App.BodySecondary" />
 
             <TextView
                 android:id="@+id/textGoalMetDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5/7 ngày"
-                android:textColor="@color/text_primary"
+                android:textAppearance="@style/TextAppearance.App.Body"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -78,14 +77,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Tổng bữa ăn"
-                android:textColor="@color/text_secondary" />
+                android:textAppearance="@style/TextAppearance.App.BodySecondary" />
 
             <TextView
                 android:id="@+id/textTotalMeals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="21 bữa"
-                android:textColor="@color/text_primary"
+                android:textAppearance="@style/TextAppearance.App.Body"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -100,14 +99,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Protein trung bình"
-                android:textColor="@color/text_secondary" />
+                android:textAppearance="@style/TextAppearance.App.BodySecondary" />
 
             <TextView
                 android:id="@+id/textAvgProteinStats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="86 g/ngày"
-                android:textColor="@color/text_primary"
+                android:textAppearance="@style/TextAppearance.App.Body"
                 android:textStyle="bold" />
         </LinearLayout>
 

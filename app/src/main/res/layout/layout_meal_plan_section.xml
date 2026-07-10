@@ -19,24 +19,22 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="BỮA SÁNG"
-            android:textColor="@color/text_primary"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.App.Title"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textMealSectionCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0 kcal"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:textAppearance="@style/TextAppearance.App.BodySecondary" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerMealSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/spacing_small"
         android:nestedScrollingEnabled="false"
         tools:itemCount="1"
         tools:listitem="@layout/item_meal_plan" />
@@ -45,10 +43,9 @@
         android:id="@+id/textEmptyMealSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/spacing_small"
         android:text="Chưa có món nào trong bữa này."
-        android:textColor="@color/text_secondary"
-        android:textSize="13sp"
+        android:textAppearance="@style/TextAppearance.App.BodySecondary"
         android:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton

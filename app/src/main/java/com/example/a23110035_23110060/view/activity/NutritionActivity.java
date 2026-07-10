@@ -19,6 +19,7 @@ public class NutritionActivity extends AppCompatActivity {
     public static final String TAB_TRACKING = "tracking";
 
     private TextView textTitle;
+    private android.widget.ImageView imgIcon;
     private String currentTab = "";
 
     @Override
@@ -27,6 +28,7 @@ public class NutritionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nutrition);
         
         textTitle = findViewById(R.id.text_nutrition_title);
+        imgIcon = findViewById(R.id.img_nutrition_icon);
 
         handleIntent(getIntent());
     }
@@ -55,10 +57,12 @@ public class NutritionActivity extends AppCompatActivity {
         if (TAB_PLAN.equals(startTab)) {
             fragment = new MealPlanFragment();
             textTitle.setText("Kế hoạch ăn uống");
+            if (imgIcon != null) imgIcon.setImageResource(R.drawable.ic_nav_plan);
             navId = R.id.nav_plan;
         } else {
             fragment = new TrackingFragment();
             textTitle.setText("Theo dõi dinh dưỡng");
+            if (imgIcon != null) imgIcon.setImageResource(R.drawable.ic_nav_diary);
             navId = R.id.nav_diary;
         }
 

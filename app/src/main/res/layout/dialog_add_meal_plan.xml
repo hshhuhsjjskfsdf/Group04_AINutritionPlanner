@@ -16,9 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Thêm vào kế hoạch"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.App.Title" />
 
         <EditText
             android:id="@+id/editSearchFood"
@@ -120,12 +118,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSavePlan"
+            style="@style/AppButtonPrimary"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Lưu kế hoạch"
-            android:textAllCaps="false"
-            app:cornerRadius="16dp" />
+            android:text="Lưu kế hoạch" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

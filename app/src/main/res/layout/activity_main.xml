@@ -13,23 +13,24 @@
         android:id="@+id/header_home"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingTop="28dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="12dp"
+        android:paddingHorizontal="@dimen/screen_padding"
+        android:paddingTop="32dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/img_user_avatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:background="@drawable/bg_avatar_circle"
             android:clickable="true"
             android:focusable="true"
-            android:padding="8dp"
+            android:padding="10dp"
             android:src="@drawable/ic_nav_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/primary" />
@@ -37,29 +38,44 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@id/img_user_avatar"
+            android:paddingTop="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/img_user_avatar"
-            app:layout_constraintTop_toTopOf="@id/img_user_avatar">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textHello"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Xin chào"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/ic_nav_home"
+                    android:contentDescription="Home Icon"
+                    app:tint="@color/primary" />
+
+                <TextView
+                    android:id="@+id/textHello"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xin chào"
+                    android:textAppearance="@style/TextAppearance.App.Headline"
+                    android:includeFontPadding="false" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/text_today_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="Hôm nay"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp" />
+                android:textAppearance="@style/TextAppearance.App.Caption" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -78,15 +94,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/screen_padding">
 
             <!-- TIẾN ĐỘ HÔM NAY -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -100,9 +116,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tiến độ hôm nay"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textAppearance="@style/TextAppearance.App.Title" />
 
                     <RelativeLayout
                         android:layout_width="160dp"
@@ -233,10 +247,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -250,9 +264,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dinh dưỡng hôm nay"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textAppearance="@style/TextAppearance.App.Title" />
 
                     <!-- Protein -->
                     <TextView
@@ -317,10 +329,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -334,9 +346,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Gợi ý hôm nay"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textAppearance="@style/TextAppearance.App.Title" />
 
                     <TextView
                         android:id="@+id/textSuggestion"
@@ -362,9 +372,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Bữa ăn hôm nay"
-                    android:textColor="@color/text_primary"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.App.Title" />
 
                 <TextView
                     android:id="@+id/textSeeAllMeals"
@@ -396,6 +404,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSetupGoal"
+                style="@style/AppButtonPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

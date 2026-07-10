@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="@dimen/spacing_small"
     app:cardBackgroundColor="@color/surface"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="0dp"
+    app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+    app:cardElevation="@dimen/card_elevation"
     app:strokeColor="@color/stroke"
     app:strokeWidth="1dp">
 
@@ -18,24 +18,23 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgMeal"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_nav_diary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Thumbnail"
             app:tint="@color/primary" />
 
         <TextView
             android:id="@+id/textMealType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="@dimen/spacing_medium"
             android:text="Bữa sáng"
             android:textColor="@color/primary"
-            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/imgMeal"
             app:layout_constraintTop_toTopOf="@id/imgMeal" />
@@ -48,8 +47,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Phở bò"
-            android:textColor="@color/text_primary"
-            android:textSize="15sp"
+            android:textAppearance="@style/TextAppearance.App.Body"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/textCalories"
             app:layout_constraintStart_toStartOf="@id/textMealType"
@@ -61,8 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="07:30"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
+            android:textAppearance="@style/TextAppearance.App.Caption"
             app:layout_constraintStart_toStartOf="@id/textFoodName"
             app:layout_constraintTop_toBottomOf="@id/textFoodName" />
 
@@ -71,8 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="450 kcal"
-            android:textColor="@color/text_primary"
-            android:textSize="15sp"
+            android:textAppearance="@style/TextAppearance.App.Body"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -42,9 +42,7 @@
             android:layout_marginTop="18dp"
             android:gravity="center"
             android:text="AI Nutrition Planner"
-            android:textColor="@color/text_primary"
-            android:textSize="28sp"
-            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.App.Headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/img_auth_logo" />
@@ -56,8 +54,7 @@
             android:layout_marginTop="6dp"
             android:gravity="center"
             android:text="Tạo tài khoản dinh dưỡng của bạn"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp"
+            android:textAppearance="@style/TextAppearance.App.BodySecondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_auth_title" />

@@ -30,10 +30,10 @@
             android:paddingTop="2dp"
             android:paddingBottom="6dp"
             app:itemActiveIndicatorStyle="@null"
-            app:itemIconSize="24dp"
-            app:itemIconTint="@color/primary"
+            app:itemIconSize="@dimen/icon_size_medium"
+            app:itemIconTint="@color/bottom_navigation_item_color"
             app:itemRippleColor="@color/primary_light"
-            app:itemTextColor="@color/text_primary"
+            app:itemTextColor="@color/bottom_navigation_item_color"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/menu_bottom_nav" />
     </com.google.android.material.bottomappbar.BottomAppBar>

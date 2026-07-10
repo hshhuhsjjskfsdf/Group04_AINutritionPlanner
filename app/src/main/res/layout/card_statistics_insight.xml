@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/surface_soft"
-    app:cardCornerRadius="16dp"
+    app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
     app:cardElevation="0dp">
 
     <LinearLayout
@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NHẬN XÉT"
-            android:textColor="@color/primary_dark"
-            android:textSize="12sp"
+            android:textAppearance="@style/TextAppearance.App.Caption"
+            android:textColor="@color/primary"
             android:textStyle="bold" />
 
         <TextView
@@ -27,8 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Bạn đạt mục tiêu calories 5 trong 7 ngày. Hãy tiếp tục duy trì!"
-            android:textColor="@color/text_primary"
-            android:textSize="14sp" />
+            android:textAppearance="@style/TextAppearance.App.Body" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

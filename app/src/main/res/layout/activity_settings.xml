@@ -14,21 +14,32 @@
         android:layout_height="wrap_content"
         android:background="@color/surface"
         android:elevation="4dp"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_settings_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_body_metrics"
+            android:contentDescription="Settings Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary" />
 
         <TextView
             android:id="@+id/text_settings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CÁ NHÂN"
-            android:textColor="@color/text_primary"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:text="Cá Nhân"
+            android:textAppearance="@style/TextAppearance.App.Headline"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/img_settings_icon"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -46,15 +57,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/screen_padding">
 
             <!-- THÔNG TIN CƠ THỂ -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -68,8 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="THÔNG TIN CƠ THỂ"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
+                        android:textAppearance="@style/TextAppearance.App.Caption"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -134,10 +144,10 @@
                 android:id="@+id/cardBodyMetrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -151,8 +161,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="CHỈ SỐ CỦA BẠN"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
+                        android:textAppearance="@style/TextAppearance.App.Caption"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -205,10 +214,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -222,8 +231,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="MỤC TIÊU DINH DƯỠNG"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
+                        android:textAppearance="@style/TextAppearance.App.Caption"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -317,10 +325,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -340,8 +348,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="NHẮC NHỞ"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp"
+                            android:textAppearance="@style/TextAppearance.App.Caption"
                             android:textStyle="bold" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -403,10 +410,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -420,8 +427,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="CÀI ĐẶT ỨNG DỤNG"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
+                        android:textAppearance="@style/TextAppearance.App.Caption"
                         android:textStyle="bold" />
 
                     <LinearLayout

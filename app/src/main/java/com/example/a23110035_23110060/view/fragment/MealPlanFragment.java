@@ -32,6 +32,7 @@ import com.example.a23110035_23110060.helper.DailyProgressCalculator;
 import com.example.a23110035_23110060.helper.DateHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
 import com.example.a23110035_23110060.helper.ValidationHelper;
+import com.example.a23110035_23110060.view.adapter.DateAdapter;
 import com.example.a23110035_23110060.view.adapter.FoodSearchAdapter;
 import com.example.a23110035_23110060.view.adapter.MealPlanAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -50,9 +51,12 @@ public class MealPlanFragment extends Fragment {
     private FoodRepository foodRepository;
 
     private String userId;
-    private Calendar currentPlanCalendar = Calendar.getInstance();
+    private Calendar selectedDate = Calendar.getInstance();
+    private Calendar currentWeekCalendar = Calendar.getInstance();
     private MealPlanAdapter adapterBreakfast, adapterLunch, adapterDinner, adapterSnack;
-    private TextView textCurrentDate;
+    private DateAdapter dateAdapter;
+    private TextView textWeekRange, textSelectedFullDate;
+    private RecyclerView recyclerDates;
     private TextView textPlannedCalories, textTargetCaloriesPlan, textRemainingPlan;
     private ProgressBar progressPlanCalories;
     private TextView textPlannedProtein, textPlannedCarbs, textPlannedFat;
@@ -79,7 +83,10 @@ public class MealPlanFragment extends Fragment {
     }
 
     private void bindViews(View view) {
-        textCurrentDate = view.findViewById(R.id.textCurrentDate);
+        textWeekRange = view.findViewById(R.id.textWeekRange);
+        textSelectedFullDate = view.findViewById(R.id.textSelectedFullDate);
+        recyclerDates = view.findViewById(R.id.recyclerDates);
+        
         textPlannedCalories = view.findViewById(R.id.textPlannedCalories);
         textTargetCaloriesPlan = view.findViewById(R.id.textTargetCaloriesPlan);
         textRemainingPlan = view.findViewById(R.id.textRemainingPlan);
@@ -89,14 +96,26 @@ public class MealPlanFragment extends Fragment {
         textPlannedFat = view.findViewById(R.id.textPlannedFat);
         textPlanSuggestion = view.findViewById(R.id.textPlanSuggestion);
 
-        view.findViewById(R.id.btnPrevDate).setOnClickListener(v -> goToPreviousDate());
-        view.findViewById(R.id.btnNextDate).setOnClickListener(v -> goToNextDate());
+        view.findViewById(R.id.btnPrevWeek).setOnClickListener(v -> {
+            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1);
+            updateWeekSelector();
+        });
+        view.findViewById(R.id.btnNextWeek).setOnClickListener(v -> {
+            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1);
+            updateWeekSelector();
+        });
         view.findViewById(R.id.btnToday).setOnClickListener(v -> goToToday());
-        textCurrentDate.setOnClickListener(v -> showDatePicker());
         view.findViewById(R.id.btnCopyPlan).setOnClickListener(v -> showCopyPlanDialog());
     }
 
     private void setupPlanTab(View view) {
+        dateAdapter = new DateAdapter(date -> {
+            selectedDate = (Calendar) date.clone();
+            loadPlanForDate();
+        });
+        recyclerDates.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerDates.setAdapter(dateAdapter);
+
         adapterBreakfast = createPlanAdapter();
         adapterLunch = createPlanAdapter();
         adapterDinner = createPlanAdapter();
@@ -107,7 +126,7 @@ public class MealPlanFragment extends Fragment {
         setupSection(view, R.id.sectionDinner, "BỮA TỐI", adapterDinner, "Dinner");
         setupSection(view, R.id.sectionSnack, "BỮA PHỤ", adapterSnack, "Snack");
 
-        updatePlanDateText();
+        updateWeekSelector();
         loadPlanForDate();
     }
 
@@ -162,39 +181,50 @@ public class MealPlanFragment extends Fragment {
         section.findViewById(R.id.btnAddMealToSection).setOnClickListener(v -> showAddPlanDialog(null, mealType));
     }
 
+    private void updateWeekSelector() {
+        List<Calendar> weekDates = new ArrayList<>();
+        Calendar cal = (Calendar) currentWeekCalendar.clone();
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+
+        SimpleDateFormat rangeFormat = new SimpleDateFormat("MMM d", new Locale("vi", "VN"));
+        String start = rangeFormat.format(cal.getTime());
+
+        for (int i = 0; i < 7; i++) {
+            weekDates.add((Calendar) cal.clone());
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        String end = rangeFormat.format(cal.getTime());
+        textWeekRange.setText(start + " - " + end);
+
+        dateAdapter.setDates(weekDates, selectedDate);
+        updatePlanDateText();
+    }
+
     private void updatePlanDateText() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd/MM/yyyy", new Locale("vi", "VN"));
-        textCurrentDate.setText(sdf.format(currentPlanCalendar.getTime()));
-    }
-
-    private void goToPreviousDate() {
-        currentPlanCalendar.add(Calendar.DAY_OF_YEAR, -1);
-        updatePlanDateText();
-        loadPlanForDate();
-    }
-
-    private void goToNextDate() {
-        currentPlanCalendar.add(Calendar.DAY_OF_YEAR, 1);
-        updatePlanDateText();
-        loadPlanForDate();
+        textSelectedFullDate.setText(sdf.format(selectedDate.getTime()));
     }
 
     private void goToToday() {
-        currentPlanCalendar = Calendar.getInstance();
-        updatePlanDateText();
+        selectedDate = Calendar.getInstance();
+        currentWeekCalendar = Calendar.getInstance();
+        updateWeekSelector();
         loadPlanForDate();
     }
 
     private void showDatePicker() {
         new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
-            currentPlanCalendar.set(year, month, dayOfMonth);
-            updatePlanDateText();
+            selectedDate.set(year, month, dayOfMonth);
+            currentWeekCalendar.set(year, month, dayOfMonth);
+            updateWeekSelector();
             loadPlanForDate();
-        }, currentPlanCalendar.get(Calendar.YEAR), currentPlanCalendar.get(Calendar.MONTH), currentPlanCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        }, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void loadPlanForDate() {
-        String dateStr = DateHelper.formatDate(currentPlanCalendar.getTime());
+        String dateStr = DateHelper.formatDate(selectedDate.getTime());
         goalRepository.getGoal(new RepositoryCallback<GoalEntity>() {
             @Override
             public void onSuccess(GoalEntity goal) {
@@ -353,7 +383,7 @@ public class MealPlanFragment extends Fragment {
     }
 
     private void copyPlanFromDate(String sourceDate) {
-        String destDate = DateHelper.formatDate(currentPlanCalendar.getTime());
+        String destDate = DateHelper.formatDate(selectedDate.getTime());
         if (sourceDate.equals(destDate)) {
             showToast("Không thể sao chép vào cùng một ngày");
             return;
@@ -466,7 +496,7 @@ public class MealPlanFragment extends Fragment {
             if (planToEdit == null) {
                 plan.mealPlanId = UUID.randomUUID().toString();
                 plan.userId = userId;
-                plan.planDate = DateHelper.formatDate(currentPlanCalendar.getTime());
+                plan.planDate = DateHelper.formatDate(selectedDate.getTime());
                 plan.mealType = mealType;
                 plan.createdAt = System.currentTimeMillis();
             }

@@ -25,6 +25,7 @@ import com.example.a23110035_23110060.data.repository.RepositoryCallback;
 import com.example.a23110035_23110060.helper.DailyProgressCalculator;
 import com.example.a23110035_23110060.helper.DateHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
+import com.example.a23110035_23110060.view.adapter.DateAdapter;
 import com.example.a23110035_23110060.view.adapter.CategorizedMealLogAdapter;
 import com.example.a23110035_23110060.data.local.FoodEntity;
 import com.example.a23110035_23110060.data.repository.FoodRepository;
@@ -54,10 +55,13 @@ public class MealLogFragment extends Fragment {
     private Calendar selectedDate = Calendar.getInstance();
     private List<MealLogEntity> allLogsForDate = new ArrayList<>();
     
-    private TextView textCurrentDate;
     private TextView textConsumedCalories, textTargetCalories, textRemainingCalories;
     private ProgressBar progressCalories;
     private TextView textProtein, textCarbs, textFat;
+    private TextView textWeekRange, textSelectedFullDate;
+    private RecyclerView recyclerDates;
+    private DateAdapter dateAdapter;
+    private Calendar currentWeekCalendar = Calendar.getInstance();
     private CategorizedMealLogAdapter adapter;
     private ChipGroup chipGroupFilters;
     private View layoutEmpty, loadingView, btnSetupGoal;
@@ -90,7 +94,6 @@ public class MealLogFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        textCurrentDate = view.findViewById(R.id.textCurrentDate);
         textConsumedCalories = view.findViewById(R.id.textConsumedCalories);
         textTargetCalories = view.findViewById(R.id.textTargetCalories);
         textRemainingCalories = view.findViewById(R.id.textRemainingCalories);
@@ -98,6 +101,11 @@ public class MealLogFragment extends Fragment {
         textProtein = view.findViewById(R.id.textProtein);
         textCarbs = view.findViewById(R.id.textCarbs);
         textFat = view.findViewById(R.id.textFat);
+        
+        textWeekRange = view.findViewById(R.id.textWeekRange);
+        textSelectedFullDate = view.findViewById(R.id.textSelectedFullDate);
+        recyclerDates = view.findViewById(R.id.recyclerDates);
+        
         chipGroupFilters = view.findViewById(R.id.chipGroupFilters);
         layoutEmpty = view.findViewById(R.id.layoutEmpty);
         loadingView = view.findViewById(R.id.loadingView);
@@ -105,19 +113,43 @@ public class MealLogFragment extends Fragment {
     }
 
     private void setupDateNavigation(View view) {
-        view.findViewById(R.id.btnPrevDate).setOnClickListener(v -> {
-            selectedDate.add(Calendar.DAY_OF_YEAR, -1);
+        view.findViewById(R.id.btnPrevWeek).setOnClickListener(v -> {
+            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1);
+            updateWeekSelector();
+        });
+        view.findViewById(R.id.btnNextWeek).setOnClickListener(v -> {
+            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1);
+            updateWeekSelector();
+        });
+
+        dateAdapter = new DateAdapter(date -> {
+            selectedDate = (Calendar) date.clone();
             loadData();
         });
-        view.findViewById(R.id.btnNextDate).setOnClickListener(v -> {
-            selectedDate.add(Calendar.DAY_OF_YEAR, 1);
-            loadData();
-        });
-        view.findViewById(R.id.btnToday).setOnClickListener(v -> {
-            selectedDate = Calendar.getInstance();
-            loadData();
-        });
-        textCurrentDate.setOnClickListener(v -> showDatePicker());
+        recyclerDates.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerDates.setAdapter(dateAdapter);
+        
+        updateWeekSelector();
+    }
+
+    private void updateWeekSelector() {
+        List<Calendar> weekDates = new ArrayList<>();
+        Calendar cal = (Calendar) currentWeekCalendar.clone();
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        
+        SimpleDateFormat rangeFormat = new SimpleDateFormat("MMM d", new Locale("vi", "VN"));
+        String start = rangeFormat.format(cal.getTime());
+        
+        for (int i = 0; i < 7; i++) {
+            weekDates.add((Calendar) cal.clone());
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+        }
+        
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        String end = rangeFormat.format(cal.getTime());
+        textWeekRange.setText(start + " - " + end);
+        
+        dateAdapter.setDates(weekDates, selectedDate);
     }
 
     private void showDatePicker() {
@@ -195,8 +227,8 @@ public class MealLogFragment extends Fragment {
     }
 
     private void updateDateText() {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd/MM/yyyy", new Locale("vi", "VN"));
-        textCurrentDate.setText(sdf.format(selectedDate.getTime()));
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMMM", new Locale("vi", "VN"));
+        textSelectedFullDate.setText(sdf.format(selectedDate.getTime()));
     }
 
     private void updateSummary(GoalEntity goal, List<MealLogEntity> logs) {

@@ -10,9 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chỉnh sửa mục tiêu"
-        android:textColor="@color/text_primary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.App.Title" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutGoalCalories"
@@ -76,11 +74,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSave"
+        style="@style/AppButtonPrimary"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Lưu mục tiêu"
-        android:textAllCaps="false"
-        app:cornerRadius="12dp" />
+        android:text="Lưu mục tiêu" />
 
 </LinearLayout>

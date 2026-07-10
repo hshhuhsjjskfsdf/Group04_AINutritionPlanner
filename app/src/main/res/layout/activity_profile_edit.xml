@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@color/surface"
         android:elevation="4dp"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,17 +30,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/img_profile_title_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_nav_profile"
+            android:contentDescription="Profile Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_back_profile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary" />
+
         <TextView
             android:id="@+id/text_profile_edit_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:text="Tài khoản"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.App.Headline"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_back_profile"
+            app:layout_constraintStart_toEndOf="@id/img_profile_title_icon"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -47,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:padding="24dp"
+        android:padding="@dimen/screen_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +92,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:text="Thay ảnh"
+                android:textAppearance="@style/TextAppearance.App.Body"
                 android:textColor="@color/primary"
-                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -90,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Họ tên"
-                android:textColor="@color/text_secondary" />
+                android:textAppearance="@style/TextAppearance.App.BodySecondary" />
 
             <EditText
                 android:id="@+id/edit_display_name"
@@ -106,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:text="Email"
-                android:textColor="@color/text_secondary" />
+                android:textAppearance="@style/TextAppearance.App.BodySecondary" />
 
             <EditText
                 android:id="@+id/edit_email"
@@ -119,33 +130,29 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save_account"
+                style="@style/AppButtonPrimary"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Lưu thay đổi"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/primary"
-                app:cornerRadius="16dp" />
+                android:text="Lưu thay đổi" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_change_password"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Đổi mật khẩu"
-                android:textAllCaps="false"
-                app:cornerRadius="16dp" />
+                android:textAllCaps="false" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_logout_account"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Đăng xuất"
                 android:textColor="@color/error"
-                app:backgroundTint="@color/error_light"
-                app:cornerRadius="16dp" />
+                app:backgroundTint="@color/error_light" />
                 
             <ProgressBar
                 android:id="@+id/progress_saving_profile"

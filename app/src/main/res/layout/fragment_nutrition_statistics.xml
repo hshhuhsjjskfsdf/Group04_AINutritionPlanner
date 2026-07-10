@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/screen_padding">
 
             <!-- RANGE SELECTOR -->
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -61,8 +61,7 @@
                 android:layout_marginTop="12dp"
                 android:gravity="center"
                 android:text="04/07/2026 – 10/07/2026"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:textAppearance="@style/TextAppearance.App.BodySecondary" />
 
             <!-- OVERVIEW CARD -->
             <include
@@ -76,10 +75,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -93,8 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="XU HƯỚNG CALORIES"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
+                        android:textAppearance="@style/TextAppearance.App.Caption"
                         android:textStyle="bold" />
 
                     <TextView
@@ -117,10 +115,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -134,8 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="PHÂN BỐ NĂNG LƯỢNG"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
+                        android:textAppearance="@style/TextAppearance.App.Caption"
                         android:textStyle="bold" />
 
                     <TextView
@@ -158,10 +155,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/card_margin"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
+                app:cardElevation="@dimen/card_elevation"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
 
@@ -175,8 +172,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TRUNG BÌNH MACRO"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
+                        android:textAppearance="@style/TextAppearance.App.Caption"
                         android:textStyle="bold" />
 
                     <!-- Protein -->

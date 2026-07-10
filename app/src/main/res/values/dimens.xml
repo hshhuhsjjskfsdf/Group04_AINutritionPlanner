@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen Padding -->
+    <dimen name="screen_padding">20dp</dimen>
+    <dimen name="screen_padding_horizontal">20dp</dimen>
+    <dimen name="screen_padding_vertical">24dp</dimen>
+
+    <!-- Card -->
+    <dimen name="card_radius">16dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+    <dimen name="card_margin">12dp</dimen>
+    <dimen name="card_elevation">0dp</dimen>
+
+    <!-- Thumbnail -->
+    <dimen name="thumbnail_size">64dp</dimen>
+    <dimen name="thumbnail_radius">12dp</dimen>
+
+    <!-- Buttons -->
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_radius">24dp</dimen> <!-- Pill shape -->
+
+    <!-- Icons -->
+    <dimen name="icon_size_small">20dp</dimen>
+    <dimen name="icon_size_medium">24dp</dimen>
+    <dimen name="icon_size_large">32dp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">12dp</dimen>
+    <dimen name="spacing_large">16dp</dimen>
+    <dimen name="spacing_xlarge">24dp</dimen>
+    <dimen name="spacing_xxlarge">32dp</dimen>
+</resources>
