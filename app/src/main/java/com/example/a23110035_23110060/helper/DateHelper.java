@@ -19,6 +19,11 @@ public class DateHelper {
         return new SimpleDateFormat(DATE_PATTERN, Locale.US).format(date);
     }
 
+    public static String formatTime(long timestamp) {
+        if (timestamp <= 0) return "--:--";
+        return new SimpleDateFormat("HH:mm", Locale.US).format(new Date(timestamp));
+    }
+
     public static String getStartOfWeek() {
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);

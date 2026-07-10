@@ -11,6 +11,14 @@ public class UserEntity {
     public String userId = "";
     public String fullName;
     public String email;
+    public int age;
+    public String gender;
+    public double heightCm;
+    public double weightKg;
+    public String activityLevel;
     public long createdAt;
     public long updatedAt;
+    
+    @NonNull
+    public String avatarUrl = "";
 }

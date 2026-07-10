@@ -79,8 +79,11 @@ public class FirebaseSyncService extends IntentService {
         String imageUrl = mealLog.imageUrl;
         if (mealLog.imagePath != null && !mealLog.imagePath.trim().isEmpty()
                 && (imageUrl == null || imageUrl.trim().isEmpty())) {
-            imageUrl = uploadImageBlocking(mealLog.userId, mealLog.mealLogId, mealLog.imagePath);
-            mealLog.imageUrl = imageUrl;
+            File localFile = new File(mealLog.imagePath);
+            if (localFile.exists()) {
+                imageUrl = uploadImageBlocking(mealLog.userId, mealLog.mealLogId, mealLog.imagePath);
+                mealLog.imageUrl = imageUrl;
+            }
         }
         Tasks.await(firestore.collection("meal_logs")
                 .document(mealLog.mealLogId)
@@ -112,7 +115,7 @@ public class FirebaseSyncService extends IntentService {
                 : Uri.fromFile(new File(imagePath));
         StorageReference reference = FirebaseHelper.getStorage()
                 .getReference()
-                .child("meal_images/" + userId + "/" + mealLogId + ".jpg");
+                .child("meal_logs/" + userId + "/" + mealLogId + ".jpg");
         Tasks.await(reference.putFile(uri));
         return Tasks.await(reference.getDownloadUrl()).toString();
     }

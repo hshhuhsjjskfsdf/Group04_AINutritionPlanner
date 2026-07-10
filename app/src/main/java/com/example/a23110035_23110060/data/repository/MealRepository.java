@@ -59,6 +59,21 @@ public class MealRepository {
         });
     }
 
+    public void updateMealImageUrl(String mealLogId, String imageUrl, MealLogEntity mealLog, RepositoryCallback<MealLogEntity> callback) {
+        executor.execute(() -> {
+            long now = System.currentTimeMillis();
+            database.mealLogDao().updateMealImageUrl(mealLogId, imageUrl, now);
+            mealLog.imageUrl = imageUrl;
+            mealLog.updatedAt = now;
+            mealLog.isSynced = false;
+            insertPending(mealLog.userId, "CREATE_OR_UPDATE", "meal_logs", mealLog.toJson());
+            triggerSyncIfOnline();
+            if (callback != null) {
+                callback.onSuccess(mealLog);
+            }
+        });
+    }
+
     public void getLogsByDate(String userId, String date, RepositoryCallback<List<MealLogEntity>> callback) {
         executor.execute(() -> {
             List<MealLogEntity> logs = database.mealLogDao().getByUserAndDate(userId, date);
@@ -110,6 +125,21 @@ public class MealRepository {
             List<MealPlanEntity> plans = database.mealPlanDao().getByUserAndDate(userId, date);
             if (callback != null) {
                 callback.onSuccess(plans);
+            }
+        });
+    }
+
+    public void updatePlanCompletion(String planId, boolean completed, RepositoryCallback<Void> callback) {
+        executor.execute(() -> {
+            long now = System.currentTimeMillis();
+            database.mealPlanDao().updateCompletionStatus(planId, completed, now);
+            MealPlanEntity plan = database.mealPlanDao().getById(planId);
+            if (plan != null) {
+                insertPending(plan.userId, "CREATE_OR_UPDATE", "meal_plans", plan.toJson());
+                triggerSyncIfOnline();
+            }
+            if (callback != null) {
+                callback.onSuccess(null);
             }
         });
     }

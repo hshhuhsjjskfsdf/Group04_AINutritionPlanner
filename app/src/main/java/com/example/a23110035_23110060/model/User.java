@@ -4,6 +4,7 @@ public class User {
     public String userId;
     public String fullName;
     public String email;
+    public String avatarUrl;
 
     public User() {
     }
@@ -12,5 +13,6 @@ public class User {
         this.userId = userId;
         this.fullName = fullName;
         this.email = email;
+        this.avatarUrl = "";
     }
 }

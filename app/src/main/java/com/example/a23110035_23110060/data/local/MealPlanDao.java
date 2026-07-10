@@ -31,4 +31,13 @@ public interface MealPlanDao {
 
     @Query("UPDATE meal_plans SET isSynced = 1, updatedAt = :updatedAt WHERE mealPlanId = :mealPlanId")
     void markSynced(String mealPlanId, long updatedAt);
+
+    @Query("SELECT * FROM meal_plans WHERE mealPlanId = :mealPlanId LIMIT 1")
+    MealPlanEntity getById(String mealPlanId);
+
+    @Query("UPDATE meal_plans SET isCompleted = :isCompleted, updatedAt = :updatedAt WHERE mealPlanId = :mealPlanId")
+    void updateCompletionStatus(String mealPlanId, boolean isCompleted, long updatedAt);
+
+    @Query("SELECT * FROM meal_plans WHERE userId = :userId AND planDate = :date AND mealType = :mealType ORDER BY createdAt DESC")
+    List<MealPlanEntity> getByMealType(String userId, String date, String mealType);
 }

@@ -87,7 +87,7 @@ public class FirebaseRepository {
                     : Uri.fromFile(new File(imagePath));
             StorageReference reference = FirebaseHelper.getStorage()
                     .getReference()
-                    .child("meal_images/" + userId + "/" + mealLogId + ".jpg");
+                    .child("meal_logs/" + userId + "/" + mealLogId + ".jpg");
             reference.putFile(uri)
                     .continueWithTask(task -> {
                         if (!task.isSuccessful() && task.getException() != null) {
@@ -97,6 +97,32 @@ public class FirebaseRepository {
                     })
                     .addOnSuccessListener(downloadUri -> success(callback, downloadUri.toString()))
                     .addOnFailureListener(e -> error(callback, "Không tải được ảnh bữa ăn"));
+        } catch (Exception e) {
+            error(callback, "Đường dẫn ảnh không hợp lệ");
+        }
+    }
+
+    public void uploadAvatar(String userId, String imagePath, RepositoryCallback<String> callback) {
+        if (imagePath == null || imagePath.trim().isEmpty()) {
+            success(callback, "");
+            return;
+        }
+        try {
+            Uri uri = imagePath.startsWith("content://") || imagePath.startsWith("file://")
+                    ? Uri.parse(imagePath)
+                    : Uri.fromFile(new File(imagePath));
+            StorageReference reference = FirebaseHelper.getStorage()
+                    .getReference()
+                    .child("avatars/" + userId + "/avatar.jpg");
+            reference.putFile(uri)
+                    .continueWithTask(task -> {
+                        if (!task.isSuccessful() && task.getException() != null) {
+                            throw task.getException();
+                        }
+                        return reference.getDownloadUrl();
+                    })
+                    .addOnSuccessListener(downloadUri -> success(callback, downloadUri.toString()))
+                    .addOnFailureListener(e -> error(callback, "Không tải được ảnh đại diện"));
         } catch (Exception e) {
             error(callback, "Đường dẫn ảnh không hợp lệ");
         }
@@ -128,6 +154,7 @@ public class FirebaseRepository {
         map.put("userId", user.userId);
         map.put("fullName", user.fullName);
         map.put("email", user.email);
+        map.put("avatarUrl", user.avatarUrl != null ? user.avatarUrl : "");
         map.put("createdAt", user.createdAt);
         map.put("updatedAt", user.updatedAt);
         return map;

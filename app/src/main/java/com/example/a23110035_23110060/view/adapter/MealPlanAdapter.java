@@ -3,7 +3,8 @@ package com.example.a23110035_23110060.view.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,14 +18,16 @@ import java.util.List;
 import java.util.Locale;
 
 public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHolder> {
-    public interface OnDeleteClickListener {
-        void onDelete(MealPlanEntity mealPlan);
+    public interface OnPlanActionListener {
+        void onDelete(MealPlanEntity plan);
+        void onToggleCompleted(MealPlanEntity plan, boolean completed);
+        void onEdit(MealPlanEntity plan);
     }
 
     private final List<MealPlanEntity> items = new ArrayList<>();
-    private final OnDeleteClickListener listener;
+    private final OnPlanActionListener listener;
 
-    public MealPlanAdapter(OnDeleteClickListener listener) {
+    public MealPlanAdapter(OnPlanActionListener listener) {
         this.listener = listener;
     }
 
@@ -47,15 +50,53 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MealPlanEntity item = items.get(position);
         holder.name.setText(item.foodName);
-        holder.meta.setText(item.mealType + " • " + item.planDate + (item.isSynced ? " • Đã sync" : " • Chờ sync"));
-        holder.macros.setText(String.format(Locale.US, "%.0f kcal | P %.1fg • C %.1fg • F %.1fg",
-                item.calories, item.protein, item.carbs, item.fat));
-        holder.note.setText(item.note == null || item.note.isEmpty() ? "Không có ghi chú" : item.note);
-        holder.delete.setOnClickListener(v -> {
+        holder.calories.setText(String.format(Locale.US, "%.0f kcal", item.calories));
+        holder.macros.setText(String.format(Locale.US, "P %.1fg · C %.1fg · F %.1fg",
+                item.protein, item.carbs, item.fat));
+        
+        if (item.portion != null && !item.portion.isEmpty()) {
+            holder.portion.setText(item.portion);
+            holder.portion.setVisibility(View.VISIBLE);
+        } else {
+            holder.portion.setVisibility(View.GONE);
+        }
+
+        holder.checkBox.setOnCheckedChangeListener(null);
+        holder.checkBox.setChecked(item.isCompleted);
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (listener != null) {
-                listener.onDelete(item);
+                listener.onToggleCompleted(item, isChecked);
             }
         });
+
+        if (item.note != null && !item.note.isEmpty()) {
+            holder.note.setText("Ghi chú: " + item.note);
+            holder.note.setVisibility(View.VISIBLE);
+        } else {
+            holder.note.setVisibility(View.GONE);
+        }
+
+        holder.btnMenu.setOnClickListener(v -> {
+            if (listener != null) {
+                // For now, let's just trigger delete or edit via a simple way
+                // In a real app, this might show a PopupMenu
+                android.widget.PopupMenu popup = new android.widget.PopupMenu(v.getContext(), v);
+                popup.getMenu().add("Sửa");
+                popup.getMenu().add("Xóa");
+                popup.setOnMenuItemClickListener(menuItem -> {
+                    if ("Sửa".equals(menuItem.getTitle())) {
+                        listener.onEdit(item);
+                    } else if ("Xóa".equals(menuItem.getTitle())) {
+                        listener.onDelete(item);
+                    }
+                    return true;
+                });
+                popup.show();
+            }
+        });
+        
+        // Visual indicator for completed
+        holder.itemView.setAlpha(item.isCompleted ? 0.6f : 1.0f);
     }
 
     @Override
@@ -64,19 +105,19 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView meta;
-        TextView macros;
-        TextView note;
-        Button delete;
+        TextView name, calories, macros, note, portion;
+        CheckBox checkBox;
+        ImageButton btnMenu;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textPlanName);
-            meta = itemView.findViewById(R.id.textPlanMeta);
+            calories = itemView.findViewById(R.id.textPlanCalories);
             macros = itemView.findViewById(R.id.textPlanMacros);
             note = itemView.findViewById(R.id.textPlanNote);
-            delete = itemView.findViewById(R.id.buttonDeletePlan);
+            portion = itemView.findViewById(R.id.textPlanPortion);
+            checkBox = itemView.findViewById(R.id.checkCompleted);
+            btnMenu = itemView.findViewById(R.id.btnMenuPlan);
         }
     }
 }

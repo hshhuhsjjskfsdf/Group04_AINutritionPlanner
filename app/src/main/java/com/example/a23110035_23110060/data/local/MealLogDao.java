@@ -38,6 +38,9 @@ public interface MealLogDao {
     @Query("UPDATE meal_logs SET isSynced = 1, imageUrl = :imageUrl, updatedAt = :updatedAt WHERE mealLogId = :mealLogId")
     void markSynced(String mealLogId, String imageUrl, long updatedAt);
 
+    @Query("UPDATE meal_logs SET imageUrl = :imageUrl, updatedAt = :updatedAt, isSynced = 0 WHERE mealLogId = :mealLogId")
+    void updateMealImageUrl(String mealLogId, String imageUrl, long updatedAt);
+
     @Query("SELECT * FROM meal_logs WHERE userId = :userId AND logDate = :today ORDER BY createdAt DESC")
     List<MealLogEntity> getTodayLogs(String userId, String today);
 

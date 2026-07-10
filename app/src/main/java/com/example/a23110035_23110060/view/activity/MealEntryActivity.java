@@ -481,14 +481,47 @@ public class MealEntryActivity extends AppCompatActivity {
         mealLog.source = source;
         mealLog.logDate = DateHelper.today();
         loadingView.setVisibility(View.VISIBLE);
+        
         controller.saveMeal(mealLog, new RepositoryCallback<MealLogEntity>() {
             @Override
             public void onSuccess(MealLogEntity result) {
-                runOnUiThread(() -> {
-                    loadingView.setVisibility(View.GONE);
-                    Toast.makeText(MealEntryActivity.this, "Đã lưu bữa ăn", Toast.LENGTH_SHORT).show();
-                    finish();
-                });
+                if (imagePath != null && !imagePath.trim().isEmpty()) {
+                    controller.uploadMealImage(userId, mealLog.mealLogId, imagePath, new RepositoryCallback<String>() {
+                        @Override
+                        public void onSuccess(String url) {
+                            if (url != null && !url.isEmpty()) {
+                                controller.updateMealImageUrl(mealLog.mealLogId, url, mealLog, new RepositoryCallback<MealLogEntity>() {
+                                    @Override
+                                    public void onSuccess(MealLogEntity updatedLog) {
+                                        runOnUiThread(() -> {
+                                            loadingView.setVisibility(View.GONE);
+                                            Toast.makeText(MealEntryActivity.this, "Đã lưu bữa ăn", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onError(String message) {
+                                        finishWithUploadWarning();
+                                    }
+                                });
+                            } else {
+                                finishWithUploadWarning();
+                            }
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            finishWithUploadWarning();
+                        }
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        loadingView.setVisibility(View.GONE);
+                        Toast.makeText(MealEntryActivity.this, "Đã lưu bữa ăn", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                }
             }
 
             @Override
@@ -498,6 +531,14 @@ public class MealEntryActivity extends AppCompatActivity {
                     Toast.makeText(MealEntryActivity.this, message, Toast.LENGTH_LONG).show();
                 });
             }
+        });
+    }
+
+    private void finishWithUploadWarning() {
+        runOnUiThread(() -> {
+            loadingView.setVisibility(View.GONE);
+            Toast.makeText(MealEntryActivity.this, "Đã lưu bữa ăn. Ảnh sẽ được đồng bộ khi có mạng.", Toast.LENGTH_LONG).show();
+            finish();
         });
     }
 

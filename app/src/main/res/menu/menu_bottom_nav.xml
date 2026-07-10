@@ -23,7 +23,7 @@
         android:id="@+id/nav_diary"
         android:enabled="true"
         android:icon="@drawable/ic_nav_diary"
-        android:title="Nhật ký" />
+        android:title="Theo dõi" />
 
     <item
         android:id="@+id/nav_profile"

@@ -35,4 +35,22 @@ public class UserRepository {
             }
         });
     }
+
+    public void getCurrentUser(String userId, RepositoryCallback<UserEntity> callback) {
+        executor.execute(() -> {
+            UserEntity user = database.userDao().getById(userId);
+            if (callback != null) {
+                callback.onSuccess(user);
+            }
+        });
+    }
+
+    public void updateUser(UserEntity user, RepositoryCallback<Void> callback) {
+        executor.execute(() -> {
+            database.userDao().insertOrUpdate(user);
+            if (callback != null) {
+                callback.onSuccess(null);
+            }
+        });
+    }
 }

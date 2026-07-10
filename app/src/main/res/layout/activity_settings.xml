@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -10,81 +9,51 @@
     tools:context=".view.activity.SettingsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/appbar_profile"
+        android:id="@+id/appbar_settings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/surface"
-        android:padding="16dp"
         android:elevation="4dp"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/buttonBackSettings"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Quay lại"
-            android:padding="8dp"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
-            android:id="@+id/text_profile_title"
+            android:id="@+id/text_settings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cá nhân"
+            android:text="CÁ NHÂN"
             android:textColor="@color/text_primary"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/buttonBackSettings"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/icon_profile_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_button_secondary"
-            android:contentDescription="Sửa hồ sơ"
-            android:padding="8dp"
-            android:src="@drawable/ic_nav_profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/settings_scroll"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:fillViewport="true"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="88dp"
+        android:paddingBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar_profile">
+        app:layout_constraintTop_toBottomOf="@id/appbar_settings">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-
-
+            <!-- THÔNG TIN CƠ THỂ -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_goal_calories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="1dp"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
@@ -95,95 +64,79 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
-                            android:background="@drawable/bg_card_light"
-                            android:contentDescription="Mục tiêu calo"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_target" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:text="Mục tiêu lượng Calo hằng ngày"
-                            android:textColor="@color/text_primary"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/editGoalCalories"
-                        style="@style/AppInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:hint="Mục tiêu Calo (kcal/ngày)"
-                        android:inputType="numberDecimal" />
+                        android:text="THÔNG TIN CƠ THỂ"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="16dp"
                         android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/editGoalProtein"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Đạm (g/ngày)"
-                            android:inputType="numberDecimal" />
-
-                        <EditText
-                            android:id="@+id/editGoalCarbs"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:hint="Tinh bột (g/ngày)"
-                            android:inputType="numberDecimal" />
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Tuổi" android:textColor="@color/text_secondary"/>
+                        <TextView android:id="@+id/textValueAge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- tuổi" android:textColor="@color/text_primary" android:textStyle="bold"/>
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/editGoalFat"
-                        style="@style/AppInput"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="Mục tiêu Chất béo (g/ngày)"
-                        android:inputType="numberDecimal" />
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Giới tính" android:textColor="@color/text_secondary"/>
+                        <TextView android:id="@+id/textValueGender" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Chiều cao" android:textColor="@color/text_secondary"/>
+                        <TextView android:id="@+id/textValueHeight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- cm" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Cân nặng" android:textColor="@color/text_secondary"/>
+                        <TextView android:id="@+id/textValueWeight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- kg" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Mức vận động" android:textColor="@color/text_secondary"/>
+                        <TextView android:id="@+id/textValueActivity" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                    </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonSaveGoal"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginTop="14dp"
-                        android:text="Lưu mục tiêu"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:backgroundTint="@color/primary"
-                        app:cornerRadius="16dp" />
+                        android:id="@+id/btnEditBodyInfo"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:text="Chỉnh sửa"
+                        android:textAllCaps="false" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- CHỈ SỐ CỦA BẠN -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_meal_reminder"
+                android:id="@+id/cardBodyMetrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="16dp"
                 app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="1dp"
                 app:strokeColor="@color/stroke"
                 app:strokeWidth="1dp">
@@ -194,181 +147,351 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CHỈ SỐ CỦA BẠN"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:layout_marginTop="16dp"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
-                            android:background="@drawable/bg_card_light"
-                            android:contentDescription="Nhắc nhở giờ ăn"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_bell" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:text="Cài đặt nhắc nhở giờ ăn"
-                            android:textColor="@color/text_primary"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <Switch
-                            android:id="@+id/switchReminder"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:showText="false" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layoutBodyMetricLegacy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <EditText
-                            android:id="@+id/editBreakfastTime"
-                            style="@style/AppInput"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Sáng"
-                            android:inputType="time" />
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BMI" android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                            <TextView android:id="@+id/textBMIValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/text_primary" android:textSize="20sp" android:textStyle="bold"/>
+                            <TextView android:id="@+id/textBMICategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/primary" android:textSize="13sp"/>
+                        </LinearLayout>
 
-                        <EditText
-                            android:id="@+id/editLunchTime"
-                            style="@style/AppInput"
+                        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/stroke" android:layout_marginHorizontal="16dp"/>
+
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:hint="Trưa"
-                            android:inputType="time" />
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/editDinnerTime"
-                        style="@style/AppInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="Tối (HH:mm)"
-                        android:inputType="time" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonSaveReminder"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginTop="14dp"
-                        android:text="Lưu nhắc nhở"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:backgroundTint="@color/primary"
-                        app:cornerRadius="16dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_body_metrics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="1dp"
-                app:strokeColor="@color/stroke"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
-                            android:background="@drawable/bg_card_light"
-                            android:contentDescription="Chiều cao cân nặng"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_body_metrics" />
-
-                        <TextView
-                            android:id="@+id/text_body_metrics_title"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:text="Cập nhật chiều cao/cân nặng"
-                            android:textColor="@color/text_primary"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/editHeightCm"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Chiều cao (cm)"
-                            android:inputType="numberDecimal" />
-
-                        <EditText
-                            android:id="@+id/editWeightKg"
-                            style="@style/AppInput"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:hint="Cân nặng (kg)"
-                            android:inputType="numberDecimal" />
+                            android:layout_weight="1.5"
+                            android:orientation="vertical">
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="BMR" android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                                <TextView android:id="@+id/textBMRValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- kcal" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:orientation="horizontal">
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="TDEE" android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                                <TextView android:id="@+id/textTDEEValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- kcal" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/text_body_metrics_hint"
+                        android:id="@+id/textMissingInfoWarning"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Hãy cập nhật đầy đủ thông tin cơ thể để tính chỉ số."
+                        android:textColor="@color/error"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- MỤC TIÊU DINH DƯỠNG -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/stroke"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MỤC TIÊU DINH DƯỠNG"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutGoalValues"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Calories" android:textColor="@color/text_secondary"/>
+                            <TextView android:id="@+id/textGoalCalories" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- kcal/ngày" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Protein" android:textColor="@color/text_secondary"/>
+                            <TextView android:id="@+id/textGoalProtein" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- g/ngày" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Carbs" android:textColor="@color/text_secondary"/>
+                            <TextView android:id="@+id/textGoalCarbs" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- g/ngày" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Fat" android:textColor="@color/text_secondary"/>
+                            <TextView android:id="@+id/textGoalFat" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- g/ngày" android:textColor="@color/text_primary" android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textNoGoal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="Bạn chưa thiết lập mục tiêu dinh dưỡng."
+                        android:textColor="@color/text_secondary"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEditGoal"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chỉnh sửa mục tiêu"
+                            android:textAllCaps="false" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSetupGoalNow"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thiết lập ngay"
+                            android:textAllCaps="false"
+                            android:visibility="gone"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSuggestGoal"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Tính mục tiêu gợi ý"
+                            android:textAllCaps="false" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- NHẮC NHỞ -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/stroke"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="NHẮC NHỞ"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchReminders"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutReminderTimes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/btnPickBreakfast"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="8dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Bữa sáng" android:textColor="@color/text_primary"/>
+                            <TextView android:id="@+id/textTimeBreakfast" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="07:00" android:textColor="@color/primary" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btnPickLunch"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Bữa trưa" android:textColor="@color/text_primary"/>
+                            <TextView android:id="@+id/textTimeLunch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="12:00" android:textColor="@color/primary" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btnPickDinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Bữa tối" android:textColor="@color/text_primary"/>
+                            <TextView android:id="@+id/textTimeDinner" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="18:30" android:textColor="@color/primary" android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- CÀI ĐẶT ỨNG DỤNG -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/stroke"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CÀI ĐẶT ỨNG DỤNG"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Tự động đồng bộ" android:textColor="@color/text_primary"/>
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchAutoSync"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Trạng thái" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                        <TextView android:id="@+id/textSyncStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Đã đồng bộ" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnRetrySync"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thử lại"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Sử dụng Hồ sơ Dinh dưỡng để tính toán BMR, TDEE và các mục tiêu dinh dưỡng cá nhân hóa."
-                        android:textColor="@color/text_secondary"
-                        android:textSize="14sp" />
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Đơn vị cân nặng" android:textColor="@color/text_primary"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="kg" android:textColor="@color/text_secondary"/>
+                    </LinearLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonEditNutritionProfile"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Chỉnh sửa hồ sơ dinh dưỡng"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:backgroundTint="@color/primary"
-                        app:cornerRadius="16dp" />
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Đơn vị chiều cao" android:textColor="@color/text_primary"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="cm" android:textColor="@color/text_secondary"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnAboutApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Giới thiệu ứng dụng" android:textColor="@color/text_primary"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_arrow_back" android:rotation="180" app:tint="@color/text_secondary"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
 
-    </ScrollView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/include_bottom_nav" />
 

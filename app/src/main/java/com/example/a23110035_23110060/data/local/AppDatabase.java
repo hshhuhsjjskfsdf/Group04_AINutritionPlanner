@@ -15,7 +15,7 @@ import androidx.room.RoomDatabase;
                 MealPlanEntity.class,
                 PendingSyncEntity.class
         },
-        version = 1,
+        version = 4,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -37,11 +37,32 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "ai_nutrition_planner.db"
                             )
-                            .fallbackToDestructiveMigration()
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                             .build();
                 }
             }
         }
         return instance;
     }
+
+    private static final androidx.room.migration.Migration MIGRATION_1_2 = new androidx.room.migration.Migration(1, 2) {
+        @Override
+        public void migrate(@androidx.annotation.NonNull androidx.sqlite.db.SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE meal_plans ADD COLUMN isCompleted INTEGER NOT NULL DEFAULT 0");
+        }
+    };
+
+    private static final androidx.room.migration.Migration MIGRATION_2_3 = new androidx.room.migration.Migration(2, 3) {
+        @Override
+        public void migrate(@androidx.annotation.NonNull androidx.sqlite.db.SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE meal_plans ADD COLUMN portion TEXT");
+        }
+    };
+
+    private static final androidx.room.migration.Migration MIGRATION_3_4 = new androidx.room.migration.Migration(3, 4) {
+        @Override
+        public void migrate(@androidx.annotation.NonNull androidx.sqlite.db.SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE users ADD COLUMN avatarUrl TEXT NOT NULL DEFAULT ''");
+        }
+    };
 }

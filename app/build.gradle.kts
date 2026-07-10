@@ -55,6 +55,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("org.tensorflow:tensorflow-lite:2.17.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
