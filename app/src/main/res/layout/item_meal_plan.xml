@@ -69,22 +69,52 @@
                 android:text="450 kcal"
                 android:textColor="@color/primary"
                 android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginEnd="12dp"/>
 
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_macro_protein"
+                android:layout_marginEnd="2dp"
+                android:contentDescription="P"/>
             <TextView
+                android:id="@+id/textProteinPlan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:text="•"
-                android:textColor="@color/text_hint" />
-
-            <TextView
-                android:id="@+id/textPlanMacros"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="P 20g · C 50g · F 15g"
+                android:text="0g"
                 android:textColor="@color/text_secondary"
-                android:textSize="12sp" />
+                android:textSize="11sp"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_macro_carbs"
+                android:layout_marginEnd="2dp"
+                android:contentDescription="C"/>
+            <TextView
+                android:id="@+id/textCarbsPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0g"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_macro_fat"
+                android:layout_marginEnd="2dp"
+                android:contentDescription="F"/>
+            <TextView
+                android:id="@+id/textFatPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0g"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"/>
         </LinearLayout>
 
         <TextView

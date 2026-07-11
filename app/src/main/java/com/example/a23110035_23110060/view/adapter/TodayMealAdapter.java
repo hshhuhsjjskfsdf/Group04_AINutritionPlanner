@@ -15,6 +15,7 @@ import com.example.a23110035_23110060.R;
 import com.example.a23110035_23110060.data.local.MealLogEntity;
 import com.example.a23110035_23110060.helper.DateHelper;
 
+import com.example.a23110035_23110060.helper.CsvImportHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class TodayMealAdapter extends RecyclerView.Adapter<TodayMealAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MealLogEntity item = items.get(position);
         holder.textMealType.setText(item.mealType);
-        holder.textFoodName.setText(item.foodName);
+        holder.textFoodName.setText(CsvImportHelper.formatFoodLabel(item.foodName));
         holder.textCalories.setText(String.format(Locale.US, "%.0f kcal", item.calories));
         
         // Show time if available in createdAt or just use a placeholder

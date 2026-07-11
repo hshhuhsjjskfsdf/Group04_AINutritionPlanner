@@ -258,13 +258,25 @@
                         android:textAppearance="@style/TextAppearance.App.Title" />
 
                     <!-- Protein -->
-                    <TextView
-                        android:id="@+id/textProteinLabel"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Protein 0 / 0 g"
-                        android:textColor="@color/text_primary" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_macro_protein"
+                            android:layout_marginEnd="6dp"
+                            android:contentDescription="Protein"/>
+                        <TextView
+                            android:id="@+id/textProteinLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Protein 0 / 0 g"
+                            android:textColor="@color/text_primary" />
+                    </LinearLayout>
 
                     <ProgressBar
                         android:id="@+id/progressProtein"
@@ -277,13 +289,25 @@
                         android:progressDrawable="@drawable/bg_horizontal_progress" />
 
                     <!-- Carbs -->
-                    <TextView
-                        android:id="@+id/textCarbsLabel"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Carbs 0 / 0 g"
-                        android:textColor="@color/text_primary" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_macro_carbs"
+                            android:layout_marginEnd="6dp"
+                            android:contentDescription="Carbs"/>
+                        <TextView
+                            android:id="@+id/textCarbsLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Carbs 0 / 0 g"
+                            android:textColor="@color/text_primary" />
+                    </LinearLayout>
 
                     <ProgressBar
                         android:id="@+id/progressCarbs"
@@ -296,13 +320,25 @@
                         android:progressDrawable="@drawable/bg_horizontal_progress" />
 
                     <!-- Fat -->
-                    <TextView
-                        android:id="@+id/textFatLabel"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Fat 0 / 0 g"
-                        android:textColor="@color/text_primary" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_macro_fat"
+                            android:layout_marginEnd="6dp"
+                            android:contentDescription="Fat"/>
+                        <TextView
+                            android:id="@+id/textFatLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fat 0 / 0 g"
+                            android:textColor="@color/text_primary" />
+                    </LinearLayout>
 
                     <ProgressBar
                         android:id="@+id/progressFat"

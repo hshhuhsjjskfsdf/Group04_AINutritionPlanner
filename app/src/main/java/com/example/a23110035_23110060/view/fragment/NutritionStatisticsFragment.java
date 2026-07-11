@@ -293,58 +293,59 @@ public class NutritionStatisticsFragment extends Fragment {
     private void generateInsights(double avgCal, double avgP, double avgC, double avgF, int goalMetCount, int dayCount) {
         StringBuilder insight = new StringBuilder();
         
+        if (avgCal == 0) {
+            textStatsInsight.setText("Chào bạn! Hãy bắt đầu ghi chép bữa ăn để mình có thể phân tích và đưa ra những lời khuyên hữu ích cho bạn nhé. 🌱");
+            return;
+        }
+
         // 1. Calories Insight
         if (avgCal > userGoal.targetCalories + 100) {
-            insight.append("🔥 **Năng lượng:** Calories trung bình (").append((int)avgCal).append(" kcal) cao hơn mục tiêu ").append((int)(avgCal - userGoal.targetCalories)).append(" kcal. Hãy chú ý kiểm soát khẩu phần ăn để tránh tăng cân.\n\n");
+            insight.append("🔥 Mức năng lượng trung bình hiện tại là <b>").append((int)avgCal)
+                   .append(" kcal</b>, hơi cao hơn mục tiêu một chút. Việc điều chỉnh nhẹ khẩu phần ăn sẽ giúp bạn duy trì cân nặng ổn định hơn đấy. <br/><br/>");
         } else if (avgCal < userGoal.targetCalories - 100) {
-            insight.append("📉 **Năng lượng:** Calories trung bình đang thấp hơn mục tiêu ").append((int)(userGoal.targetCalories - avgCal)).append(" kcal. Bạn nên bổ sung thêm năng lượng để đảm bảo sức khỏe và duy trì cân nặng.\n\n");
+            insight.append("⚡ Bạn đang nạp khoảng <b>").append((int)avgCal)
+                   .append(" kcal mỗi ngày</b>, hơi thấp so với mục tiêu. Hãy chú ý bổ sung thêm dinh dưỡng để luôn tràn đầy sức sống nhé! <br/><br/>");
         } else {
-            insight.append("✅ **Năng lượng:** Bạn đang duy trì lượng calories rất tốt, sát với mục tiêu đề ra.\n\n");
+            insight.append("🌟 Thật tuyệt vời! Bạn đang duy trì mức năng lượng <b>").append((int)avgCal)
+                   .append(" kcal</b> rất sát với mục tiêu đề ra. Cố gắng phát huy nhé! <br/><br/>");
         }
 
         // 2. Goal Met Days
         if (goalMetCount > 0) {
-            insight.append("📅 **Kỷ luật:** Bạn đã đạt mục tiêu calories ").append(goalMetCount).append(" trong số ").append(dayCount).append(" ngày qua. Hãy cố gắng duy trì sự đều đặn này.\n\n");
+            insight.append("📅 Trong <b>").append(dayCount).append(" ngày</b> vừa qua, bạn đã hoàn thành mục tiêu <b>").append(goalMetCount)
+                   .append(" lần</b>. Sự kiên trì chính là chìa khóa để đạt được vóc dáng mơ ước! <br/><br/>");
         }
 
-        // 3. Nutrients & Recommendations (Rule-based)
-        boolean hasMacroIssue = false;
+        // 3. Nutrients & Recommendations
+        insight.append("🥗 <b>Lời khuyên dinh dưỡng:</b><br/>");
+        boolean hasSpecificMacroAdvice = false;
 
         // Protein
         if (userGoal.targetProtein - avgP > 15) {
-            insight.append("💪 **Thiếu Protein:** Bạn đang thiếu khoảng ").append((int)(userGoal.targetProtein - avgP))
-                   .append("g protein mỗi ngày. Protein rất quan trọng cho việc phục hồi và phát triển cơ bắp.\n")
-                   .append("👉 *Gợi ý:* Hãy bổ sung ức gà, cá hồi, trứng, các loại đậu hoặc sữa whey vào thực đơn.\n\n");
-            hasMacroIssue = true;
+            insight.append("• Bạn nên bổ sung thêm khoảng <b>").append((int)(userGoal.targetProtein - avgP))
+                   .append("g protein</b> mỗi ngày. Các món như ức gà, trứng hay các loại đậu sẽ là lựa chọn tuyệt vời. <br/>");
+            hasSpecificMacroAdvice = true;
         }
 
         // Carbs
         if (userGoal.targetCarbs - avgC > 30) {
-            insight.append("🍚 **Thiếu Tinh bột:** Lượng tinh bột của bạn đang thấp hơn mục tiêu. Tinh bột là nguồn năng lượng chính cho não bộ và vận động.\n")
-                   .append("👉 *Gợi ý:* Nên dùng thêm yến mạch, khoai lang, gạo lứt hoặc trái cây.\n\n");
-            hasMacroIssue = true;
+            insight.append("• Có vẻ lượng tinh bột hơi thấp, bạn có thể thêm chút khoai lang hoặc yến mạch để có thêm năng lượng nhé. <br/>");
+            hasSpecificMacroAdvice = true;
         } else if (avgC > userGoal.targetCarbs + 50) {
-            insight.append("🍕 **Dư Tinh bột:** Bạn đang nạp quá nhiều tinh bột. Điều này có thể gây tích mỡ và tăng đường huyết.\n")
-                   .append("👉 *Gợi ý:* Hạn chế các loại thực phẩm nhiều đường, tinh bột trắng, bánh mì và đồ ngọt.\n\n");
-            hasMacroIssue = true;
+            insight.append("• Lượng tinh bột hơi dư, bạn nên hạn chế bớt đồ ngọt và tinh bột trắng để cơ thể cảm thấy nhẹ nhàng hơn. <br/>");
+            hasSpecificMacroAdvice = true;
         }
 
         // Fat
         if (userGoal.targetFat - avgF > 10) {
-            insight.append("🥑 **Thiếu Chất béo:** Bạn đang nạp ít chất béo. Chất béo tốt cần thiết cho hấp thụ vitamin và hormone.\n")
-                   .append("👉 *Gợi ý:* Hãy thêm dầu ô liu, quả bơ, hoặc các loại hạt (hạnh nhân, óc chó) vào bữa ăn.\n\n");
-            hasMacroIssue = true;
+            insight.append("• Đừng quên thêm một chút chất béo tốt từ hạt hoặc dầu ô-liu để hỗ trợ làn da và sức khỏe bạn nhé. <br/>");
+            hasSpecificMacroAdvice = true;
         }
 
-        if (!hasMacroIssue && avgCal > 0) {
-            insight.append("🌟 **Cân bằng:** Tỷ lệ các chất dinh dưỡng của bạn đang ở mức khá cân đối. Hãy tiếp tục phát huy!");
+        if (!hasSpecificMacroAdvice) {
+            insight.append("• Tỷ lệ các nhóm chất của bạn đang ở mức rất cân bằng. Rất tốt, hãy cứ tiếp tục như vậy nhé! ✨");
         }
 
-        if (avgCal == 0) {
-            insight.setLength(0);
-            insight.append("Chưa có dữ liệu dinh dưỡng cho khoảng thời gian này. Hãy bắt đầu ghi chép bữa ăn để nhận được phân tích chuyên sâu.");
-        }
-
-        textStatsInsight.setText(insight.toString());
+        textStatsInsight.setText(android.text.Html.fromHtml(insight.toString(), android.text.Html.FROM_HTML_MODE_LEGACY));
     }
 }

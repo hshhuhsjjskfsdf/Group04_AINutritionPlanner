@@ -1,6 +1,5 @@
 package com.example.a23110035_23110060.helper;
 
-import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -42,8 +41,7 @@ public class NotificationHelper {
 
     public static void showMealReminderNotification(Context context, String mealType) {
         createNotificationChannel(context);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-                && ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
             return;
         }
 
@@ -56,25 +54,21 @@ public class NotificationHelper {
             if (userId != null && mealType != null && !mealType.isEmpty()) {
                 String today = DateHelper.today();
                 AppDatabase db = AppDatabase.getInstance(context);
-                // We use a thread because we're likely in a BroadcastReceiver (Main Thread)
-                new Thread(() -> {
-                    List<MealPlanEntity> plans = db.mealPlanDao().getByUserAndDate(userId, today);
-                    String plannedFood = "";
+                
+                List<MealPlanEntity> plans = db.mealPlanDao().getByUserAndDate(userId, today);
+                String plannedFood = "";
+                if (plans != null) {
                     for (MealPlanEntity p : plans) {
                         if (mealType.equalsIgnoreCase(p.mealType)) {
                             plannedFood = p.foodName;
                             break;
                         }
                     }
+                }
 
-                    String finalContent = content;
-                    if (!plannedFood.isEmpty()) {
-                        finalContent = "Hôm nay bạn dự định ăn: " + plannedFood + ". Bấm để ghi nhận ngay!";
-                    }
-                    
-                    sendNotification(context, title, finalContent);
-                }).start();
-                return;
+                if (!plannedFood.isEmpty()) {
+                    content = "Hôm nay bạn dự định ăn: " + plannedFood + ". Bấm để ghi nhận ngay!";
+                }
             }
         } catch (Exception ignored) {}
 
@@ -83,8 +77,7 @@ public class NotificationHelper {
 
     public static void showGeneralNotification(Context context, int notificationId, String title, String content) {
         createNotificationChannel(context);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-                && ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
             return;
         }
 
@@ -118,8 +111,6 @@ public class NotificationHelper {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            notificationManager.notify(2001, builder.build());
-        }
+        notificationManager.notify(2001, builder.build());
     }
 }

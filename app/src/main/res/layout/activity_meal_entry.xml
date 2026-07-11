@@ -227,6 +227,63 @@
                 android:textAppearance="@style/TextAppearance.App.Body"
                 android:textColor="#D9FFFFFF" />
 
+            <!-- Editable serving size in Camera Sheet -->
+            <LinearLayout
+                android:id="@+id/layout_camera_serving_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Khẩu phần:"
+                    android:textAppearance="@style/TextAppearance.App.Body"
+                    android:textColor="#D9FFFFFF"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edit_camera_serving_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:minWidth="60dp"
+                    android:background="@drawable/bg_otp_box_light"
+                    android:backgroundTint="#4DFFFFFF"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:imeOptions="actionDone"
+                    android:selectAllOnFocus="true" />
+
+                <TextView
+                    android:id="@+id/text_camera_serving_unit_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="g"
+                    android:textAppearance="@style/TextAppearance.App.Body"
+                    android:textColor="#D9FFFFFF"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="(Chạm để sửa)"
+                    android:textColor="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
             <!-- Bảng Macro kết quả (Mặc định ẩn) -->
             <LinearLayout
                 android:id="@+id/layout_macro_results"

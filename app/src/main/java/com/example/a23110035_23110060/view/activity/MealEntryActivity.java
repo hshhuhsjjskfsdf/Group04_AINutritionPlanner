@@ -78,10 +78,18 @@ public class MealEntryActivity extends AppCompatActivity {
     private String imagePath;
     private String source = "MANUAL";
 
+    // Macro base values for scaling
+    private double baseCalories = 0, baseProtein = 0, baseCarbs = 0, baseFat = 0;
+    private double baseServingAmount = 100;
+    private String baseServingUnit = "g";
+
     private ImageView capturedImagePreview;
     private View btnRetake;
     private View btnShutter;
     private View layoutMacroResults;
+    private View layoutCameraServingEdit;
+    private EditText editCameraServingValue;
+    private TextView textCameraServingUnitDisplay;
     private TextView textResultCalories;
     private TextView textResultProtein;
     private TextView textResultCarbs;
@@ -248,6 +256,10 @@ public class MealEntryActivity extends AppCompatActivity {
         textRecognitionResult = findViewById(R.id.textRecognitionResult);
         loadingView = findViewById(R.id.loadingView);
         
+        layoutCameraServingEdit = findViewById(R.id.layout_camera_serving_edit);
+        editCameraServingValue = findViewById(R.id.edit_camera_serving_value);
+        textCameraServingUnitDisplay = findViewById(R.id.text_camera_serving_unit_display);
+
         capturedImagePreview = findViewById(R.id.captured_image_preview);
         btnRetake = findViewById(R.id.btn_retake_photo);
         btnShutter = findViewById(R.id.btn_shutter);
@@ -332,6 +344,53 @@ public class MealEntryActivity extends AppCompatActivity {
         if (imgManualFood != null) {
             imgManualFood.setOnClickListener(v -> chooseImage());
         }
+
+        setupCameraServingEdit();
+    }
+
+    private void setupCameraServingEdit() {
+        if (editCameraServingValue == null) return;
+        editCameraServingValue.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) {
+                updateScaledMacros();
+            }
+        });
+        editCameraServingValue.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE) {
+                editCameraServingValue.clearFocus();
+                android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) imm.hideSoftInputFromWindow(editCameraServingValue.getWindowToken(), 0);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void updateScaledMacros() {
+        if (source.equals("AI") || source.equals("MANUAL_CARD")) {
+            String valStr = editCameraServingValue.getText().toString();
+            double currentAmount = ValidationHelper.parseDoubleOrZero(valStr);
+            
+            double ratio = (baseServingAmount > 0) ? (currentAmount / baseServingAmount) : 0;
+            double scaledCalories = baseCalories * ratio;
+            double scaledProtein = baseProtein * ratio;
+            double scaledCarbs = baseCarbs * ratio;
+            double scaledFat = baseFat * ratio;
+
+            textResultCalories.setText(String.format(Locale.US, "%.0f", scaledCalories));
+            textResultProtein.setText(String.format(Locale.US, "%.1fg", scaledProtein));
+            textResultCarbs.setText(String.format(Locale.US, "%.1fg", scaledCarbs));
+            textResultFat.setText(String.format(Locale.US, "%.1fg", scaledFat));
+
+            // Also update the hidden edit fields that are used for saving
+            editCalories.setText(String.format(Locale.US, "%.0f", scaledCalories));
+            editProtein.setText(String.format(Locale.US, "%.1f", scaledProtein));
+            editCarbs.setText(String.format(Locale.US, "%.1f", scaledCarbs));
+            editFat.setText(String.format(Locale.US, "%.1f", scaledFat));
+            editServing.setText(valStr + " " + baseServingUnit);
+        }
     }
 
     private void retakePhoto() {
@@ -340,6 +399,8 @@ public class MealEntryActivity extends AppCompatActivity {
         btnRetake.setVisibility(View.GONE);
         btnShutter.setVisibility(View.VISIBLE);
         layoutMacroResults.setVisibility(View.GONE);
+        if (layoutCameraServingEdit != null) layoutCameraServingEdit.setVisibility(View.GONE);
+        textCameraResultSubtitle.setVisibility(View.VISIBLE);
         buttonSaveCameraMeal.setVisibility(View.GONE);
         buttonAnalyzeSelectedFood.setVisibility(View.VISIBLE);
         showRecognitionResult("Phân tích bữa ăn", "Nhấn Chụp để bắt đầu, sau đó bấm Phân tích.");
@@ -412,43 +473,104 @@ public class MealEntryActivity extends AppCompatActivity {
         source = "AI";
         String label = intent.getStringExtra(FoodAnalysisService.EXTRA_LABEL);
         String displayLabel = normalizeDisplayLabel(label);
-        double calories = intent.getDoubleExtra(FoodAnalysisService.EXTRA_CALORIES, 0);
-        double protein = intent.getDoubleExtra(FoodAnalysisService.EXTRA_PROTEIN, 0);
-        double carbs = intent.getDoubleExtra(FoodAnalysisService.EXTRA_CARBS, 0);
-        double fat = intent.getDoubleExtra(FoodAnalysisService.EXTRA_FAT, 0);
+        
+        baseCalories = intent.getDoubleExtra(FoodAnalysisService.EXTRA_CALORIES, 0);
+        baseProtein = intent.getDoubleExtra(FoodAnalysisService.EXTRA_PROTEIN, 0);
+        baseCarbs = intent.getDoubleExtra(FoodAnalysisService.EXTRA_CARBS, 0);
+        baseFat = intent.getDoubleExtra(FoodAnalysisService.EXTRA_FAT, 0);
         String serving = intent.getStringExtra(FoodAnalysisService.EXTRA_SERVING);
+
+        // Parse serving string (e.g., "100g" -> 100 and "g")
+        parseBaseServing(serving);
+
         editFoodName.setText(displayLabel);
-        editCalories.setText(String.format(Locale.US, "%.0f", calories));
-        editProtein.setText(String.format(Locale.US, "%.1f", protein));
-        editCarbs.setText(String.format(Locale.US, "%.1f", carbs));
-        editFat.setText(String.format(Locale.US, "%.1f", fat));
+        editCalories.setText(String.format(Locale.US, "%.0f", baseCalories));
+        editProtein.setText(String.format(Locale.US, "%.1f", baseProtein));
+        editCarbs.setText(String.format(Locale.US, "%.1f", baseCarbs));
+        editFat.setText(String.format(Locale.US, "%.1f", baseFat));
         editServing.setText(serving);
+
+        String servingText = serving == null || serving.trim().isEmpty() ? "" : "Khẩu phần: " + serving.trim();
+        showRecognitionResult("AI: " + displayLabel, servingText);
         
         // Cập nhật giao diện thẻ kết quả Camera
         if (layoutMacroResults != null) {
             layoutMacroResults.setVisibility(View.VISIBLE);
             buttonSaveCameraMeal.setVisibility(View.VISIBLE);
             buttonAnalyzeSelectedFood.setVisibility(View.GONE);
-            textResultCalories.setText(String.format(Locale.US, "%.0f", calories));
-            textResultProtein.setText(String.format(Locale.US, "%.1fg", protein));
-            textResultCarbs.setText(String.format(Locale.US, "%.1fg", carbs));
-            textResultFat.setText(String.format(Locale.US, "%.1fg", fat));
+            textResultCalories.setText(String.format(Locale.US, "%.0f", baseCalories));
+            textResultProtein.setText(String.format(Locale.US, "%.1fg", baseProtein));
+            textResultCarbs.setText(String.format(Locale.US, "%.1fg", baseCarbs));
+            textResultFat.setText(String.format(Locale.US, "%.1fg", baseFat));
+            
+            // Show and setup editable serving
+            if (layoutCameraServingEdit != null) {
+                layoutCameraServingEdit.setVisibility(View.VISIBLE);
+                textCameraResultSubtitle.setVisibility(View.GONE); // Hide static serving text, show editable one
+                editCameraServingValue.setText(String.format(Locale.US, "%.0f", baseServingAmount));
+                textCameraServingUnitDisplay.setText(baseServingUnit);
+            }
         }
-        
-        String servingText = serving == null || serving.trim().isEmpty() ? "" : "Khẩu phần: " + serving.trim();
-        showRecognitionResult("AI: " + displayLabel, servingText);
+    }
+
+    private void parseBaseServing(String serving) {
+        if (serving == null || serving.isEmpty()) {
+            baseServingAmount = 100;
+            baseServingUnit = "g";
+            return;
+        }
+
+        try {
+            // Extract numeric part
+            String numericPart = serving.replaceAll("[^0-9.]", "");
+            if (!numericPart.isEmpty()) {
+                baseServingAmount = Double.parseDouble(numericPart);
+                baseServingUnit = serving.replace(numericPart, "").trim();
+            } else {
+                baseServingAmount = 1;
+                baseServingUnit = serving;
+            }
+        } catch (Exception e) {
+            baseServingAmount = 100;
+            baseServingUnit = "g";
+        }
     }
 
     private void fillFoodFields(FoodEntity food) {
-        source = "MANUAL";
+        source = "MANUAL_CARD"; // Using card layout for consistency
         String displayLabel = CsvImportHelper.formatFoodLabel(food.dishName);
+        
+        baseCalories = food.calories;
+        baseProtein = food.protein;
+        baseCarbs = food.carbs;
+        baseFat = food.fat;
+        parseBaseServing(food.serving);
+
         editFoodName.setText(displayLabel);
-        editCalories.setText(String.format(Locale.US, "%.0f", food.calories));
-        editProtein.setText(String.format(Locale.US, "%.1f", food.protein));
-        editCarbs.setText(String.format(Locale.US, "%.1f", food.carbs));
-        editFat.setText(String.format(Locale.US, "%.1f", food.fat));
+        editCalories.setText(String.format(Locale.US, "%.0f", baseCalories));
+        editProtein.setText(String.format(Locale.US, "%.1f", baseProtein));
+        editCarbs.setText(String.format(Locale.US, "%.1f", baseCarbs));
+        editFat.setText(String.format(Locale.US, "%.1f", baseFat));
         editServing.setText(food.serving);
         
+        // Cập nhật giao diện thẻ kết quả Camera (nếu đang ở màn hình camera)
+        if (layoutMacroResults != null) {
+            layoutMacroResults.setVisibility(View.VISIBLE);
+            buttonSaveCameraMeal.setVisibility(View.VISIBLE);
+            buttonAnalyzeSelectedFood.setVisibility(View.GONE);
+            textResultCalories.setText(String.format(Locale.US, "%.0f", baseCalories));
+            textResultProtein.setText(String.format(Locale.US, "%.1fg", baseProtein));
+            textResultCarbs.setText(String.format(Locale.US, "%.1fg", baseCarbs));
+            textResultFat.setText(String.format(Locale.US, "%.1fg", baseFat));
+            
+            if (layoutCameraServingEdit != null) {
+                layoutCameraServingEdit.setVisibility(View.VISIBLE);
+                textCameraResultSubtitle.setVisibility(View.GONE);
+                editCameraServingValue.setText(String.format(Locale.US, "%.0f", baseServingAmount));
+                textCameraServingUnitDisplay.setText(baseServingUnit);
+            }
+        }
+
         // Cập nhật ảnh đại diện nếu có
         if (imgManualFood != null) {
             imgManualFood.setImageResource(R.drawable.ic_empty_bowl);

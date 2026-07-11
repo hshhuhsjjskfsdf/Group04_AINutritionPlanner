@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.a23110035_23110060.R;
 import com.example.a23110035_23110060.data.local.MealLogEntity;
 
+import com.example.a23110035_23110060.helper.CsvImportHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -118,7 +119,8 @@ public class CategorizedMealLogAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView name, calories, portion, macros, time;
+        TextView name, calories, portion, time;
+        TextView textProteinItem, textCarbsItem, textFatItem;
         ImageView image;
         ImageButton menu;
 
@@ -126,7 +128,9 @@ public class CategorizedMealLogAdapter extends RecyclerView.Adapter<RecyclerView
             super(itemView);
             name = itemView.findViewById(R.id.textFoodName);
             portion = itemView.findViewById(R.id.textPortion);
-            macros = itemView.findViewById(R.id.textMacros);
+            textProteinItem = itemView.findViewById(R.id.textProteinItem);
+            textCarbsItem = itemView.findViewById(R.id.textCarbsItem);
+            textFatItem = itemView.findViewById(R.id.textFatItem);
             calories = itemView.findViewById(R.id.textCalories);
             time = itemView.findViewById(R.id.textTime);
             image = itemView.findViewById(R.id.image_meal_thumbnail);
@@ -134,10 +138,13 @@ public class CategorizedMealLogAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         void bind(MealLogEntity log, OnMealLogActionListener listener) {
-            name.setText(log.foodName);
+            name.setText(CsvImportHelper.formatFoodLabel(log.foodName));
             calories.setText(String.format(Locale.US, "%.0f kcal", log.calories));
             portion.setText(log.serving);
-            macros.setText(String.format(Locale.US, "P %.0f g · C %.0f g · F %.0f g", log.protein, log.carbs, log.fat));
+            
+            textProteinItem.setText(String.format(Locale.US, "%.1fg", log.protein));
+            textCarbsItem.setText(String.format(Locale.US, "%.1fg", log.carbs));
+            textFatItem.setText(String.format(Locale.US, "%.1fg", log.fat));
             
             // Format time from createdAt
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm", Locale.US);

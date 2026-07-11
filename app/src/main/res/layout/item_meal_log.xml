@@ -53,17 +53,61 @@
             app:layout_constraintStart_toStartOf="@id/textFoodName"
             app:layout_constraintTop_toBottomOf="@id/textFoodName" />
 
-        <TextView
-            android:id="@+id/textMacros"
+        <LinearLayout
+            android:id="@+id/layout_item_macros"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="P 0g • C 0g • F 0g"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             app:layout_constraintEnd_toStartOf="@id/btnMenu"
             app:layout_constraintStart_toStartOf="@id/textFoodName"
-            app:layout_constraintTop_toBottomOf="@id/textPortion" />
+            app:layout_constraintTop_toBottomOf="@id/textPortion">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_macro_protein"
+                android:layout_marginEnd="2dp"
+                android:contentDescription="P"/>
+            <TextView
+                android:id="@+id/textProteinItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0g"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_macro_carbs"
+                android:layout_marginEnd="2dp"
+                android:contentDescription="C"/>
+            <TextView
+                android:id="@+id/textCarbsItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0g"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_macro_fat"
+                android:layout_marginEnd="2dp"
+                android:contentDescription="F"/>
+            <TextView
+                android:id="@+id/textFatItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0g"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textTime"
@@ -74,7 +118,7 @@
             android:textColor="@color/text_hint"
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="@id/textFoodName"
-            app:layout_constraintTop_toBottomOf="@id/textMacros" />
+            app:layout_constraintTop_toBottomOf="@id/layout_item_macros" />
 
         <TextView
             android:id="@+id/textCalories"

@@ -16,8 +16,12 @@ import java.util.List;
 public class PreparationReminderReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        final BroadcastReceiver.PendingResult pendingResult = goAsync();
         String userId = FirebaseHelper.getCurrentUserId();
-        if (userId == null) return;
+        if (userId == null) {
+            pendingResult.finish();
+            return;
+        }
 
         // Get tomorrow's date
         Calendar tomorrow = Calendar.getInstance();
@@ -25,23 +29,27 @@ public class PreparationReminderReceiver extends BroadcastReceiver {
         String dateStr = DateHelper.formatDate(tomorrow.getTime());
 
         new Thread(() -> {
-            AppDatabase db = AppDatabase.getInstance(context);
-            List<MealPlanEntity> plans = db.mealPlanDao().getByUserAndDate(userId, dateStr);
-            
-            if (plans != null && !plans.isEmpty()) {
-                StringBuilder menu = new StringBuilder("Kế hoạch mai có: ");
-                for (int i = 0; i < Math.min(plans.size(), 3); i++) {
-                    menu.append(plans.get(i).foodName);
-                    if (i < Math.min(plans.size(), 3) - 1) menu.append(", ");
-                }
-                if (plans.size() > 3) menu.append("...");
+            try {
+                AppDatabase db = AppDatabase.getInstance(context);
+                List<MealPlanEntity> plans = db.mealPlanDao().getByUserAndDate(userId, dateStr);
                 
-                NotificationHelper.showGeneralNotification(
-                    context, 
-                    2002, 
-                    "Chuẩn bị cho ngày mai", 
-                    menu.toString()
-                );
+                if (plans != null && !plans.isEmpty()) {
+                    StringBuilder menu = new StringBuilder("Kế hoạch mai có: ");
+                    for (int i = 0; i < Math.min(plans.size(), 3); i++) {
+                        menu.append(plans.get(i).foodName);
+                        if (i < Math.min(plans.size(), 3) - 1) menu.append(", ");
+                    }
+                    if (plans.size() > 3) menu.append("...");
+                    
+                    NotificationHelper.showGeneralNotification(
+                        context, 
+                        2002, 
+                        "Chuẩn bị cho ngày mai", 
+                        menu.toString()
+                    );
+                }
+            } finally {
+                pendingResult.finish();
             }
         }).start();
     }

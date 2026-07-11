@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.a23110035_23110060.R;
 import com.example.a23110035_23110060.data.local.MealPlanEntity;
 
+import com.example.a23110035_23110060.helper.CsvImportHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -49,10 +50,12 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MealPlanEntity item = items.get(position);
-        holder.name.setText(item.foodName);
+        holder.name.setText(CsvImportHelper.formatFoodLabel(item.foodName));
         holder.calories.setText(String.format(Locale.US, "%.0f kcal", item.calories));
-        holder.macros.setText(String.format(Locale.US, "P %.1fg · C %.1fg · F %.1fg",
-                item.protein, item.carbs, item.fat));
+        
+        holder.textProteinPlan.setText(String.format(Locale.US, "%.1fg", item.protein));
+        holder.textCarbsPlan.setText(String.format(Locale.US, "%.1fg", item.carbs));
+        holder.textFatPlan.setText(String.format(Locale.US, "%.1fg", item.fat));
         
         if (item.portion != null && !item.portion.isEmpty()) {
             holder.portion.setText(item.portion);
@@ -105,7 +108,8 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name, calories, macros, note, portion;
+        TextView name, calories, note, portion;
+        TextView textProteinPlan, textCarbsPlan, textFatPlan;
         CheckBox checkBox;
         ImageButton btnMenu;
 
@@ -113,7 +117,9 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
             super(itemView);
             name = itemView.findViewById(R.id.textPlanName);
             calories = itemView.findViewById(R.id.textPlanCalories);
-            macros = itemView.findViewById(R.id.textPlanMacros);
+            textProteinPlan = itemView.findViewById(R.id.textProteinPlan);
+            textCarbsPlan = itemView.findViewById(R.id.textCarbsPlan);
+            textFatPlan = itemView.findViewById(R.id.textFatPlan);
             note = itemView.findViewById(R.id.textPlanNote);
             portion = itemView.findViewById(R.id.textPlanPortion);
             checkBox = itemView.findViewById(R.id.checkCompleted);

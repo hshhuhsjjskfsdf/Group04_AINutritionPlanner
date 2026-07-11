@@ -52,8 +52,6 @@ public class MealLogAdapter extends RecyclerView.Adapter<MealLogAdapter.ViewHold
         MealLogEntity item = items.get(position);
         holder.name.setText(item.foodName);
         holder.portion.setText(item.mealType + " • " + item.logDate + (item.isSynced ? " • Đã sync" : " • Chờ sync"));
-        holder.macros.setText(String.format(Locale.US, "P %.1fg • C %.1fg • F %.1fg",
-                item.protein, item.carbs, item.fat));
         holder.calories.setText(String.format(Locale.US, "%.0f kcal", item.calories));
         holder.time.setText(item.logDate); // Or specific time field if exists
         
@@ -94,7 +92,6 @@ public class MealLogAdapter extends RecyclerView.Adapter<MealLogAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView portion;
-        TextView macros;
         TextView calories;
         TextView time;
         View delete;
@@ -104,7 +101,6 @@ public class MealLogAdapter extends RecyclerView.Adapter<MealLogAdapter.ViewHold
             super(itemView);
             name = itemView.findViewById(R.id.textFoodName);
             portion = itemView.findViewById(R.id.textPortion);
-            macros = itemView.findViewById(R.id.textMacros);
             calories = itemView.findViewById(R.id.textCalories);
             time = itemView.findViewById(R.id.textTime);
             delete = itemView.findViewById(R.id.btnMenu);

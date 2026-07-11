@@ -83,11 +83,22 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Protein"
-                    android:textAppearance="@style/TextAppearance.App.Caption" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_macro_protein"
+                        android:layout_marginEnd="4dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Protein"
+                        android:textAppearance="@style/TextAppearance.App.Caption" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textProtein"
@@ -104,11 +115,22 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Carbs"
-                    android:textAppearance="@style/TextAppearance.App.Caption" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_macro_carbs"
+                        android:layout_marginEnd="4dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Carbs"
+                        android:textAppearance="@style/TextAppearance.App.Caption" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textCarbs"
@@ -125,11 +147,22 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fat"
-                    android:textAppearance="@style/TextAppearance.App.Caption" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_macro_fat"
+                        android:layout_marginEnd="4dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fat"
+                        android:textAppearance="@style/TextAppearance.App.Caption" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textFat"

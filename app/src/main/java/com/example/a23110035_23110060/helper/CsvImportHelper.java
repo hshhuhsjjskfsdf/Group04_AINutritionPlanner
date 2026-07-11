@@ -100,11 +100,48 @@ public class CsvImportHelper {
     }
 
     public static String formatFoodLabel(String label) {
-        String normalized = normalizeFoodKey(label);
-        if (normalized.isEmpty()) {
+        if (label == null || label.trim().isEmpty()) {
             return "Unknown";
         }
-        String[] parts = normalized.split("_");
+        
+        // Dictionary for Vietnamese food names that often appear in labels
+        Map<String, String> vietNameseMap = new java.util.HashMap<>();
+        vietNameseMap.put("banh_beo", "Bánh Bèo");
+        vietNameseMap.put("banh_bot_loc", "Bánh Bột Lọc");
+        vietNameseMap.put("banh_can", "Bánh Căn");
+        vietNameseMap.put("banh_canh", "Bánh Canh");
+        vietNameseMap.put("banh_chung", "Bánh Chưng");
+        vietNameseMap.put("banh_cuon", "Bánh Cuốn");
+        vietNameseMap.put("banh_duc", "Bánh Đúc");
+        vietNameseMap.put("banh_gio", "Bánh Giò");
+        vietNameseMap.put("banh_khot", "Bánh Khọt");
+        vietNameseMap.put("banh_mi", "Bánh Mì");
+        vietNameseMap.put("banh_pia", "Bánh Pía");
+        vietNameseMap.put("banh_tet", "Bánh Tét");
+        vietNameseMap.put("banh_trang_nuong", "Bánh Tráng Nướng");
+        vietNameseMap.put("banh_xeo", "Bánh Xèo");
+        vietNameseMap.put("bun_bo_hue", "Bún Bò Huế");
+        vietNameseMap.put("bun_dau_mam_tom", "Bún Đậu Mắm Tôm");
+        vietNameseMap.put("bun_mam", "Bún Mắm");
+        vietNameseMap.put("bun_rieu", "Bún Rêu");
+        vietNameseMap.put("bun_thit_nuong", "Bún Thịt Nướng");
+        vietNameseMap.put("ca_kho_to", "Cá Kho Tộ");
+        vietNameseMap.put("canh_chua", "Canh Chua");
+        vietNameseMap.put("cao_lau", "Cao Lầu");
+        vietNameseMap.put("chao_long", "Cháo Lòng");
+        vietNameseMap.put("com_tam", "Cơm Tấm");
+        vietNameseMap.put("goi_cuon", "Gỏi Cuốn");
+        vietNameseMap.put("hu_tiu", "Hủ Tiếu");
+        vietNameseMap.put("nem_ran", "Nem Rán");
+        vietNameseMap.put("pho", "Phở");
+        vietNameseMap.put("xoi_xien", "Xôi Xiên");
+
+        String lowerLabel = label.trim().toLowerCase(Locale.US).replace(" ", "_");
+        if (vietNameseMap.containsKey(lowerLabel)) {
+            return vietNameseMap.get(lowerLabel);
+        }
+
+        String[] parts = label.trim().split("[_\\s]+");
         StringBuilder builder = new StringBuilder();
         for (String part : parts) {
             if (part.isEmpty()) {
@@ -115,7 +152,7 @@ public class CsvImportHelper {
             }
             builder.append(Character.toUpperCase(part.charAt(0)));
             if (part.length() > 1) {
-                builder.append(part.substring(1));
+                builder.append(part.substring(1).toLowerCase(Locale.US));
             }
         }
         return builder.length() == 0 ? "Unknown" : builder.toString();

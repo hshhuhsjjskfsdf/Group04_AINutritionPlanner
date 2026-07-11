@@ -3,31 +3,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/surface_soft"
+    app:cardBackgroundColor="@color/surface"
     app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
-    app:cardElevation="0dp">
+    app:cardElevation="2dp"
+    app:strokeColor="@color/primary_light"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NHẬN XÉT"
-            android:textAppearance="@style/TextAppearance.App.Caption"
-            android:textColor="@color/primary"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_target"
+                app:tint="@color/primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="PHÂN TÍCH THÔNG MINH"
+                android:textAppearance="@style/TextAppearance.App.Caption"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:letterSpacing="0.08" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/primary_light" />
 
         <TextView
             android:id="@+id/textStatsInsight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Bạn đạt mục tiêu calories 5 trong 7 ngày. Hãy tiếp tục duy trì!"
-            android:textAppearance="@style/TextAppearance.App.Body" />
+            android:layout_marginTop="20dp"
+            android:lineSpacingMultiplier="1.4"
+            android:text="Đang phân tích dữ liệu dinh dưỡng của bạn..."
+            android:textAppearance="@style/TextAppearance.App.Body"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="* Nhận xét dựa trên mục tiêu dinh dưỡng cá nhân của bạn."
+            android:textColor="@color/text_hint"
+            android:textSize="11sp"
+            android:textStyle="italic" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
