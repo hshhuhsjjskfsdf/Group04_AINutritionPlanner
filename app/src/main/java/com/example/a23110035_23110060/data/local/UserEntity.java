@@ -21,4 +21,8 @@ public class UserEntity {
     
     @NonNull
     public String avatarUrl = "";
+    
+    public String breakfastReminderTime = "07:00";
+    public String lunchReminderTime = "12:00";
+    public String dinnerReminderTime = "18:00";
 }
