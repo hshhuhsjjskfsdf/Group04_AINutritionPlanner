@@ -41,6 +41,33 @@ public class FirebaseRepository {
                 .addOnFailureListener(e -> error(callback, "Không lưu được hồ sơ Firebase"));
     }
 
+    public void getUserProfile(String userId, RepositoryCallback<UserEntity> callback) {
+        firestore.collection("users").document(userId).get()
+                .addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        UserEntity user = new UserEntity();
+                        user.userId = document.getString("userId");
+                        user.fullName = document.getString("fullName");
+                        user.email = document.getString("email");
+                        user.avatarUrl = document.getString("avatarUrl");
+                        user.age = document.getLong("age") != null ? document.getLong("age").intValue() : 0;
+                        user.gender = document.getString("gender");
+                        user.heightCm = document.getDouble("heightCm") != null ? document.getDouble("heightCm") : 0;
+                        user.weightKg = document.getDouble("weightKg") != null ? document.getDouble("weightKg") : 0;
+                        user.activityLevel = document.getString("activityLevel");
+                        user.createdAt = document.getLong("createdAt") != null ? document.getLong("createdAt") : 0;
+                        user.updatedAt = document.getLong("updatedAt") != null ? document.getLong("updatedAt") : 0;
+                        user.breakfastReminderTime = document.getString("breakfastReminderTime");
+                        user.lunchReminderTime = document.getString("lunchReminderTime");
+                        user.dinnerReminderTime = document.getString("dinnerReminderTime");
+                        success(callback, user);
+                    } else {
+                        error(callback, "Không tìm thấy hồ sơ người dùng");
+                    }
+                })
+                .addOnFailureListener(e -> error(callback, "Lỗi khi lấy dữ liệu: " + e.getMessage()));
+    }
+
     public void saveGoal(GoalEntity goal, RepositoryCallback<Void> callback) {
         firestore.collection("goals").document(goal.goalId)
                 .set(goalMap(goal), SetOptions.merge())
@@ -157,6 +184,14 @@ public class FirebaseRepository {
         map.put("avatarUrl", user.avatarUrl != null ? user.avatarUrl : "");
         map.put("createdAt", user.createdAt);
         map.put("updatedAt", user.updatedAt);
+        map.put("age", user.age);
+        map.put("gender", user.gender);
+        map.put("heightCm", user.heightCm);
+        map.put("weightKg", user.weightKg);
+        map.put("activityLevel", user.activityLevel);
+        map.put("breakfastReminderTime", user.breakfastReminderTime);
+        map.put("lunchReminderTime", user.lunchReminderTime);
+        map.put("dinnerReminderTime", user.dinnerReminderTime);
         return map;
     }
 

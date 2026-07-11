@@ -15,7 +15,7 @@ import androidx.room.RoomDatabase;
                 MealPlanEntity.class,
                 PendingSyncEntity.class
         },
-        version = 4,
+        version = 6,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -38,6 +38,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     "ai_nutrition_planner.db"
                             )
                             .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

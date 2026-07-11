@@ -191,6 +191,16 @@ public class SettingsActivity extends AppCompatActivity {
         textValueWeight.setText(user.weightKg > 0 ? String.format(Locale.US, "%.1f kg", user.weightKg) : "-- kg");
         textValueActivity.setText(user.activityLevel != null ? user.activityLevel : "--");
 
+        if (user.breakfastReminderTime != null) {
+            textTimeBreakfast.setText(user.breakfastReminderTime);
+        }
+        if (user.lunchReminderTime != null) {
+            textTimeLunch.setText(user.lunchReminderTime);
+        }
+        if (user.dinnerReminderTime != null) {
+            textTimeDinner.setText(user.dinnerReminderTime);
+        }
+
         if (user.age > 0 && user.heightCm > 0 && user.weightKg > 0 && user.gender != null) {
             double bmi = NutritionCalculator.calculateBMI(user.weightKg, user.heightCm);
             textBMIValue.setText(String.format(Locale.US, "%.1f", bmi));
@@ -301,7 +311,21 @@ public class SettingsActivity extends AppCompatActivity {
             if (weight < 10 || weight > 500) { layoutWeight.setError("Cân nặng phải trong khoảng 10-500"); return; }
 
             UserEntity user = currentUser != null ? currentUser : new UserEntity();
-            user.userId = FirebaseHelper.getCurrentUserId();
+            com.google.firebase.auth.FirebaseUser fbUser = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
+            if (fbUser != null) {
+                user.userId = fbUser.getUid();
+                if (user.email == null || user.email.isEmpty()) {
+                    user.email = fbUser.getEmail() != null ? fbUser.getEmail() : "";
+                }
+                if (user.fullName == null || user.fullName.isEmpty()) {
+                    user.fullName = fbUser.getDisplayName() != null ? fbUser.getDisplayName() : "";
+                }
+                if (user.createdAt == 0) {
+                    user.createdAt = System.currentTimeMillis();
+                }
+            } else if (user.userId == null || user.userId.isEmpty()) {
+                user.userId = FirebaseHelper.getCurrentUserId();
+            }
             user.age = age;
             user.gender = gender;
             user.heightCm = height;
@@ -451,6 +475,15 @@ public class SettingsActivity extends AppCompatActivity {
             targetView.setText(time);
             getSharedPreferences(AlarmHelper.PREFS, MODE_PRIVATE).edit()
                     .putString(prefKey, time).apply();
+                    
+            if (currentUser != null) {
+                if (AlarmHelper.KEY_BREAKFAST.equals(prefKey)) currentUser.breakfastReminderTime = time;
+                else if (AlarmHelper.KEY_LUNCH.equals(prefKey)) currentUser.lunchReminderTime = time;
+                else if (AlarmHelper.KEY_DINNER.equals(prefKey)) currentUser.dinnerReminderTime = time;
+                
+                settingsController.saveUser(currentUser, null);
+            }
+
             if (switchReminders.isChecked()) {
                 updateReminders();
             }

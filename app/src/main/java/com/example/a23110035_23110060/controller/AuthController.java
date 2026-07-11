@@ -64,8 +64,28 @@ public class AuthController {
         }
         auth.signInWithEmailAndPassword(email.trim(), password)
                 .addOnSuccessListener(authResult -> {
-                    FirebaseUser user = authResult.getUser();
-                    callback.onSuccess(null);
+                    FirebaseUser firebaseUser = authResult.getUser();
+                    if (firebaseUser != null) {
+                        firebaseRepository.getUserProfile(firebaseUser.getUid(), new RepositoryCallback<UserEntity>() {
+                            @Override
+                            public void onSuccess(UserEntity user) {
+                                userRepository.saveUserLocal(user, new RepositoryCallback<Void>() {
+                                    @Override
+                                    public void onSuccess(Void result) { callback.onSuccess(null); }
+                                    @Override
+                                    public void onError(String message) { callback.onSuccess(null); } // proceed anyway
+                                });
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                // Profile doesn't exist or error fetching, still let them in
+                                callback.onSuccess(null);
+                            }
+                        });
+                    } else {
+                        callback.onSuccess(null);
+                    }
                 })
                 .addOnFailureListener(e -> callback.onError("Đăng nhập thất bại: " + e.getMessage()));
     }
@@ -153,7 +173,22 @@ public class AuthController {
                         callback.onError("Không thể đọc thông tin người dùng Google");
                         return;
                     }
-                    saveUserProfile(firebaseUser, callback);
+                    firebaseRepository.getUserProfile(firebaseUser.getUid(), new RepositoryCallback<UserEntity>() {
+                        @Override
+                        public void onSuccess(UserEntity user) {
+                            userRepository.saveUserLocal(user, new RepositoryCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void result) { callback.onSuccess(null); }
+                                @Override
+                                public void onError(String message) { callback.onSuccess(null); }
+                            });
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            saveUserProfile(firebaseUser, callback);
+                        }
+                    });
                 })
                 .addOnFailureListener(e -> callback.onError("Đăng nhập Google thất bại: " + e.getMessage()));
     }
