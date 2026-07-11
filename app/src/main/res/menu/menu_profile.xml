@@ -4,9 +4,6 @@
         android:id="@+id/menu_edit_profile"
         android:title="Sửa thông tin cá nhân" />
     <item
-        android:id="@+id/menu_change_avatar"
-        android:title="Đổi ảnh đại diện" />
-    <item
         android:id="@+id/menu_logout"
         android:title="Đăng xuất" />
 </menu>

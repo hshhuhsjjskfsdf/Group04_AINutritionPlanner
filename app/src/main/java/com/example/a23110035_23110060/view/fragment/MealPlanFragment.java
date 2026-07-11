@@ -24,10 +24,12 @@ import com.example.a23110035_23110060.data.local.FoodEntity;
 import com.example.a23110035_23110060.data.local.GoalEntity;
 import com.example.a23110035_23110060.data.local.MealLogEntity;
 import com.example.a23110035_23110060.data.local.MealPlanEntity;
+import com.example.a23110035_23110060.data.local.UserEntity;
 import com.example.a23110035_23110060.data.repository.FoodRepository;
 import com.example.a23110035_23110060.data.repository.GoalRepository;
 import com.example.a23110035_23110060.data.repository.MealRepository;
 import com.example.a23110035_23110060.data.repository.RepositoryCallback;
+import com.example.a23110035_23110060.data.repository.UserRepository;
 import com.example.a23110035_23110060.helper.DailyProgressCalculator;
 import com.example.a23110035_23110060.helper.DateHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
@@ -36,6 +38,9 @@ import com.example.a23110035_23110060.view.adapter.DateAdapter;
 import com.example.a23110035_23110060.view.adapter.FoodSearchAdapter;
 import com.example.a23110035_23110060.view.adapter.MealPlanAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
+import android.widget.ImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,13 +54,13 @@ public class MealPlanFragment extends Fragment {
     private GoalRepository goalRepository;
     private MealRepository mealRepository;
     private FoodRepository foodRepository;
+    private UserRepository userRepository;
 
     private String userId;
     private Calendar selectedDate = Calendar.getInstance();
     private Calendar currentWeekCalendar = Calendar.getInstance();
     private MealPlanAdapter adapterBreakfast, adapterLunch, adapterDinner, adapterSnack;
     private DateAdapter dateAdapter;
-    private TextView textWeekRange, textSelectedFullDate;
     private RecyclerView recyclerDates;
     private TextView textPlannedCalories, textTargetCaloriesPlan, textRemainingPlan;
     private ProgressBar progressPlanCalories;
@@ -76,15 +81,21 @@ public class MealPlanFragment extends Fragment {
         goalRepository = new GoalRepository(requireContext());
         mealRepository = new MealRepository(requireContext());
         foodRepository = new FoodRepository(requireContext());
+        userRepository = new UserRepository(requireContext());
         userId = FirebaseHelper.getCurrentUserId();
 
         bindViews(view);
         setupPlanTab(view);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadPlanForDate();
+        loadUserAvatar();
+    }
+
     private void bindViews(View view) {
-        textWeekRange = view.findViewById(R.id.textWeekRange);
-        textSelectedFullDate = view.findViewById(R.id.textSelectedFullDate);
         recyclerDates = view.findViewById(R.id.recyclerDates);
         
         textPlannedCalories = view.findViewById(R.id.textPlannedCalories);
@@ -96,16 +107,9 @@ public class MealPlanFragment extends Fragment {
         textPlannedFat = view.findViewById(R.id.textPlannedFat);
         textPlanSuggestion = view.findViewById(R.id.textPlanSuggestion);
 
-        view.findViewById(R.id.btnPrevWeek).setOnClickListener(v -> {
-            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1);
-            updateWeekSelector();
-        });
-        view.findViewById(R.id.btnNextWeek).setOnClickListener(v -> {
-            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1);
-            updateWeekSelector();
-        });
         view.findViewById(R.id.btnToday).setOnClickListener(v -> goToToday());
         view.findViewById(R.id.btnCopyPlan).setOnClickListener(v -> showCopyPlanDialog());
+        view.findViewById(R.id.btnShowDatePicker).setOnClickListener(v -> showDatePicker());
     }
 
     private void setupPlanTab(View view) {
@@ -186,25 +190,17 @@ public class MealPlanFragment extends Fragment {
         Calendar cal = (Calendar) currentWeekCalendar.clone();
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
 
-        SimpleDateFormat rangeFormat = new SimpleDateFormat("MMM d", new Locale("vi", "VN"));
-        String start = rangeFormat.format(cal.getTime());
-
         for (int i = 0; i < 7; i++) {
             weekDates.add((Calendar) cal.clone());
             cal.add(Calendar.DAY_OF_YEAR, 1);
         }
-
-        cal.add(Calendar.DAY_OF_YEAR, -1);
-        String end = rangeFormat.format(cal.getTime());
-        textWeekRange.setText(start + " - " + end);
 
         dateAdapter.setDates(weekDates, selectedDate);
         updatePlanDateText();
     }
 
     private void updatePlanDateText() {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd/MM/yyyy", new Locale("vi", "VN"));
-        textSelectedFullDate.setText(sdf.format(selectedDate.getTime()));
+        // textSelectedFullDate removed from layout
     }
 
     private void goToToday() {
@@ -245,6 +241,10 @@ public class MealPlanFragment extends Fragment {
                 showToast(message);
             }
         });
+    }
+
+    private void loadUserAvatar() {
+        // Avatar removed from layout
     }
 
     private void updatePlanUI(List<MealPlanEntity> plans) {
@@ -396,6 +396,8 @@ public class MealPlanFragment extends Fragment {
                     showToast("Ngày nguồn không có kế hoạch");
                     return;
                 }
+                
+                List<MealPlanEntity> newPlans = new ArrayList<>();
                 for (MealPlanEntity p : plans) {
                     MealPlanEntity newPlan = new MealPlanEntity();
                     newPlan.mealPlanId = UUID.randomUUID().toString();
@@ -411,11 +413,22 @@ public class MealPlanFragment extends Fragment {
                     newPlan.note = p.note;
                     newPlan.isCompleted = false;
                     newPlan.createdAt = System.currentTimeMillis();
-                    mealRepository.saveMealPlan(newPlan, null);
+                    newPlans.add(newPlan);
                 }
-                if (getActivity() != null) getActivity().runOnUiThread(() -> {
-                    showToast("Đã sao chép " + plans.size() + " món");
-                    loadPlanForDate();
+
+                mealRepository.saveMealPlans(newPlans, new RepositoryCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        if (getActivity() != null) getActivity().runOnUiThread(() -> {
+                            showToast("Đã sao chép " + newPlans.size() + " món");
+                            loadPlanForDate();
+                        });
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        showToast(message);
+                    }
                 });
             }
             @Override
@@ -432,6 +445,7 @@ public class MealPlanFragment extends Fragment {
 
         TextView title = view.findViewById(R.id.textDialogTitle);
         EditText editSearch = view.findViewById(R.id.editSearchFood);
+        TextView textSuggestionTitle = view.findViewById(R.id.textSuggestionTitle);
         RecyclerView recyclerSearch = view.findViewById(R.id.recyclerFoodSearch);
         EditText editName = view.findViewById(R.id.editFoodName);
         EditText editCal = view.findViewById(R.id.editCalories);
@@ -460,26 +474,52 @@ public class MealPlanFragment extends Fragment {
             editCarb.setText(String.valueOf(food.carbs));
             editFat.setText(String.valueOf(food.fat));
             editPortion.setText(food.serving);
-            recyclerSearch.setVisibility(View.GONE);
+            // Don't hide, just keep showing results or suggestions
         });
         recyclerSearch.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerSearch.setAdapter(searchAdapter);
+
+        // Load initial suggestions
+        foodRepository.getAllFoods(new RepositoryCallback<List<FoodEntity>>() {
+            @Override
+            public void onSuccess(List<FoodEntity> result) {
+                if (getActivity() != null && result != null) {
+                    getActivity().runOnUiThread(() -> {
+                        // Take top 10 as suggestions
+                        List<FoodEntity> suggestions = result.subList(0, Math.min(result.size(), 15));
+                        searchAdapter.submitList(suggestions);
+                    });
+                }
+            }
+            @Override public void onError(String message) {}
+        });
 
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 1) {
+                    textSuggestionTitle.setText("Kết quả tìm kiếm");
                     foodRepository.searchFoods(s.toString(), new RepositoryCallback<List<FoodEntity>>() {
                         @Override public void onSuccess(List<FoodEntity> result) {
                             if (getActivity() != null) getActivity().runOnUiThread(() -> {
                                 searchAdapter.submitList(result);
-                                recyclerSearch.setVisibility(result.isEmpty() ? View.GONE : View.VISIBLE);
                             });
                         }
                         @Override public void onError(String message) {}
                     });
-                } else {
-                    recyclerSearch.setVisibility(View.GONE);
+                } else if (s.length() == 0) {
+                    textSuggestionTitle.setText("Gợi ý món ăn");
+                    foodRepository.getAllFoods(new RepositoryCallback<List<FoodEntity>>() {
+                        @Override public void onSuccess(List<FoodEntity> result) {
+                            if (getActivity() != null && result != null) {
+                                getActivity().runOnUiThread(() -> {
+                                    List<FoodEntity> suggestions = result.subList(0, Math.min(result.size(), 15));
+                                    searchAdapter.submitList(suggestions);
+                                });
+                            }
+                        }
+                        @Override public void onError(String message) {}
+                    });
                 }
             }
             @Override public void afterTextChanged(Editable s) {}

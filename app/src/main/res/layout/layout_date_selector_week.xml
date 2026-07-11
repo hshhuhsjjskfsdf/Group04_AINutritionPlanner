@@ -6,44 +6,21 @@
     android:orientation="vertical"
     android:paddingBottom="16dp">
 
-    <!-- Range Selector -->
+    <!-- Horizontal Date List -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="12dp">
+        android:paddingHorizontal="8dp"
+        android:layout_marginTop="8dp">
 
-        <ImageButton
-            android:id="@+id/btnPrevWeek"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="@color/text_secondary" />
-
-        <TextView
-            android:id="@+id/textWeekRange"
-            android:layout_width="0dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerDates"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Th12 1 - 7"
-            android:textAppearance="@style/TextAppearance.App.Title"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/btnNextWeek"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:rotation="180"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="@color/text_secondary" />
+            android:clipToPadding="false"
+            android:overScrollMode="never"/>
     </LinearLayout>
 
     <LinearLayout
@@ -56,45 +33,15 @@
         <View android:id="@+id/btnNextDate" android:layout_width="0dp" android:layout_height="0dp"/>
     </LinearLayout>
 
-    <!-- Horizontal Date List -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerDates"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingHorizontal="12dp"
-        android:overScrollMode="never"/>
-
     <!-- Selection Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:gravity="bottom"
         android:orientation="horizontal"
         android:paddingHorizontal="20dp">
 
-        <TextView
-            android:id="@+id/btnToday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hôm nay"
-            android:textAppearance="@style/TextAppearance.App.Headline"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground"/>
-
-        <TextView
-            android:id="@+id/textSelectedFullDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="1 tháng 12"
-            android:textAppearance="@style/TextAppearance.App.BodySecondary"
-            android:textSize="20sp"
-            android:textColor="@color/text_secondary" />
     </LinearLayout>
 
 </LinearLayout>

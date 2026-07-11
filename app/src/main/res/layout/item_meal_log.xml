@@ -4,140 +4,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    app:cardBackgroundColor="@color/primary_light"
-    app:cardCornerRadius="24dp"
-    app:cardElevation="0dp"
-    app:strokeWidth="0dp">
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/surface"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeColor="@color/stroke"
+    app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="12dp">
 
-        <!-- Icon container -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardIcon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_meal_thumbnail"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_nav_diary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imgMealIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_nav_diary"
-                app:tint="@color/primary" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/textPortion"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Bữa sáng"
-            android:textAppearance="@style/TextAppearance.App.Title"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/image_meal_thumbnail"
-            app:layout_constraintStart_toEndOf="@id/cardIcon"
-            app:layout_constraintTop_toTopOf="@id/cardIcon" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card" />
 
         <TextView
             android:id="@+id/textFoodName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginStart="12dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Phở bò"
-            android:textAppearance="@style/TextAppearance.App.Body"
-            android:textColor="@color/text_primary"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@id/image_meal_thumbnail"
-            app:layout_constraintStart_toStartOf="@id/textPortion"
+            android:text="Tên món ăn"
+            android:textAppearance="@style/TextAppearance.App.Title"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/textCalories"
+            app:layout_constraintStart_toEndOf="@id/image_meal_thumbnail"
+            app:layout_constraintTop_toTopOf="@id/image_meal_thumbnail" />
+
+        <TextView
+            android:id="@+id/textPortion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="1 serving"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/btnMenu"
+            app:layout_constraintStart_toStartOf="@id/textFoodName"
+            app:layout_constraintTop_toBottomOf="@id/textFoodName" />
+
+        <TextView
+            android:id="@+id/textMacros"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="P 0g • C 0g • F 0g"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/btnMenu"
+            app:layout_constraintStart_toStartOf="@id/textFoodName"
             app:layout_constraintTop_toBottomOf="@id/textPortion" />
+
+        <TextView
+            android:id="@+id/textTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="08:00"
+            android:textColor="@color/text_hint"
+            android:textSize="11sp"
+            app:layout_constraintStart_toStartOf="@id/textFoodName"
+            app:layout_constraintTop_toBottomOf="@id/textMacros" />
 
         <TextView
             android:id="@+id/textCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="450 kcal"
-            android:textAppearance="@style/TextAppearance.App.Body"
+            android:text="0 kcal"
             android:textColor="@color/primary"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/image_meal_thumbnail"
-            app:layout_constraintStart_toStartOf="@id/textPortion"
-            app:layout_constraintTop_toBottomOf="@id/textFoodName" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@id/image_meal_thumbnail"
-            app:layout_constraintStart_toStartOf="@id/textPortion"
-            app:layout_constraintTop_toBottomOf="@id/textCalories">
-
-            <TextView
-                android:id="@+id/textMacros"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_chip_accent"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="Bữa ăn"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_marginStart="12dp"
-                android:src="@drawable/ic_nav_diary"
-                app:tint="@color/text_secondary" />
-
-            <TextView
-                android:id="@+id/textTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="07:30"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image_meal_thumbnail"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_nav_diary"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card"
-            app:tint="@color/primary" />
+            app:layout_constraintTop_toTopOf="@id/textFoodName" />
 
         <ImageButton
             android:id="@+id/btnMenu"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_more_vert"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@id/image_meal_thumbnail"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/text_hint" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

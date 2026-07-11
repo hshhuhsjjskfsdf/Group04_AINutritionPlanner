@@ -154,9 +154,6 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.menu_edit_profile) {
                 startActivity(new Intent(this, ProfileEditActivity.class));
                 return true;
-            } else if (id == R.id.menu_change_avatar) {
-                Toast.makeText(this, "Tính năng đổi ảnh đại diện sẽ sớm ra mắt", Toast.LENGTH_SHORT).show();
-                return true;
             } else if (id == R.id.menu_logout) {
                 FirebaseHelper.getAuth().signOut();
                 Intent intent = new Intent(this, SignInActivity.class);
@@ -198,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(UserEntity result) {
                 runOnUiThread(() -> {
                     if (result != null && result.avatarUrl != null && !result.avatarUrl.trim().isEmpty()) {
+                        imgUserAvatar.setColorFilter(null);
                         Glide.with(MainActivity.this)
                                 .load(result.avatarUrl)
                                 .signature(new ObjectKey(result.updatedAt))
@@ -207,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
                                 .into(imgUserAvatar);
                     } else {
                         imgUserAvatar.setImageResource(R.drawable.ic_nav_profile);
+                        imgUserAvatar.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.primary));
                     }
                 });
             }

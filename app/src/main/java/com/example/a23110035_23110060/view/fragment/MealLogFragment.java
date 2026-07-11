@@ -28,11 +28,16 @@ import com.example.a23110035_23110060.helper.FirebaseHelper;
 import com.example.a23110035_23110060.view.adapter.DateAdapter;
 import com.example.a23110035_23110060.view.adapter.CategorizedMealLogAdapter;
 import com.example.a23110035_23110060.data.local.FoodEntity;
+import com.example.a23110035_23110060.data.local.UserEntity;
 import com.example.a23110035_23110060.data.repository.FoodRepository;
+import com.example.a23110035_23110060.data.repository.UserRepository;
 import com.example.a23110035_23110060.helper.ValidationHelper;
 import com.example.a23110035_23110060.view.activity.SettingsActivity;
 import com.example.a23110035_23110060.view.adapter.FoodSearchAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
+import android.widget.ImageView;
 import android.content.Intent;
 import android.widget.EditText;
 import android.text.TextWatcher;
@@ -51,6 +56,7 @@ public class MealLogFragment extends Fragment {
     private GoalRepository goalRepository;
     private MealRepository mealRepository;
     private FoodRepository foodRepository;
+    private UserRepository userRepository;
     private String userId;
     private Calendar selectedDate = Calendar.getInstance();
     private List<MealLogEntity> allLogsForDate = new ArrayList<>();
@@ -58,7 +64,6 @@ public class MealLogFragment extends Fragment {
     private TextView textConsumedCalories, textTargetCalories, textRemainingCalories;
     private ProgressBar progressCalories;
     private TextView textProtein, textCarbs, textFat;
-    private TextView textWeekRange, textSelectedFullDate;
     private RecyclerView recyclerDates;
     private DateAdapter dateAdapter;
     private Calendar currentWeekCalendar = Calendar.getInstance();
@@ -79,6 +84,7 @@ public class MealLogFragment extends Fragment {
         goalRepository = new GoalRepository(requireContext());
         mealRepository = new MealRepository(requireContext());
         foodRepository = new FoodRepository(requireContext());
+        userRepository = new UserRepository(requireContext());
         userId = FirebaseHelper.getCurrentUserId();
         
         initViews(view);
@@ -93,6 +99,13 @@ public class MealLogFragment extends Fragment {
         loadData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+        loadUserAvatar();
+    }
+
     private void initViews(View view) {
         textConsumedCalories = view.findViewById(R.id.textConsumedCalories);
         textTargetCalories = view.findViewById(R.id.textTargetCalories);
@@ -102,28 +115,28 @@ public class MealLogFragment extends Fragment {
         textCarbs = view.findViewById(R.id.textCarbs);
         textFat = view.findViewById(R.id.textFat);
         
-        textWeekRange = view.findViewById(R.id.textWeekRange);
-        textSelectedFullDate = view.findViewById(R.id.textSelectedFullDate);
         recyclerDates = view.findViewById(R.id.recyclerDates);
         
         chipGroupFilters = view.findViewById(R.id.chipGroupFilters);
         layoutEmpty = view.findViewById(R.id.layoutEmpty);
         loadingView = view.findViewById(R.id.loadingView);
         btnSetupGoal = view.findViewById(R.id.btnSetupGoal);
+
+        view.findViewById(R.id.btnShowDatePicker).setOnClickListener(v -> showDatePicker());
+        
+        view.findViewById(R.id.btnToday).setOnClickListener(v -> {
+            selectedDate = Calendar.getInstance();
+            currentWeekCalendar = (Calendar) selectedDate.clone();
+            updateWeekSelector();
+            loadData();
+        });
     }
 
     private void setupDateNavigation(View view) {
-        view.findViewById(R.id.btnPrevWeek).setOnClickListener(v -> {
-            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1);
-            updateWeekSelector();
-        });
-        view.findViewById(R.id.btnNextWeek).setOnClickListener(v -> {
-            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1);
-            updateWeekSelector();
-        });
-
         dateAdapter = new DateAdapter(date -> {
             selectedDate = (Calendar) date.clone();
+            currentWeekCalendar = (Calendar) selectedDate.clone();
+            updateWeekSelector();
             loadData();
         });
         recyclerDates.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -137,17 +150,10 @@ public class MealLogFragment extends Fragment {
         Calendar cal = (Calendar) currentWeekCalendar.clone();
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
         
-        SimpleDateFormat rangeFormat = new SimpleDateFormat("MMM d", new Locale("vi", "VN"));
-        String start = rangeFormat.format(cal.getTime());
-        
         for (int i = 0; i < 7; i++) {
             weekDates.add((Calendar) cal.clone());
             cal.add(Calendar.DAY_OF_YEAR, 1);
         }
-        
-        cal.add(Calendar.DAY_OF_YEAR, -1);
-        String end = rangeFormat.format(cal.getTime());
-        textWeekRange.setText(start + " - " + end);
         
         dateAdapter.setDates(weekDates, selectedDate);
     }
@@ -155,6 +161,8 @@ public class MealLogFragment extends Fragment {
     private void showDatePicker() {
         new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
             selectedDate.set(year, month, dayOfMonth);
+            currentWeekCalendar.set(year, month, dayOfMonth);
+            updateWeekSelector();
             loadData();
         }, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DAY_OF_MONTH)).show();
     }
@@ -227,8 +235,11 @@ public class MealLogFragment extends Fragment {
     }
 
     private void updateDateText() {
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMMM", new Locale("vi", "VN"));
-        textSelectedFullDate.setText(sdf.format(selectedDate.getTime()));
+        // textSelectedFullDate removed from layout
+    }
+
+    private void loadUserAvatar() {
+        // Avatar removed from layout
     }
 
     private void updateSummary(GoalEntity goal, List<MealLogEntity> logs) {
@@ -291,6 +302,7 @@ public class MealLogFragment extends Fragment {
 
         TextView title = view.findViewById(R.id.textDialogTitle);
         EditText editSearch = view.findViewById(R.id.editSearchFood);
+        TextView textSuggestionTitle = view.findViewById(R.id.textSuggestionTitle);
         RecyclerView recyclerSearch = view.findViewById(R.id.recyclerFoodSearch);
         EditText editName = view.findViewById(R.id.editFoodName);
         EditText editCal = view.findViewById(R.id.editCalories);
@@ -308,8 +320,6 @@ public class MealLogFragment extends Fragment {
         editProt.setText(String.valueOf(log.protein));
         editCarb.setText(String.valueOf(log.carbs));
         editFat.setText(String.valueOf(log.fat));
-        // note is not in MealLogEntity by default, but let's check if it exists in yours.
-        // if (editNote != null) editNote.setText(log.note);
 
         FoodSearchAdapter searchAdapter = new FoodSearchAdapter(food -> {
             editName.setText(food.dishName);
@@ -318,26 +328,50 @@ public class MealLogFragment extends Fragment {
             editCarb.setText(String.valueOf(food.carbs));
             editFat.setText(String.valueOf(food.fat));
             editPortion.setText(food.serving);
-            recyclerSearch.setVisibility(View.GONE);
         });
         recyclerSearch.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerSearch.setAdapter(searchAdapter);
+
+        // Load initial suggestions
+        foodRepository.getAllFoods(new RepositoryCallback<List<FoodEntity>>() {
+            @Override
+            public void onSuccess(List<FoodEntity> result) {
+                if (getActivity() != null && result != null) {
+                    getActivity().runOnUiThread(() -> {
+                        List<FoodEntity> suggestions = result.subList(0, Math.min(result.size(), 15));
+                        searchAdapter.submitList(suggestions);
+                    });
+                }
+            }
+            @Override public void onError(String message) {}
+        });
 
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 1) {
+                    textSuggestionTitle.setText("Kết quả tìm kiếm");
                     foodRepository.searchFoods(s.toString(), new RepositoryCallback<List<FoodEntity>>() {
                         @Override public void onSuccess(List<FoodEntity> result) {
                             if (getActivity() != null) getActivity().runOnUiThread(() -> {
                                 searchAdapter.submitList(result);
-                                recyclerSearch.setVisibility(result.isEmpty() ? View.GONE : View.VISIBLE);
                             });
                         }
                         @Override public void onError(String message) {}
                     });
-                } else {
-                    recyclerSearch.setVisibility(View.GONE);
+                } else if (s.length() == 0) {
+                    textSuggestionTitle.setText("Gợi ý món ăn");
+                    foodRepository.getAllFoods(new RepositoryCallback<List<FoodEntity>>() {
+                        @Override public void onSuccess(List<FoodEntity> result) {
+                            if (getActivity() != null && result != null) {
+                                getActivity().runOnUiThread(() -> {
+                                    List<FoodEntity> suggestions = result.subList(0, Math.min(result.size(), 15));
+                                    searchAdapter.submitList(suggestions);
+                                });
+                            }
+                        }
+                        @Override public void onError(String message) {}
+                    });
                 }
             }
             @Override public void afterTextChanged(Editable s) {}

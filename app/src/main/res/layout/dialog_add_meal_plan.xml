@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/surface"
-    android:padding="20dp">
+    android:background="@color/surface">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/textDialogTitle"
@@ -29,92 +29,125 @@
             android:hint="Tìm kiếm món ăn..."
             android:inputType="text" />
 
+        <TextView
+            android:id="@+id/textSuggestionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Gợi ý món ăn"
+            android:textAppearance="@style/TextAppearance.App.Caption"
+            android:textColor="@color/primary"
+            android:textStyle="bold" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerFoodSearch"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="220dp"
             android:layout_marginTop="8dp"
-            android:visibility="gone" />
-
-        <EditText
-            android:id="@+id/editFoodName"
-            style="@style/AppInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="Tên món ăn *"
-            android:inputType="text" />
+            android:clipToPadding="false"
+            android:padding="4dp" />
 
         <LinearLayout
+            android:id="@+id/layoutManualEntry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/stroke" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Thông tin chi tiết món ăn"
+                android:textAppearance="@style/TextAppearance.App.Caption"
+                android:textColor="@color/text_secondary"
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editCalories"
+                android:id="@+id/editFoodName"
                 style="@style/AppInput"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Calo (kcal)"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/editPortion"
-                style="@style/AppInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:hint="Khẩu phần (vd: 1 tô)"
+                android:layout_marginTop="8dp"
+                android:hint="Tên món ăn *"
                 android:inputType="text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editCalories"
+                    style="@style/AppInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Calo (kcal)"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/editPortion"
+                    style="@style/AppInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:hint="Khẩu phần"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editProtein"
+                    style="@style/AppInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Đạm (g)"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/editCarbs"
+                    style="@style/AppInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:hint="Tinh bột (g)"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/editFat"
+                    style="@style/AppInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:hint="Béo (g)"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editNote"
+                style="@style/AppInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Ghi chú chuẩn bị"
+                android:inputType="textMultiLine" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/editProtein"
-                style="@style/AppInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Đạm (g)"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/editCarbs"
-                style="@style/AppInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:hint="Tinh bột (g)"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/editFat"
-                style="@style/AppInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:hint="Béo (g)"
-                android:inputType="numberDecimal" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/editNote"
-            style="@style/AppInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="Ghi chú chuẩn bị"
-            android:inputType="textMultiLine" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSavePlan"

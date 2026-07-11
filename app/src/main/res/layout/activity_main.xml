@@ -28,12 +28,11 @@
             android:background="@drawable/bg_avatar_circle"
             android:clickable="true"
             android:focusable="true"
-            android:padding="10dp"
+            android:padding="2dp"
             android:src="@drawable/ic_nav_profile"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/primary" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -51,14 +50,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginEnd="6dp"
-                    android:src="@drawable/ic_nav_home"
-                    android:contentDescription="Home Icon"
-                    app:tint="@color/primary" />
 
                 <TextView
                     android:id="@+id/textHello"

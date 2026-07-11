@@ -405,6 +405,31 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/img_manual_food"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_empty_bowl"
+                        android:background="@drawable/bg_card_light"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Card" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_change_manual_image"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="12dp"
+                        android:text="Thay ảnh"
+                        app:icon="@drawable/ic_camera" />
+                </FrameLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

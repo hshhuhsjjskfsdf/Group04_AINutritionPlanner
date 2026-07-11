@@ -109,6 +109,23 @@ public class MealRepository {
         });
     }
 
+    public void saveMealPlans(List<MealPlanEntity> mealPlans, RepositoryCallback<Void> callback) {
+        executor.execute(() -> {
+            long now = System.currentTimeMillis();
+            for (MealPlanEntity plan : mealPlans) {
+                if (plan.createdAt == 0) plan.createdAt = now;
+                plan.updatedAt = now;
+                plan.isSynced = false;
+                database.mealPlanDao().insert(plan);
+                insertPending(plan.userId, "CREATE_OR_UPDATE", "meal_plans", plan.toJson());
+            }
+            triggerSyncIfOnline();
+            if (callback != null) {
+                callback.onSuccess(null);
+            }
+        });
+    }
+
     public void deleteMealPlan(MealPlanEntity mealPlan, RepositoryCallback<Void> callback) {
         executor.execute(() -> {
             database.mealPlanDao().deleteById(mealPlan.mealPlanId);

@@ -9,6 +9,7 @@ import com.example.a23110035_23110060.helper.NotificationHelper;
 public class MealReminderReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationHelper.showMealReminderNotification(context);
+        String mealType = intent.getStringExtra("meal_type");
+        NotificationHelper.showMealReminderNotification(context, mealType);
     }
 }

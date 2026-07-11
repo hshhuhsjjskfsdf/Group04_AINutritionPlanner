@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.a23110035_23110060.receiver.MealReminderReceiver;
+import com.example.a23110035_23110060.receiver.PreparationReminderReceiver;
 
 import java.util.Calendar;
 
@@ -21,17 +22,17 @@ public class AlarmHelper {
     }
 
     public static void scheduleBreakfastReminder(Context context, String time) {
-        scheduleReminder(context, time, 3101);
+        scheduleReminder(context, time, 3101, "Breakfast");
         saveTime(context, KEY_BREAKFAST, time);
     }
 
     public static void scheduleLunchReminder(Context context, String time) {
-        scheduleReminder(context, time, 3102);
+        scheduleReminder(context, time, 3102, "Lunch");
         saveTime(context, KEY_LUNCH, time);
     }
 
     public static void scheduleDinnerReminder(Context context, String time) {
-        scheduleReminder(context, time, 3103);
+        scheduleReminder(context, time, 3103, "Dinner");
         saveTime(context, KEY_DINNER, time);
     }
 
@@ -39,6 +40,7 @@ public class AlarmHelper {
         cancel(context, 3101);
         cancel(context, 3102);
         cancel(context, 3103);
+        cancelPrep(context);
         prefs(context).edit().putBoolean(KEY_ENABLED, false).apply();
     }
 
@@ -47,16 +49,44 @@ public class AlarmHelper {
         if (!preferences.getBoolean(KEY_ENABLED, false)) {
             return;
         }
-        scheduleReminder(context, preferences.getString(KEY_BREAKFAST, "07:00"), 3101);
-        scheduleReminder(context, preferences.getString(KEY_LUNCH, "12:00"), 3102);
-        scheduleReminder(context, preferences.getString(KEY_DINNER, "18:00"), 3103);
+        scheduleReminder(context, preferences.getString(KEY_BREAKFAST, "07:00"), 3101, "Breakfast");
+        scheduleReminder(context, preferences.getString(KEY_LUNCH, "12:00"), 3102, "Lunch");
+        scheduleReminder(context, preferences.getString(KEY_DINNER, "18:00"), 3103, "Dinner");
+        schedulePrepReminder(context);
     }
 
     public static void saveEnabled(Context context, boolean enabled) {
         prefs(context).edit().putBoolean(KEY_ENABLED, enabled).apply();
+        if (enabled) schedulePrepReminder(context);
     }
 
-    private static void scheduleReminder(Context context, String time, int requestCode) {
+    private static void schedulePrepReminder(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) return;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 20); // 8:00 PM
+        calendar.set(Calendar.MINUTE, 30);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        Intent intent = new Intent(context, PreparationReminderReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 3104, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+    }
+
+    private static void cancelPrep(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) return;
+        Intent intent = new Intent(context, PreparationReminderReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 3104, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        alarmManager.cancel(pi);
+    }
+
+    private static void scheduleReminder(Context context, String time, int requestCode, String mealType) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager == null) {
             return;
@@ -70,7 +100,7 @@ public class AlarmHelper {
         if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
-        PendingIntent pendingIntent = pendingIntent(context, requestCode);
+        PendingIntent pendingIntent = pendingIntent(context, requestCode, mealType);
         alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(),
@@ -82,12 +112,13 @@ public class AlarmHelper {
     private static void cancel(Context context, int requestCode) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
-            alarmManager.cancel(pendingIntent(context, requestCode));
+            alarmManager.cancel(pendingIntent(context, requestCode, ""));
         }
     }
 
-    private static PendingIntent pendingIntent(Context context, int requestCode) {
+    private static PendingIntent pendingIntent(Context context, int requestCode, String mealType) {
         Intent intent = new Intent(context, MealReminderReceiver.class);
+        intent.putExtra("meal_type", mealType);
         return PendingIntent.getBroadcast(
                 context,
                 requestCode,

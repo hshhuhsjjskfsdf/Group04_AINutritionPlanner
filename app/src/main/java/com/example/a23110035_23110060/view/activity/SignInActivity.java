@@ -58,7 +58,7 @@ public class SignInActivity extends AppCompatActivity {
         Button google = findViewById(R.id.btn_google_signin);
         View goSignup = findViewById(R.id.tv_go_signup);
         login.setOnClickListener(v -> login());
-        forgot.setOnClickListener(v -> forgotPassword());
+        forgot.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
         google.setOnClickListener(v -> startGoogleSignIn());
         goSignup.setOnClickListener(v -> startActivity(new Intent(this, SignUpActivity.class)));
     }

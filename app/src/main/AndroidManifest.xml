@@ -23,6 +23,12 @@
             android:name=".view.activity.ProfileEditActivity"
             android:exported="false" />
         <activity
+            android:name=".view.activity.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.AuthActivity"
             android:exported="false" />
         <activity
@@ -46,6 +52,7 @@
         <service android:name=".service.FirebaseSyncService" android:exported="false" />
 
         <receiver android:name=".receiver.MealReminderReceiver" android:exported="false" />
+        <receiver android:name=".receiver.PreparationReminderReceiver" android:exported="false" />
         <receiver android:name=".receiver.NetworkChangeReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

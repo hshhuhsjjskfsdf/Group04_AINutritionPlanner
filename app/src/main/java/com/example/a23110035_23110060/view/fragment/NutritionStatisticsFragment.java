@@ -220,7 +220,7 @@ public class NutritionStatisticsFragment extends Fragment {
         renderPieChart(totalP, totalC, totalF);
         
         // Insight
-        generateInsights(avgCal, avgP, goalMetCount, dayCount);
+        generateInsights(avgCal, avgP, avgC, avgF, goalMetCount, dayCount);
     }
 
     private void renderLineChart(Map<String, Double> dailyCals) {
@@ -290,24 +290,59 @@ public class NutritionStatisticsFragment extends Fragment {
         chartMacroDist.invalidate();
     }
 
-    private void generateInsights(double avgCal, double avgP, int goalMetCount, int dayCount) {
+    private void generateInsights(double avgCal, double avgP, double avgC, double avgF, int goalMetCount, int dayCount) {
         StringBuilder insight = new StringBuilder();
+        
+        // 1. Calories Insight
         if (avgCal > userGoal.targetCalories + 100) {
-            insight.append("Calories trung bình đang cao hơn mục tiêu ").append((int)(avgCal - userGoal.targetCalories)).append(" kcal mỗi ngày. ");
+            insight.append("🔥 **Năng lượng:** Calories trung bình (").append((int)avgCal).append(" kcal) cao hơn mục tiêu ").append((int)(avgCal - userGoal.targetCalories)).append(" kcal. Hãy chú ý kiểm soát khẩu phần ăn để tránh tăng cân.\n\n");
         } else if (avgCal < userGoal.targetCalories - 100) {
-            insight.append("Calories trung bình đang thấp hơn mục tiêu ").append((int)(userGoal.targetCalories - avgCal)).append(" kcal. ");
+            insight.append("📉 **Năng lượng:** Calories trung bình đang thấp hơn mục tiêu ").append((int)(userGoal.targetCalories - avgCal)).append(" kcal. Bạn nên bổ sung thêm năng lượng để đảm bảo sức khỏe và duy trì cân nặng.\n\n");
+        } else {
+            insight.append("✅ **Năng lượng:** Bạn đang duy trì lượng calories rất tốt, sát với mục tiêu đề ra.\n\n");
         }
 
+        // 2. Goal Met Days
         if (goalMetCount > 0) {
-            insight.append("Bạn đạt mục tiêu calories ").append(goalMetCount).append(" trong ").append(dayCount).append(" ngày. ");
+            insight.append("📅 **Kỷ luật:** Bạn đã đạt mục tiêu calories ").append(goalMetCount).append(" trong số ").append(dayCount).append(" ngày qua. Hãy cố gắng duy trì sự đều đặn này.\n\n");
         }
 
+        // 3. Nutrients & Recommendations (Rule-based)
+        boolean hasMacroIssue = false;
+
+        // Protein
         if (userGoal.targetProtein - avgP > 15) {
-            insight.append("Protein trung bình còn thiếu ").append((int)(userGoal.targetProtein - avgP)).append(" g mỗi ngày.");
+            insight.append("💪 **Thiếu Protein:** Bạn đang thiếu khoảng ").append((int)(userGoal.targetProtein - avgP))
+                   .append("g protein mỗi ngày. Protein rất quan trọng cho việc phục hồi và phát triển cơ bắp.\n")
+                   .append("👉 *Gợi ý:* Hãy bổ sung ức gà, cá hồi, trứng, các loại đậu hoặc sữa whey vào thực đơn.\n\n");
+            hasMacroIssue = true;
         }
 
-        if (insight.length() == 0) {
-            insight.append("Duy trì thói quen ghi nhận để có nhận xét chính xác hơn.");
+        // Carbs
+        if (userGoal.targetCarbs - avgC > 30) {
+            insight.append("🍚 **Thiếu Tinh bột:** Lượng tinh bột của bạn đang thấp hơn mục tiêu. Tinh bột là nguồn năng lượng chính cho não bộ và vận động.\n")
+                   .append("👉 *Gợi ý:* Nên dùng thêm yến mạch, khoai lang, gạo lứt hoặc trái cây.\n\n");
+            hasMacroIssue = true;
+        } else if (avgC > userGoal.targetCarbs + 50) {
+            insight.append("🍕 **Dư Tinh bột:** Bạn đang nạp quá nhiều tinh bột. Điều này có thể gây tích mỡ và tăng đường huyết.\n")
+                   .append("👉 *Gợi ý:* Hạn chế các loại thực phẩm nhiều đường, tinh bột trắng, bánh mì và đồ ngọt.\n\n");
+            hasMacroIssue = true;
+        }
+
+        // Fat
+        if (userGoal.targetFat - avgF > 10) {
+            insight.append("🥑 **Thiếu Chất béo:** Bạn đang nạp ít chất béo. Chất béo tốt cần thiết cho hấp thụ vitamin và hormone.\n")
+                   .append("👉 *Gợi ý:* Hãy thêm dầu ô liu, quả bơ, hoặc các loại hạt (hạnh nhân, óc chó) vào bữa ăn.\n\n");
+            hasMacroIssue = true;
+        }
+
+        if (!hasMacroIssue && avgCal > 0) {
+            insight.append("🌟 **Cân bằng:** Tỷ lệ các chất dinh dưỡng của bạn đang ở mức khá cân đối. Hãy tiếp tục phát huy!");
+        }
+
+        if (avgCal == 0) {
+            insight.setLength(0);
+            insight.append("Chưa có dữ liệu dinh dưỡng cho khoảng thời gian này. Hãy bắt đầu ghi chép bữa ăn để nhận được phân tích chuyên sâu.");
         }
 
         textStatsInsight.setText(insight.toString());

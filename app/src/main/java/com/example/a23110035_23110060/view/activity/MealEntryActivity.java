@@ -90,6 +90,8 @@ public class MealEntryActivity extends AppCompatActivity {
     private View panelManualEntry;
     private View btnCloseManual;
     private Button buttonAnalyzeSelectedFood;
+    private ImageView imgManualFood;
+    private View btnChangeManualImage;
 
     private PreviewView previewView;
     private ImageCapture imageCapture;
@@ -258,10 +260,24 @@ public class MealEntryActivity extends AppCompatActivity {
         panelManualEntry = findViewById(R.id.panel_manual_entry);
         btnCloseManual = findViewById(R.id.btn_close_manual);
         buttonAnalyzeSelectedFood = findViewById(R.id.buttonAnalyzeSelectedFood);
+        imgManualFood = findViewById(R.id.img_manual_food);
+        btnChangeManualImage = findViewById(R.id.btn_change_manual_image);
     }
 
     private void setupMealTypeChips() {
-        groupMealType.check(R.id.radioBreakfast);
+        // Tự động chọn bữa ăn dựa trên khung giờ hiện tại
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        int hour = cal.get(java.util.Calendar.HOUR_OF_DAY);
+
+        if (hour >= 5 && hour < 10) {
+            groupMealType.check(R.id.radioBreakfast);
+        } else if (hour >= 10 && hour < 15) {
+            groupMealType.check(R.id.radioLunch);
+        } else if (hour >= 15 && hour < 21) {
+            groupMealType.check(R.id.radioDinner);
+        } else {
+            groupMealType.check(R.id.radioSnack);
+        }
     }
 
     private void setupRecycler() {
@@ -309,6 +325,12 @@ public class MealEntryActivity extends AppCompatActivity {
         }
         if (switchCamera != null) {
             switchCamera.setOnClickListener(v -> switchCamera());
+        }
+        if (btnChangeManualImage != null) {
+            btnChangeManualImage.setOnClickListener(v -> chooseImage());
+        }
+        if (imgManualFood != null) {
+            imgManualFood.setOnClickListener(v -> chooseImage());
         }
     }
 
@@ -426,6 +448,12 @@ public class MealEntryActivity extends AppCompatActivity {
         editCarbs.setText(String.format(Locale.US, "%.1f", food.carbs));
         editFat.setText(String.format(Locale.US, "%.1f", food.fat));
         editServing.setText(food.serving);
+        
+        // Cập nhật ảnh đại diện nếu có
+        if (imgManualFood != null) {
+            imgManualFood.setImageResource(R.drawable.ic_empty_bowl);
+        }
+        
         showRecognitionResult(displayLabel, formatNutritionSummary(food.calories, food.protein, food.carbs, food.fat, food.serving));
     }
 
@@ -566,14 +594,18 @@ public class MealEntryActivity extends AppCompatActivity {
             Uri uri = data.getData();
             imagePath = ImageHelper.copyUriToCache(this, uri);
             
-            capturedImagePreview.setImageURI(uri);
-            capturedImagePreview.setVisibility(View.VISIBLE);
-            btnRetake.setVisibility(View.VISIBLE);
-            btnShutter.setVisibility(View.GONE);
-            buttonAnalyzeSelectedFood.setVisibility(View.VISIBLE);
-            buttonSaveCameraMeal.setVisibility(View.GONE);
-            layoutMacroResults.setVisibility(View.GONE);
-            showRecognitionResult("Đã chọn ảnh", "Bấm 'Phân tích AI' để nhận diện.");
+            if (imgManualFood != null && panelManualEntry.getVisibility() == View.VISIBLE) {
+                imgManualFood.setImageURI(uri);
+            } else {
+                capturedImagePreview.setImageURI(uri);
+                capturedImagePreview.setVisibility(View.VISIBLE);
+                btnRetake.setVisibility(View.VISIBLE);
+                btnShutter.setVisibility(View.GONE);
+                buttonAnalyzeSelectedFood.setVisibility(View.VISIBLE);
+                buttonSaveCameraMeal.setVisibility(View.GONE);
+                layoutMacroResults.setVisibility(View.GONE);
+                showRecognitionResult("Đã chọn ảnh", "Bấm 'Phân tích AI' để nhận diện.");
+            }
         }
     }
 

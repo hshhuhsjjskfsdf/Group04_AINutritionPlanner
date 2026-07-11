@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Styled Header -->
+            <!-- Header with Calendar Picker -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,43 +29,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/textFragmentTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Kế hoạch ăn uống"
                         android:textAppearance="@style/TextAppearance.App.Headline"
-                        android:textSize="28sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textPlanSubtitle"
+                        android:id="@+id/btnToday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Lên kế hoạch cho bạn"
-                        android:textAppearance="@style/TextAppearance.App.BodySecondary"
-                        android:textSize="15sp" />
+                        android:layout_marginTop="2dp"
+                        android:text="Hôm nay"
+                        android:textColor="@color/primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"/>
                 </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
+                <ImageButton
+                    android:id="@+id/btnShowDatePicker"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    app:cardBackgroundColor="@color/surface_soft"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/stroke">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/bg_avatar_circle" />
-                </com.google.android.material.card.MaterialCardView>
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_calendar"
+                    app:tint="@color/primary" />
             </RelativeLayout>
 
             <!-- DATE SELECTOR (WEEK) -->

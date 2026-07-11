@@ -12,6 +12,7 @@ import android.net.Uri;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
@@ -86,6 +87,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         currentUserEntity = result;
                         if (result != null && result.avatarUrl != null && !result.avatarUrl.trim().isEmpty()) {
+                            imgAvatar.setColorFilter(null);
                             Glide.with(ProfileEditActivity.this)
                                     .load(result.avatarUrl)
                                     .signature(new ObjectKey(result.updatedAt))
@@ -95,6 +97,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                                     .into(imgAvatar);
                         } else {
                             imgAvatar.setImageResource(R.drawable.ic_nav_profile);
+                            imgAvatar.setColorFilter(ContextCompat.getColor(ProfileEditActivity.this, R.color.primary));
                         }
                     });
                 }
@@ -109,21 +112,22 @@ public class ProfileEditActivity extends AppCompatActivity {
         
         findViewById(R.id.btn_save_account).setOnClickListener(v -> saveAccountInfo());
         
-        findViewById(R.id.btn_change_password).setOnClickListener(v -> {
-            // Implement change password logic or redirect to a specific activity
-            Toast.makeText(this, "Tính năng đổi mật khẩu sẽ sớm ra mắt", Toast.LENGTH_SHORT).show();
-        });
+        View btnChangeAvatar = findViewById(R.id.btn_change_avatar_text);
+        if (btnChangeAvatar != null) {
+            btnChangeAvatar.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
+        }
+        imgAvatar.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
         
+        findViewById(R.id.btn_change_password).setOnClickListener(v -> {
+            startActivity(new Intent(this, ChangePasswordActivity.class));
+        });
+
         findViewById(R.id.btn_logout_account).setOnClickListener(v -> {
             FirebaseHelper.getAuth().signOut();
             Intent intent = new Intent(this, SignInActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-        });
-        
-        imgAvatar.setOnClickListener(v -> {
-            pickImageLauncher.launch("image/*");
         });
     }
 
@@ -137,33 +141,41 @@ public class ProfileEditActivity extends AppCompatActivity {
         findViewById(R.id.btn_save_account).setEnabled(false);
         progressSaving.setVisibility(View.VISIBLE);
 
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
+        if (selectedImagePath != null && !selectedImagePath.isEmpty()) {
+            firebaseRepository.uploadAvatar(user.getUid(), selectedImagePath, new RepositoryCallback<String>() {
+                @Override
+                public void onSuccess(String url) {
+                    updateProfileWithDetails(name, url);
+                }
+
+                @Override
+                public void onError(String message) {
+                    updateProfileWithDetails(name, null);
+                }
+            });
+        } else {
+            updateProfileWithDetails(name, null);
+        }
+    }
+
+    private void updateProfileWithDetails(String name, String avatarUrl) {
+        UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name);
+        if (avatarUrl != null) {
+            builder.setPhotoUri(Uri.parse(avatarUrl));
+        }
+        
+        UserProfileChangeRequest profileUpdates = builder.build();
 
         user.updateProfile(profileUpdates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         if (currentUserEntity != null) {
                             currentUserEntity.fullName = name;
-                            if (selectedImagePath != null && !selectedImagePath.isEmpty()) {
-                                firebaseRepository.uploadAvatar(user.getUid(), selectedImagePath, new RepositoryCallback<String>() {
-                                    @Override
-                                    public void onSuccess(String url) {
-                                        if (url != null && !url.isEmpty()) {
-                                            currentUserEntity.avatarUrl = url;
-                                        }
-                                        saveUserEntityAndFinish(true);
-                                    }
-
-                                    @Override
-                                    public void onError(String message) {
-                                        saveUserEntityAndFinish(false);
-                                    }
-                                });
-                            } else {
-                                saveUserEntityAndFinish(true);
+                            if (avatarUrl != null) {
+                                currentUserEntity.avatarUrl = avatarUrl;
                             }
+                            saveUserEntityAndFinish(true);
                         } else {
                             finishSaving("Đã cập nhật tài khoản");
                         }
