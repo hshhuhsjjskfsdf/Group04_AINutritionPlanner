@@ -25,4 +25,5 @@ public class UserEntity {
     public String breakfastReminderTime = "07:00";
     public String lunchReminderTime = "12:00";
     public String dinnerReminderTime = "18:00";
+    public String snackReminderTime = "22:00";
 }

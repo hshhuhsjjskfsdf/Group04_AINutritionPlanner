@@ -60,7 +60,7 @@ public class NotificationHelper {
                 if (plans != null) {
                     for (MealPlanEntity p : plans) {
                         if (mealType.equalsIgnoreCase(p.mealType)) {
-                            plannedFood = p.foodName;
+                            plannedFood = CsvImportHelper.formatFoodLabel(p.foodName);
                             break;
                         }
                     }
@@ -82,7 +82,7 @@ public class NotificationHelper {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_nav_plan)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(content))
@@ -102,7 +102,7 @@ public class NotificationHelper {
         );
         
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_nav_diary)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(content))

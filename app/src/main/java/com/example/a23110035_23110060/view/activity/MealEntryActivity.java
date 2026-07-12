@@ -521,14 +521,55 @@ public class MealEntryActivity extends AppCompatActivity {
         }
 
         try {
-            // Extract numeric part
-            String numericPart = serving.replaceAll("[^0-9.]", "");
+            String lowerServing = serving.toLowerCase(Locale.US);
+            
+            // Priority 1: Check for content inside parentheses like (100g) or (200ml)
+            if (lowerServing.contains("(") && lowerServing.contains(")")) {
+                int start = lowerServing.lastIndexOf("(") + 1;
+                int end = lowerServing.lastIndexOf(")");
+                String inside = lowerServing.substring(start, end).trim();
+                
+                String numericPart = inside.replaceAll("[^0-9.]", "");
+                if (!numericPart.isEmpty()) {
+                    baseServingAmount = Double.parseDouble(numericPart);
+                    baseServingUnit = inside.replace(numericPart, "").trim();
+                    if (baseServingUnit.isEmpty()) {
+                        baseServingUnit = lowerServing.contains("ml") ? "ml" : "g";
+                    }
+                    return;
+                }
+            }
+
+            // Priority 2: Standard parsing if no parentheses or parsing inside failed
+            String numericPart = lowerServing.replaceAll("[^0-9.]", "");
             if (!numericPart.isEmpty()) {
-                baseServingAmount = Double.parseDouble(numericPart);
-                baseServingUnit = serving.replace(numericPart, "").trim();
+                // If there are multiple numbers (e.g., "1 slice 100g"), 
+                // replaceAll above might have joined them ("1100").
+                // Let's try to find the LAST number which is usually the weight/volume
+                String[] parts = lowerServing.split("[^0-9.]+");
+                String lastValidNumber = "";
+                for (int i = parts.length - 1; i >= 0; i--) {
+                    if (!parts[i].isEmpty()) {
+                        lastValidNumber = parts[i];
+                        break;
+                    }
+                }
+                
+                if (!lastValidNumber.isEmpty()) {
+                    baseServingAmount = Double.parseDouble(lastValidNumber);
+                    // Determine unit based on context
+                    if (lowerServing.contains("ml") || lowerServing.contains("oz")) {
+                        baseServingUnit = "ml";
+                    } else {
+                        baseServingUnit = "g";
+                    }
+                } else {
+                    baseServingAmount = 100;
+                    baseServingUnit = "g";
+                }
             } else {
                 baseServingAmount = 1;
-                baseServingUnit = serving;
+                baseServingUnit = lowerServing.contains("ml") ? "ml" : "g";
             }
         } catch (Exception e) {
             baseServingAmount = 100;

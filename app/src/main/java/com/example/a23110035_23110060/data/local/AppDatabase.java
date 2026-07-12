@@ -15,7 +15,7 @@ import androidx.room.RoomDatabase;
                 MealPlanEntity.class,
                 PendingSyncEntity.class
         },
-        version = 6,
+        version = 7,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -37,7 +37,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "ai_nutrition_planner.db"
                             )
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_6_7)
                             .fallbackToDestructiveMigration()
                             .build();
                 }
@@ -45,6 +45,13 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return instance;
     }
+
+    private static final androidx.room.migration.Migration MIGRATION_6_7 = new androidx.room.migration.Migration(6, 7) {
+        @Override
+        public void migrate(@androidx.annotation.NonNull androidx.sqlite.db.SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE users ADD COLUMN snackReminderTime TEXT DEFAULT '22:00'");
+        }
+    };
 
     private static final androidx.room.migration.Migration MIGRATION_1_2 = new androidx.room.migration.Migration(1, 2) {
         @Override

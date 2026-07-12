@@ -262,7 +262,8 @@
                     android:textStyle="bold"
                     android:textSize="15sp"
                     android:imeOptions="actionDone"
-                    android:selectAllOnFocus="true" />
+                    android:selectAllOnFocus="true"
+                    android:includeFontPadding="false" />
 
                 <TextView
                     android:id="@+id/text_camera_serving_unit_display"

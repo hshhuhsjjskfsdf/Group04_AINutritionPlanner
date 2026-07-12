@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.a23110035_23110060.helper.CsvImportHelper;
 import com.example.a23110035_23110060.helper.DateHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
 import com.example.a23110035_23110060.helper.NotificationHelper;
@@ -36,7 +37,7 @@ public class PreparationReminderReceiver extends BroadcastReceiver {
                 if (plans != null && !plans.isEmpty()) {
                     StringBuilder menu = new StringBuilder("Kế hoạch mai có: ");
                     for (int i = 0; i < Math.min(plans.size(), 3); i++) {
-                        menu.append(plans.get(i).foodName);
+                        menu.append(CsvImportHelper.formatFoodLabel(plans.get(i).foodName));
                         if (i < Math.min(plans.size(), 3) - 1) menu.append(", ");
                     }
                     if (plans.size() > 3) menu.append("...");

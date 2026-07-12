@@ -1,13 +1,13 @@
 package com.example.a23110035_23110060.view.activity;
 
 import android.Manifest;
-import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,6 +17,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.a23110035_23110060.R;
 import com.example.a23110035_23110060.controller.ReminderController;
 import com.example.a23110035_23110060.controller.SettingsController;
@@ -35,6 +37,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.Locale;
 
@@ -55,9 +59,10 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView textBMIValue, textBMICategory, textBMRValue, textTDEEValue, textMissingInfoWarning;
     private TextView textGoalCalories, textGoalProtein, textGoalCarbs, textGoalFat;
     private TextView textNoGoal;
+    private ImageView imgSettingsAvatar;
     private View layoutGoalValues;
     private MaterialButton btnEditGoal, btnSetupGoalNow, btnSuggestGoal, btnRetrySync;
-    private TextView textTimeBreakfast, textTimeLunch, textTimeDinner, textSyncStatus;
+    private TextView textTimeBreakfast, textTimeLunch, textTimeDinner, textTimeSnack, textSyncStatus;
     private SwitchMaterial switchReminders, switchAutoSync;
 
     private UserEntity currentUser;
@@ -94,11 +99,13 @@ public class SettingsActivity extends AppCompatActivity {
         textGoalCarbs = findViewById(R.id.textGoalCarbs);
         textGoalFat = findViewById(R.id.textGoalFat);
         textNoGoal = findViewById(R.id.textNoGoal);
+        imgSettingsAvatar = findViewById(R.id.img_settings_avatar);
         layoutGoalValues = findViewById(R.id.layoutGoalValues);
 
         textTimeBreakfast = findViewById(R.id.textTimeBreakfast);
         textTimeLunch = findViewById(R.id.textTimeLunch);
         textTimeDinner = findViewById(R.id.textTimeDinner);
+        textTimeSnack = findViewById(R.id.textTimeSnack);
         textSyncStatus = findViewById(R.id.textSyncStatus);
 
         switchReminders = findViewById(R.id.switchReminders);
@@ -121,6 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
         findViewById(R.id.btnPickBreakfast).setOnClickListener(v -> pickTime("Bữa sáng", textTimeBreakfast, AlarmHelper.KEY_BREAKFAST));
         findViewById(R.id.btnPickLunch).setOnClickListener(v -> pickTime("Bữa trưa", textTimeLunch, AlarmHelper.KEY_LUNCH));
         findViewById(R.id.btnPickDinner).setOnClickListener(v -> pickTime("Bữa tối", textTimeDinner, AlarmHelper.KEY_DINNER));
+        findViewById(R.id.btnPickSnack).setOnClickListener(v -> pickTime("Bữa phụ", textTimeSnack, AlarmHelper.KEY_SNACK));
 
         switchReminders.setOnCheckedChangeListener((buttonView, isChecked) -> toggleReminders(isChecked));
     }
@@ -184,6 +192,23 @@ public class SettingsActivity extends AppCompatActivity {
             textMissingInfoWarning.setVisibility(View.VISIBLE);
             return;
         }
+
+        // Render avatar
+        if (imgSettingsAvatar != null) {
+            if (user.avatarUrl != null && !user.avatarUrl.trim().isEmpty()) {
+                imgSettingsAvatar.setColorFilter(null);
+                Glide.with(this)
+                        .load(user.avatarUrl)
+                        .signature(new ObjectKey(user.updatedAt))
+                        .placeholder(R.drawable.ic_nav_profile)
+                        .error(R.drawable.ic_nav_profile)
+                        .circleCrop()
+                        .into(imgSettingsAvatar);
+            } else {
+                imgSettingsAvatar.setImageResource(R.drawable.ic_nav_profile);
+                imgSettingsAvatar.setColorFilter(getColor(R.color.primary));
+            }
+        }
         
         textValueAge.setText(user.age > 0 ? user.age + " tuổi" : "-- tuổi");
         textValueGender.setText(user.gender != null ? user.gender : "--");
@@ -199,6 +224,9 @@ public class SettingsActivity extends AppCompatActivity {
         }
         if (user.dinnerReminderTime != null) {
             textTimeDinner.setText(user.dinnerReminderTime);
+        }
+        if (user.snackReminderTime != null) {
+            textTimeSnack.setText(user.snackReminderTime);
         }
 
         if (user.age > 0 && user.heightCm > 0 && user.weightKg > 0 && user.gender != null) {
@@ -253,6 +281,7 @@ public class SettingsActivity extends AppCompatActivity {
         textTimeBreakfast.setText(prefs.getString(AlarmHelper.KEY_BREAKFAST, "07:00"));
         textTimeLunch.setText(prefs.getString(AlarmHelper.KEY_LUNCH, "12:00"));
         textTimeDinner.setText(prefs.getString(AlarmHelper.KEY_DINNER, "18:30"));
+        textTimeSnack.setText(prefs.getString(AlarmHelper.KEY_SNACK, "22:00"));
     }
 
     private void showEditBodyInfoDialog() {
@@ -470,24 +499,59 @@ public class SettingsActivity extends AppCompatActivity {
             min = Integer.parseInt(parts[1]);
         } catch (Exception ignored) {}
 
-        new TimePickerDialog(this, (view, hourOfDay, minute) -> {
-            String time = String.format(Locale.US, "%02d:%02d", hourOfDay, minute);
+        MaterialTimePicker picker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(hour)
+                .setMinute(min)
+                .setTitleText("Chọn giờ " + title)
+                .build();
+
+        picker.addOnPositiveButtonClickListener(v -> {
+            int h = picker.getHour();
+            int m = picker.getMinute();
+
+            // Validate time range
+            boolean isValid = false;
+            String rangeMsg = "";
+            if (AlarmHelper.KEY_BREAKFAST.equals(prefKey)) {
+                if (h >= 5 && h <= 9) isValid = true;
+                rangeMsg = "Bữa sáng: 05:00 - 09:59";
+            } else if (AlarmHelper.KEY_LUNCH.equals(prefKey)) {
+                if (h >= 10 && h <= 14) isValid = true;
+                rangeMsg = "Bữa trưa: 10:00 - 14:59";
+            } else if (AlarmHelper.KEY_DINNER.equals(prefKey)) {
+                if (h >= 15 && h <= 20) isValid = true;
+                rangeMsg = "Bữa tối: 15:00 - 20:59";
+            } else if (AlarmHelper.KEY_SNACK.equals(prefKey)) {
+                if (h >= 21 || h <= 4) isValid = true;
+                rangeMsg = "Bữa phụ: 21:00 - 04:59";
+            }
+
+            if (!isValid) {
+                showToast("Thời gian không hợp lệ. Khung giờ " + rangeMsg);
+                return;
+            }
+
+            String time = String.format(Locale.US, "%02d:%02d", h, m);
             targetView.setText(time);
             getSharedPreferences(AlarmHelper.PREFS, MODE_PRIVATE).edit()
                     .putString(prefKey, time).apply();
-                    
+
             if (currentUser != null) {
                 if (AlarmHelper.KEY_BREAKFAST.equals(prefKey)) currentUser.breakfastReminderTime = time;
                 else if (AlarmHelper.KEY_LUNCH.equals(prefKey)) currentUser.lunchReminderTime = time;
                 else if (AlarmHelper.KEY_DINNER.equals(prefKey)) currentUser.dinnerReminderTime = time;
-                
+                else if (AlarmHelper.KEY_SNACK.equals(prefKey)) currentUser.snackReminderTime = time;
+
                 settingsController.saveUser(currentUser, null);
             }
 
             if (switchReminders.isChecked()) {
                 updateReminders();
             }
-        }, hour, min, true).show();
+        });
+
+        picker.show(getSupportFragmentManager(), "TIME_PICKER");
     }
 
     private void toggleReminders(boolean enabled) {
@@ -509,7 +573,8 @@ public class SettingsActivity extends AppCompatActivity {
         reminderController.scheduleReminders(
                 textTimeBreakfast.getText().toString(),
                 textTimeLunch.getText().toString(),
-                textTimeDinner.getText().toString()
+                textTimeDinner.getText().toString(),
+                textTimeSnack.getText().toString()
         );
     }
 

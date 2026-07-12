@@ -17,6 +17,7 @@ public class AlarmHelper {
     public static final String KEY_BREAKFAST = "breakfast";
     public static final String KEY_LUNCH = "lunch";
     public static final String KEY_DINNER = "dinner";
+    public static final String KEY_SNACK = "snack";
 
     private AlarmHelper() {
     }
@@ -36,10 +37,16 @@ public class AlarmHelper {
         saveTime(context, KEY_DINNER, time);
     }
 
+    public static void scheduleSnackReminder(Context context, String time) {
+        scheduleReminder(context, time, 3104, "Snack");
+        saveTime(context, KEY_SNACK, time);
+    }
+
     public static void cancelReminders(Context context) {
         cancel(context, 3101);
         cancel(context, 3102);
         cancel(context, 3103);
+        cancel(context, 3104);
         cancelPrep(context);
         prefs(context).edit().putBoolean(KEY_ENABLED, false).apply();
     }
@@ -52,6 +59,7 @@ public class AlarmHelper {
         scheduleReminder(context, preferences.getString(KEY_BREAKFAST, "07:00"), 3101, "Breakfast");
         scheduleReminder(context, preferences.getString(KEY_LUNCH, "12:00"), 3102, "Lunch");
         scheduleReminder(context, preferences.getString(KEY_DINNER, "18:00"), 3103, "Dinner");
+        scheduleReminder(context, preferences.getString(KEY_SNACK, "22:00"), 3104, "Snack");
         schedulePrepReminder(context);
     }
 

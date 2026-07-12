@@ -11,11 +11,12 @@ public class ReminderController {
         this.context = context.getApplicationContext();
     }
 
-    public void scheduleReminders(String breakfastTime, String lunchTime, String dinnerTime) {
+    public void scheduleReminders(String breakfastTime, String lunchTime, String dinnerTime, String snackTime) {
         AlarmHelper.saveEnabled(context, true);
         AlarmHelper.scheduleBreakfastReminder(context, breakfastTime);
         AlarmHelper.scheduleLunchReminder(context, lunchTime);
         AlarmHelper.scheduleDinnerReminder(context, dinnerTime);
+        AlarmHelper.scheduleSnackReminder(context, snackTime);
     }
 
     public void cancelReminders() {

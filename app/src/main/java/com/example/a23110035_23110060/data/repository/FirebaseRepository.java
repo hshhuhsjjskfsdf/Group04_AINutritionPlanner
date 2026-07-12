@@ -60,6 +60,7 @@ public class FirebaseRepository {
                         user.breakfastReminderTime = document.getString("breakfastReminderTime");
                         user.lunchReminderTime = document.getString("lunchReminderTime");
                         user.dinnerReminderTime = document.getString("dinnerReminderTime");
+                        user.snackReminderTime = document.getString("snackReminderTime");
                         success(callback, user);
                     } else {
                         error(callback, "Không tìm thấy hồ sơ người dùng");
@@ -192,6 +193,7 @@ public class FirebaseRepository {
         map.put("breakfastReminderTime", user.breakfastReminderTime);
         map.put("lunchReminderTime", user.lunchReminderTime);
         map.put("dinnerReminderTime", user.dinnerReminderTime);
+        map.put("snackReminderTime", user.snackReminderTime);
         return map;
     }
 
