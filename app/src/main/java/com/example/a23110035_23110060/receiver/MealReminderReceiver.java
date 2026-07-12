@@ -15,6 +15,7 @@ public class MealReminderReceiver extends BroadcastReceiver {
         new Thread(() -> {
             try {
                 NotificationHelper.showMealReminderNotification(context, mealType);
+                com.example.a23110035_23110060.helper.AlarmHelper.scheduleSavedReminders(context);
             } finally {
                 result.finish();
             }

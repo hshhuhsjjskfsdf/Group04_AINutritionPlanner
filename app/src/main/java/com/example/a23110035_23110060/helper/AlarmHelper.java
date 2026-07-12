@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import com.example.a23110035_23110060.receiver.MealReminderReceiver;
 import com.example.a23110035_23110060.receiver.PreparationReminderReceiver;
@@ -83,7 +84,10 @@ public class AlarmHelper {
 
         Intent intent = new Intent(context, PreparationReminderReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 3104, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+            return;
+        }
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
     }
 
     private static void cancelPrep(Context context) {
@@ -109,10 +113,12 @@ public class AlarmHelper {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
         PendingIntent pendingIntent = pendingIntent(context, requestCode, mealType);
-        alarmManager.setInexactRepeating(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+            return;
+        }
+        alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
                 pendingIntent
         );
     }

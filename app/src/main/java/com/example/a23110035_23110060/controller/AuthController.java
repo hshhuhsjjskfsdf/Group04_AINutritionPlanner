@@ -52,7 +52,7 @@ public class AuthController {
 
     public boolean hasCurrentUser() {
         FirebaseUser user = auth.getCurrentUser();
-        return user != null && user.isEmailVerified();
+        return user != null;
     }
 
     public void login(String email, String password, RepositoryCallback<Void> callback) {

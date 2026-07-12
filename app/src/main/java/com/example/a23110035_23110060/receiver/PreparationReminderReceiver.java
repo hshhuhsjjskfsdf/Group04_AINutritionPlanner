@@ -36,11 +36,10 @@ public class PreparationReminderReceiver extends BroadcastReceiver {
                 
                 if (plans != null && !plans.isEmpty()) {
                     StringBuilder menu = new StringBuilder("Kế hoạch mai có: ");
-                    for (int i = 0; i < Math.min(plans.size(), 3); i++) {
+                    for (int i = 0; i < plans.size(); i++) {
                         menu.append(CsvImportHelper.formatFoodLabel(plans.get(i).foodName));
-                        if (i < Math.min(plans.size(), 3) - 1) menu.append(", ");
+                        if (i < plans.size() - 1) menu.append(", ");
                     }
-                    if (plans.size() > 3) menu.append("...");
                     
                     NotificationHelper.showGeneralNotification(
                         context, 
@@ -49,6 +48,7 @@ public class PreparationReminderReceiver extends BroadcastReceiver {
                         menu.toString()
                     );
                 }
+                com.example.a23110035_23110060.helper.AlarmHelper.scheduleSavedReminders(context);
             } finally {
                 pendingResult.finish();
             }
