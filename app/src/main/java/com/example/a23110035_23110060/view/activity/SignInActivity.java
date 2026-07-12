@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +31,7 @@ public class SignInActivity extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private EditText editEmail;
     private EditText editPassword;
+    private CheckBox cbRememberMe;
     private TextView textAuthError;
     private View loadingView;
 
@@ -36,10 +40,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         controller = new AuthController(this);
-        if (controller.hasCurrentUser()) {
-            goToMain();
-            return;
-        }
+
         bindViews();
         setupGoogleSignIn();
         setupClicks();
@@ -48,6 +49,7 @@ public class SignInActivity extends AppCompatActivity {
     private void bindViews() {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
+        cbRememberMe = findViewById(R.id.cb_remember_me);
         textAuthError = findViewById(R.id.textAuthError);
         loadingView = findViewById(R.id.loadingView);
     }
@@ -84,6 +86,9 @@ public class SignInActivity extends AppCompatActivity {
             public void onSuccess(Void result) {
                 runOnUiThread(() -> {
                     setLoading(false);
+                    getSharedPreferences("auth_prefs", MODE_PRIVATE).edit()
+                            .putBoolean("remember_me", cbRememberMe.isChecked())
+                            .apply();
                     textAuthError.setVisibility(View.GONE);
                     Toast.makeText(SignInActivity.this, "Đã đăng nhập", Toast.LENGTH_SHORT).show();
                     goToMain();
@@ -120,6 +125,9 @@ public class SignInActivity extends AppCompatActivity {
                 public void onSuccess(Void result) {
                     runOnUiThread(() -> {
                         setLoading(false);
+                        getSharedPreferences("auth_prefs", MODE_PRIVATE).edit()
+                                .putBoolean("remember_me", cbRememberMe.isChecked())
+                                .apply();
                         goToMain();
                     });
                 }

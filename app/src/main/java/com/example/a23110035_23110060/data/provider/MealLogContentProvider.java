@@ -12,7 +12,9 @@ import androidx.annotation.Nullable;
 
 import com.example.a23110035_23110060.data.local.AppDatabase;
 import com.example.a23110035_23110060.data.local.MealLogEntity;
+import com.example.a23110035_23110060.helper.FirebaseHelper;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -55,14 +57,20 @@ public class MealLogContentProvider extends ContentProvider {
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         return await(() -> {
             MatrixCursor cursor = new MatrixCursor(COLUMNS);
+            String currentUserId = FirebaseHelper.getCurrentUserId();
+            if (currentUserId == null) {
+                return cursor;
+            }
+
             if (MATCHER.match(uri) == MEAL_LOGS) {
-                List<MealLogEntity> logs = database.mealLogDao().getAll();
+                List<MealLogEntity> logs = database.mealLogDao().getAllByUser(currentUserId);
                 for (MealLogEntity log : logs) {
                     addRow(cursor, log);
                 }
             } else if (MATCHER.match(uri) == MEAL_LOG_ID) {
                 String id = uri.getLastPathSegment();
-                for (MealLogEntity log : database.mealLogDao().getAll()) {
+                List<MealLogEntity> logs = database.mealLogDao().getAllByUser(currentUserId);
+                for (MealLogEntity log : logs) {
                     if (log.mealLogId.equals(id)) {
                         addRow(cursor, log);
                         break;

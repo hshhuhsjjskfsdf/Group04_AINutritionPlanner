@@ -29,11 +29,11 @@ public interface MealLogDao {
     @Query("SELECT * FROM meal_logs WHERE userId = :userId ORDER BY logDate DESC, createdAt DESC")
     List<MealLogEntity> getByUser(String userId);
 
-    @Query("SELECT * FROM meal_logs ORDER BY createdAt DESC")
-    List<MealLogEntity> getAll();
+    @Query("SELECT * FROM meal_logs WHERE userId = :userId ORDER BY createdAt DESC")
+    List<MealLogEntity> getAllByUser(String userId);
 
-    @Query("SELECT * FROM meal_logs WHERE isSynced = 0 ORDER BY createdAt ASC")
-    List<MealLogEntity> getUnsynced();
+    @Query("SELECT * FROM meal_logs WHERE isSynced = 0 AND userId = :userId ORDER BY createdAt ASC")
+    List<MealLogEntity> getUnsyncedByUser(String userId);
 
     @Query("UPDATE meal_logs SET isSynced = 1, imageUrl = :imageUrl, updatedAt = :updatedAt WHERE mealLogId = :mealLogId")
     void markSynced(String mealLogId, String imageUrl, long updatedAt);

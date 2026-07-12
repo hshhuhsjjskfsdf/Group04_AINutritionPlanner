@@ -26,8 +26,8 @@ public interface MealPlanDao {
     @Query("SELECT * FROM meal_plans WHERE userId = :userId AND planDate = :date ORDER BY mealType, createdAt DESC")
     List<MealPlanEntity> getByUserAndDate(String userId, String date);
 
-    @Query("SELECT * FROM meal_plans WHERE isSynced = 0 ORDER BY createdAt ASC")
-    List<MealPlanEntity> getUnsynced();
+    @Query("SELECT * FROM meal_plans WHERE isSynced = 0 AND userId = :userId ORDER BY createdAt ASC")
+    List<MealPlanEntity> getUnsyncedByUser(String userId);
 
     @Query("UPDATE meal_plans SET isSynced = 1, updatedAt = :updatedAt WHERE mealPlanId = :mealPlanId")
     void markSynced(String mealPlanId, long updatedAt);

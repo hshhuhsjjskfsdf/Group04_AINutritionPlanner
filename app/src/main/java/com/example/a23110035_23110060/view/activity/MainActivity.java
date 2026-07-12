@@ -18,6 +18,7 @@ import com.example.a23110035_23110060.R;
 import com.example.a23110035_23110060.data.local.GoalEntity;
 import com.example.a23110035_23110060.data.local.MealLogEntity;
 import com.example.a23110035_23110060.data.local.UserEntity;
+import com.example.a23110035_23110060.data.repository.FirebaseRepository;
 import com.example.a23110035_23110060.data.repository.FoodRepository;
 import com.example.a23110035_23110060.data.repository.GoalRepository;
 import com.example.a23110035_23110060.data.repository.MealRepository;
@@ -190,24 +191,26 @@ public class MainActivity extends AppCompatActivity {
         textHello.setText("Xin chào, " + name);
         textTodayDate.setText("Hôm nay là ngày " + DateHelper.today());
         
+        // 1. Load from local first for immediate UI update
         userRepository.getCurrentUser(user.getUid(), new RepositoryCallback<UserEntity>() {
             @Override
             public void onSuccess(UserEntity result) {
-                runOnUiThread(() -> {
-                    if (result != null && result.avatarUrl != null && !result.avatarUrl.trim().isEmpty()) {
-                        imgUserAvatar.setColorFilter(null);
-                        Glide.with(MainActivity.this)
-                                .load(result.avatarUrl)
-                                .signature(new ObjectKey(result.updatedAt))
-                                .placeholder(R.drawable.ic_nav_profile)
-                                .error(R.drawable.ic_nav_profile)
-                                .circleCrop()
-                                .into(imgUserAvatar);
-                    } else {
-                        imgUserAvatar.setImageResource(R.drawable.ic_nav_profile);
-                        imgUserAvatar.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.primary));
-                    }
-                });
+                if (result != null) {
+                    runOnUiThread(() -> updateAvatarUI(result));
+                }
+                
+                // 2. Fetch from Firebase to ensure sync
+                if (com.example.a23110035_23110060.helper.NetworkHelper.isNetworkAvailable(MainActivity.this)) {
+                    new FirebaseRepository(MainActivity.this).getUserProfile(user.getUid(), new RepositoryCallback<UserEntity>() {
+                        @Override
+                        public void onSuccess(UserEntity remoteUser) {
+                            userRepository.saveUserLocal(remoteUser, null);
+                            runOnUiThread(() -> updateAvatarUI(remoteUser));
+                        }
+                        @Override
+                        public void onError(String message) {}
+                    });
+                }
             }
 
             @Override
@@ -335,5 +338,22 @@ public class MainActivity extends AppCompatActivity {
             loadingView.setVisibility(View.GONE);
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void updateAvatarUI(UserEntity user) {
+        if (imgUserAvatar == null || user == null) return;
+        if (user.avatarUrl != null && !user.avatarUrl.trim().isEmpty()) {
+            imgUserAvatar.setColorFilter(null);
+            Glide.with(MainActivity.this)
+                    .load(user.avatarUrl)
+                    .signature(new ObjectKey(user.updatedAt))
+                    .placeholder(R.drawable.ic_nav_profile)
+                    .error(R.drawable.ic_nav_profile)
+                    .circleCrop()
+                    .into(imgUserAvatar);
+        } else {
+            imgUserAvatar.setImageResource(R.drawable.ic_nav_profile);
+            imgUserAvatar.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.primary));
+        }
     }
 }

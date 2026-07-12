@@ -145,8 +145,10 @@ public class AlarmHelper {
         prefs(context).edit().putString(key, time).putBoolean(KEY_ENABLED, true).apply();
     }
 
-    private static SharedPreferences prefs(Context context) {
-        return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+    public static SharedPreferences prefs(Context context) {
+        String userId = FirebaseHelper.getCurrentUserId();
+        String prefName = (userId == null) ? PREFS : PREFS + "_" + userId;
+        return context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
     }
 
     private static int[] parseTime(String time) {

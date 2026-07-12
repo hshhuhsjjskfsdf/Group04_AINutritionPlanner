@@ -49,7 +49,8 @@ public class FirebaseRepository {
                         user.userId = document.getString("userId");
                         user.fullName = document.getString("fullName");
                         user.email = document.getString("email");
-                        user.avatarUrl = document.getString("avatarUrl");
+                        String remoteAvatar = document.getString("avatarUrl");
+                        user.avatarUrl = remoteAvatar != null ? remoteAvatar : "";
                         user.age = document.getLong("age") != null ? document.getLong("age").intValue() : 0;
                         user.gender = document.getString("gender");
                         user.heightCm = document.getDouble("heightCm") != null ? document.getDouble("heightCm") : 0;

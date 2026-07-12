@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -59,20 +58,20 @@ public class TodayMealAdapter extends RecyclerView.Adapter<TodayMealAdapter.View
         if (item.imageUrl != null && !item.imageUrl.trim().isEmpty()) {
             Glide.with(holder.itemView)
                     .load(item.imageUrl)
-                    .placeholder(R.drawable.ic_nav_diary)
-                    .error(R.drawable.ic_nav_diary)
+                    .placeholder(R.drawable.ic_meal_log_placeholder)
+                    .error(R.drawable.ic_meal_log_placeholder)
                     .centerCrop()
                     .into(holder.imgMeal);
         } else if (item.imagePath != null && !item.imagePath.trim().isEmpty() && new File(item.imagePath).exists()) {
             Glide.with(holder.itemView)
                     .load(new File(item.imagePath))
-                    .placeholder(R.drawable.ic_nav_diary)
-                    .error(R.drawable.ic_nav_diary)
+                    .placeholder(R.drawable.ic_meal_log_placeholder)
+                    .error(R.drawable.ic_meal_log_placeholder)
                     .centerCrop()
                     .into(holder.imgMeal);
         } else {
-            holder.imgMeal.setImageResource(R.drawable.ic_nav_diary);
-            holder.imgMeal.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.primary));
+            holder.imgMeal.setImageResource(R.drawable.ic_meal_log_placeholder);
+            holder.imgMeal.setColorFilter(null);
         }
     }
 

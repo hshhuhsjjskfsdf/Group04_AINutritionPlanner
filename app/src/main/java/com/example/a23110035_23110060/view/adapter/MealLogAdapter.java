@@ -57,24 +57,25 @@ public class MealLogAdapter extends RecyclerView.Adapter<MealLogAdapter.ViewHold
         
         Glide.with(holder.itemView).clear(holder.imageMealThumbnail);
         holder.imageMealThumbnail.setImageDrawable(null);
-        holder.imageMealThumbnail.setVisibility(View.GONE);
+        holder.imageMealThumbnail.setVisibility(View.VISIBLE);
 
         if (item.imageUrl != null && !item.imageUrl.trim().isEmpty()) {
-            holder.imageMealThumbnail.setVisibility(View.VISIBLE);
             Glide.with(holder.itemView)
                  .load(item.imageUrl)
-                 .placeholder(R.drawable.ic_empty_bowl)
-                 .error(R.drawable.ic_empty_bowl)
+                 .placeholder(R.drawable.ic_meal_log_placeholder)
+                 .error(R.drawable.ic_meal_log_placeholder)
                  .centerCrop()
                  .into(holder.imageMealThumbnail);
         } else if (item.imagePath != null && !item.imagePath.trim().isEmpty() && new File(item.imagePath).exists()) {
-            holder.imageMealThumbnail.setVisibility(View.VISIBLE);
             Glide.with(holder.itemView)
                  .load(new File(item.imagePath))
-                 .placeholder(R.drawable.ic_empty_bowl)
-                 .error(R.drawable.ic_empty_bowl)
+                 .placeholder(R.drawable.ic_meal_log_placeholder)
+                 .error(R.drawable.ic_meal_log_placeholder)
                  .centerCrop()
                  .into(holder.imageMealThumbnail);
+        } else {
+            holder.imageMealThumbnail.setImageResource(R.drawable.ic_meal_log_placeholder);
+            holder.imageMealThumbnail.setColorFilter(null);
         }
         
         holder.delete.setOnClickListener(v -> {

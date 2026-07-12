@@ -20,8 +20,11 @@ public interface PendingSyncDao {
     @Delete
     void delete(PendingSyncEntity pendingSync);
 
+    @Query("SELECT * FROM pending_sync WHERE status = 'PENDING' AND userId = :userId ORDER BY createdAt ASC")
+    List<PendingSyncEntity> getPendingByUser(String userId);
+
     @Query("SELECT * FROM pending_sync WHERE status = 'PENDING' ORDER BY createdAt ASC")
-    List<PendingSyncEntity> getPending();
+    List<PendingSyncEntity> getAllPending();
 
     @Query("UPDATE pending_sync SET status = 'DONE', updatedAt = :updatedAt WHERE syncId = :syncId")
     void markDone(String syncId, long updatedAt);

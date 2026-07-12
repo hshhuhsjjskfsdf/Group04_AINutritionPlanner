@@ -81,29 +81,51 @@ public class ProfileEditActivity extends AppCompatActivity {
         if (user != null) {
             editEmail.setText(user.getEmail());
             editDisplayName.setText(user.getDisplayName());
+            
+            // 1. Load local
             userRepository.getCurrentUser(user.getUid(), new RepositoryCallback<UserEntity>() {
                 @Override
                 public void onSuccess(UserEntity result) {
-                    runOnUiThread(() -> {
-                        currentUserEntity = result;
-                        if (result != null && result.avatarUrl != null && !result.avatarUrl.trim().isEmpty()) {
-                            imgAvatar.setColorFilter(null);
-                            Glide.with(ProfileEditActivity.this)
-                                    .load(result.avatarUrl)
-                                    .signature(new ObjectKey(result.updatedAt))
-                                    .placeholder(R.drawable.ic_nav_profile)
-                                    .error(R.drawable.ic_nav_profile)
-                                    .circleCrop()
-                                    .into(imgAvatar);
-                        } else {
-                            imgAvatar.setImageResource(R.drawable.ic_nav_profile);
-                            imgAvatar.setColorFilter(ContextCompat.getColor(ProfileEditActivity.this, R.color.primary));
-                        }
-                    });
+                    if (result != null) {
+                        runOnUiThread(() -> {
+                            currentUserEntity = result;
+                            renderAvatar(result);
+                        });
+                    }
+                    
+                    // 2. Fetch remote to sync
+                    if (com.example.a23110035_23110060.helper.NetworkHelper.isNetworkAvailable(ProfileEditActivity.this)) {
+                        firebaseRepository.getUserProfile(user.getUid(), new RepositoryCallback<UserEntity>() {
+                            @Override
+                            public void onSuccess(UserEntity remoteUser) {
+                                currentUserEntity = remoteUser;
+                                userRepository.saveUserLocal(remoteUser, null);
+                                runOnUiThread(() -> renderAvatar(remoteUser));
+                            }
+                            @Override
+                            public void onError(String message) {}
+                        });
+                    }
                 }
                 @Override
                 public void onError(String message) { }
             });
+        }
+    }
+
+    private void renderAvatar(UserEntity result) {
+        if (result != null && result.avatarUrl != null && !result.avatarUrl.trim().isEmpty()) {
+            imgAvatar.setColorFilter(null);
+            Glide.with(ProfileEditActivity.this)
+                    .load(result.avatarUrl)
+                    .signature(new ObjectKey(result.updatedAt))
+                    .placeholder(R.drawable.ic_nav_profile)
+                    .error(R.drawable.ic_nav_profile)
+                    .circleCrop()
+                    .into(imgAvatar);
+        } else {
+            imgAvatar.setImageResource(R.drawable.ic_nav_profile);
+            imgAvatar.setColorFilter(ContextCompat.getColor(ProfileEditActivity.this, R.color.primary));
         }
     }
 

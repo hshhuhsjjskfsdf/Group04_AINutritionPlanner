@@ -178,6 +178,7 @@ public class MealPlanFragment extends Fragment {
     private void setupSection(View rootView, int id, String title, MealPlanAdapter adapter, String mealType) {
         View section = rootView.findViewById(id);
         ((TextView) section.findViewById(R.id.textMealSectionTitle)).setText(title);
+
         RecyclerView rv = section.findViewById(R.id.recyclerMealSection);
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
         rv.setAdapter(adapter);

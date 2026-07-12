@@ -153,28 +153,25 @@ public class CategorizedMealLogAdapter extends RecyclerView.Adapter<RecyclerView
             Glide.with(itemView).clear(image);
             image.setImageDrawable(null);
             image.setColorFilter(null);
-            image.setVisibility(View.GONE);
+            image.setVisibility(View.VISIBLE);
 
             if (log.imageUrl != null && !log.imageUrl.trim().isEmpty()) {
-                image.setVisibility(View.VISIBLE);
                 Glide.with(itemView)
                      .load(log.imageUrl)
-                     .placeholder(R.drawable.ic_nav_diary)
-                     .error(R.drawable.ic_nav_diary)
+                     .placeholder(R.drawable.ic_meal_log_placeholder)
+                     .error(R.drawable.ic_meal_log_placeholder)
                      .centerCrop()
                      .into(image);
             } else if (log.imagePath != null && !log.imagePath.trim().isEmpty() && new File(log.imagePath).exists()) {
-                image.setVisibility(View.VISIBLE);
                 Glide.with(itemView)
                      .load(new File(log.imagePath))
-                     .placeholder(R.drawable.ic_nav_diary)
-                     .error(R.drawable.ic_nav_diary)
+                     .placeholder(R.drawable.ic_meal_log_placeholder)
+                     .error(R.drawable.ic_meal_log_placeholder)
                      .centerCrop()
                      .into(image);
             } else {
-                image.setVisibility(View.VISIBLE);
-                image.setImageResource(R.drawable.ic_nav_diary);
-                image.setColorFilter(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.primary));
+                image.setImageResource(R.drawable.ic_meal_log_placeholder);
+                image.setColorFilter(null);
             }
 
             menu.setOnClickListener(v -> {

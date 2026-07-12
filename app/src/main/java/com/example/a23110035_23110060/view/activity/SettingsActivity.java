@@ -24,7 +24,9 @@ import com.example.a23110035_23110060.controller.ReminderController;
 import com.example.a23110035_23110060.controller.SettingsController;
 import com.example.a23110035_23110060.data.local.GoalEntity;
 import com.example.a23110035_23110060.data.local.UserEntity;
+import com.example.a23110035_23110060.data.repository.FirebaseRepository;
 import com.example.a23110035_23110060.data.repository.RepositoryCallback;
+import com.example.a23110035_23110060.data.repository.UserRepository;
 import com.example.a23110035_23110060.helper.AlarmHelper;
 import com.example.a23110035_23110060.helper.FirebaseHelper;
 import com.example.a23110035_23110060.helper.NavigationHelper;
@@ -146,6 +148,20 @@ public class SettingsActivity extends AppCompatActivity {
                     renderUser(user);
                     renderSyncStatus();
                 });
+                
+                // Fetch from Firebase to sync latest changes
+                if (NetworkHelper.isNetworkAvailable(SettingsActivity.this)) {
+                    new FirebaseRepository(SettingsActivity.this).getUserProfile(FirebaseHelper.getCurrentUserId(), new RepositoryCallback<UserEntity>() {
+                        @Override
+                        public void onSuccess(UserEntity remoteUser) {
+                            currentUser = remoteUser;
+                            new UserRepository(SettingsActivity.this).saveUserLocal(remoteUser, null);
+                            runOnUiThread(() -> renderUser(remoteUser));
+                        }
+                        @Override
+                        public void onError(String message) {}
+                    });
+                }
             }
             @Override
             public void onError(String message) { showToast(message); }
@@ -275,7 +291,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void loadReminderPrefs() {
-        SharedPreferences prefs = getSharedPreferences(AlarmHelper.PREFS, MODE_PRIVATE);
+        SharedPreferences prefs = AlarmHelper.prefs(this);
         boolean enabled = prefs.getBoolean(AlarmHelper.KEY_ENABLED, false);
         switchReminders.setChecked(enabled);
         textTimeBreakfast.setText(prefs.getString(AlarmHelper.KEY_BREAKFAST, "07:00"));
@@ -442,24 +458,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         toggle.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (!isChecked) return;
-            
-            double bmr = NutritionCalculator.calculateBMR(currentUser.weightKg, currentUser.heightCm, currentUser.age, currentUser.gender);
-            double tdee = NutritionCalculator.calculateTDEE(bmr, currentUser.activityLevel);
-            double cal;
-            
-            if (checkedId == R.id.btnLose) cal = tdee - 400;
-            else if (checkedId == R.id.btnGain) cal = tdee + 300;
-            else cal = tdee;
-
-            suggested[0] = Math.round(cal);
-            suggested[1] = Math.round(currentUser.weightKg * 1.5); // Protein
-            suggested[3] = Math.round((cal * 0.25) / 9.0); // Fat 25%
-            suggested[2] = Math.max(0, Math.round((cal - suggested[1] * 4 - suggested[3] * 9) / 4.0)); // Carbs
-
-            resultText.setText(String.format(Locale.US, "Mục tiêu gợi ý: %.0f kcal/ngày", suggested[0]));
-            cardResult.setVisibility(View.VISIBLE);
-            btnApply.setEnabled(true);
+            calculateSuggestedGoal(checkedId, suggested, resultText, cardResult, btnApply);
         });
+
+        // Tính toán ngay lập tức cho lựa chọn mặc định
+        calculateSuggestedGoal(toggle.getCheckedButtonId(), suggested, resultText, cardResult, btnApply);
 
         btnApply.setOnClickListener(v -> {
             GoalEntity goal = currentGoal != null ? currentGoal : new GoalEntity();
@@ -488,6 +491,27 @@ public class SettingsActivity extends AppCompatActivity {
 
         view.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
         dialog.show();
+    }
+
+    private void calculateSuggestedGoal(int checkedId, double[] suggested, TextView resultText, View cardResult, MaterialButton btnApply) {
+        if (currentUser == null) return;
+        
+        double bmr = NutritionCalculator.calculateBMR(currentUser.weightKg, currentUser.heightCm, currentUser.age, currentUser.gender);
+        double tdee = NutritionCalculator.calculateTDEE(bmr, currentUser.activityLevel);
+        double cal;
+
+        if (checkedId == R.id.btnLose) cal = tdee - 400;
+        else if (checkedId == R.id.btnGain) cal = tdee + 300;
+        else cal = tdee; // Mặc định hoặc Duy trì
+
+        suggested[0] = Math.round(cal);
+        suggested[1] = Math.round(currentUser.weightKg * 1.5); // Protein
+        suggested[3] = Math.round((cal * 0.25) / 9.0); // Fat 25%
+        suggested[2] = Math.max(0, Math.round((cal - suggested[1] * 4 - suggested[3] * 9) / 4.0)); // Carbs
+
+        resultText.setText(String.format(Locale.US, "Mục tiêu gợi ý: %.0f kcal/ngày", suggested[0]));
+        cardResult.setVisibility(View.VISIBLE);
+        btnApply.setEnabled(true);
     }
 
     private void pickTime(String title, TextView targetView, String prefKey) {
@@ -534,7 +558,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             String time = String.format(Locale.US, "%02d:%02d", h, m);
             targetView.setText(time);
-            getSharedPreferences(AlarmHelper.PREFS, MODE_PRIVATE).edit()
+            AlarmHelper.prefs(this).edit()
                     .putString(prefKey, time).apply();
 
             if (currentUser != null) {

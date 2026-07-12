@@ -38,7 +38,12 @@ public class FirebaseSyncService extends IntentService {
         }
         AppDatabase database = AppDatabase.getInstance(this);
         FirebaseFirestore firestore = FirebaseHelper.getFirestore();
-        List<PendingSyncEntity> pendingItems = database.pendingSyncDao().getPending();
+        String currentUserId = FirebaseHelper.getCurrentUserId();
+        if (currentUserId == null) {
+            return;
+        }
+        
+        List<PendingSyncEntity> pendingItems = database.pendingSyncDao().getPendingByUser(currentUserId);
         for (PendingSyncEntity pending : pendingItems) {
             try {
                 Tasks.await(firestore.collection("pending_sync")

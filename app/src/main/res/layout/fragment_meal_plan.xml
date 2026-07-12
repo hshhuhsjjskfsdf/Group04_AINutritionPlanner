@@ -155,36 +155,72 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:baselineAligned="false"
+                        android:gravity="center_vertical">
 
-                        <TextView
-                            android:id="@+id/textPlannedProtein"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="P: 0/0g"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_macro_protein"
+                                android:layout_marginEnd="6dp"
+                                app:tint="@color/text_secondary" />
+                            <TextView
+                                android:id="@+id/textPlannedProtein"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="P: 0/0g"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/textPlannedCarbs"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="C: 0/0g"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp" />
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_macro_carbs"
+                                android:layout_marginEnd="6dp"
+                                app:tint="@color/text_secondary" />
+                            <TextView
+                                android:id="@+id/textPlannedCarbs"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="C: 0/0g"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/textPlannedFat"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="F: 0/0g"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp" />
+                            android:gravity="center_vertical|end"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_macro_fat"
+                                android:layout_marginEnd="6dp"
+                                app:tint="@color/text_secondary" />
+                            <TextView
+                                android:id="@+id/textPlannedFat"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="F: 0/0g"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
