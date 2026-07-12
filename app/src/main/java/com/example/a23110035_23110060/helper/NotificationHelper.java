@@ -45,7 +45,13 @@ public class NotificationHelper {
             return;
         }
 
-        String title = "Đến giờ ghi nhận bữa ăn";
+        String mealName = "bữa ăn";
+        if ("Breakfast".equalsIgnoreCase(mealType)) mealName = "bữa sáng";
+        else if ("Lunch".equalsIgnoreCase(mealType)) mealName = "bữa trưa";
+        else if ("Dinner".equalsIgnoreCase(mealType)) mealName = "bữa tối";
+        else if ("Snack".equalsIgnoreCase(mealType)) mealName = "bữa phụ";
+
+        String title = "Đến giờ ghi nhận " + mealName;
         String content = "Đừng quên cập nhật những gì bạn đã ăn để theo dõi tiến độ nhé.";
 
         // Attempt to find planned food for this meal type
@@ -60,8 +66,10 @@ public class NotificationHelper {
                 if (plans != null) {
                     for (MealPlanEntity p : plans) {
                         if (mealType.equalsIgnoreCase(p.mealType)) {
-                            plannedFood = CsvImportHelper.formatFoodLabel(p.foodName);
-                            break;
+                            if (!plannedFood.isEmpty()) {
+                                plannedFood += ", ";
+                            }
+                            plannedFood += CsvImportHelper.formatFoodLabel(p.foodName);
                         }
                     }
                 }
